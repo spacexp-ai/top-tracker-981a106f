@@ -4,7 +4,8 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { Reveal } from "@/components/Reveal";
 import { Eyebrow } from "@/components/Eyebrow";
 import { ArrowRight, Check, Crown } from "lucide-react";
-import wildlife from "@/assets/wildlife.jpg";
+import { photos } from "@/assets/photos";
+const wildlife = photos.dinner;
 
 export const Route = createFileRoute("/membership")({
   head: () => ({
