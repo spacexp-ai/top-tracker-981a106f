@@ -6,9 +6,10 @@ import { Reveal } from "@/components/Reveal";
 import { Eyebrow } from "@/components/Eyebrow";
 import { ArrowRight, Calendar, MapPin, Users, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import experience from "@/assets/experience.jpg";
-import camp from "@/assets/camp.jpg";
-import wildlife from "@/assets/wildlife.jpg";
+import { photos } from "@/assets/photos";
+const experience = photos.hunterValley;
+const camp = photos.campAerial;
+const wildlife = photos.elephant;
 import { EstimatorEmbed } from "@/components/EstimatorEmbed";
 
 export const Route = createFileRoute("/experience")({

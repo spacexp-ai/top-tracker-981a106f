@@ -19,6 +19,7 @@ import { Route as MembershipApplyRouteImport } from './routes/membership-apply'
 import { Route as MembershipRouteImport } from './routes/membership'
 import { Route as JournalRouteImport } from './routes/journal'
 import { Route as HuntingServicesRouteImport } from './routes/hunting-services'
+import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as FaqsRouteImport } from './routes/faqs'
 import { Route as ExperienceRouteImport } from './routes/experience'
 import { Route as EstimatorRouteImport } from './routes/estimator'
@@ -81,6 +82,11 @@ const JournalRoute = JournalRouteImport.update({
 const HuntingServicesRoute = HuntingServicesRouteImport.update({
   id: '/hunting-services',
   path: '/hunting-services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GalleryRoute = GalleryRouteImport.update({
+  id: '/gallery',
+  path: '/gallery',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FaqsRoute = FaqsRouteImport.update({
@@ -158,6 +164,7 @@ export interface FileRoutesByFullPath {
   '/estimator': typeof EstimatorRoute
   '/experience': typeof ExperienceRoute
   '/faqs': typeof FaqsRoute
+  '/gallery': typeof GalleryRoute
   '/hunting-services': typeof HuntingServicesRoute
   '/journal': typeof JournalRoute
   '/membership': typeof MembershipRoute
@@ -182,6 +189,7 @@ export interface FileRoutesByTo {
   '/estimator': typeof EstimatorRoute
   '/experience': typeof ExperienceRoute
   '/faqs': typeof FaqsRoute
+  '/gallery': typeof GalleryRoute
   '/hunting-services': typeof HuntingServicesRoute
   '/journal': typeof JournalRoute
   '/membership': typeof MembershipRoute
@@ -208,6 +216,7 @@ export interface FileRoutesById {
   '/estimator': typeof EstimatorRoute
   '/experience': typeof ExperienceRoute
   '/faqs': typeof FaqsRoute
+  '/gallery': typeof GalleryRoute
   '/hunting-services': typeof HuntingServicesRoute
   '/journal': typeof JournalRoute
   '/membership': typeof MembershipRoute
@@ -234,6 +243,7 @@ export interface FileRouteTypes {
     | '/estimator'
     | '/experience'
     | '/faqs'
+    | '/gallery'
     | '/hunting-services'
     | '/journal'
     | '/membership'
@@ -258,6 +268,7 @@ export interface FileRouteTypes {
     | '/estimator'
     | '/experience'
     | '/faqs'
+    | '/gallery'
     | '/hunting-services'
     | '/journal'
     | '/membership'
@@ -283,6 +294,7 @@ export interface FileRouteTypes {
     | '/estimator'
     | '/experience'
     | '/faqs'
+    | '/gallery'
     | '/hunting-services'
     | '/journal'
     | '/membership'
@@ -309,6 +321,7 @@ export interface RootRouteChildren {
   EstimatorRoute: typeof EstimatorRoute
   ExperienceRoute: typeof ExperienceRoute
   FaqsRoute: typeof FaqsRoute
+  GalleryRoute: typeof GalleryRoute
   HuntingServicesRoute: typeof HuntingServicesRoute
   JournalRoute: typeof JournalRoute
   MembershipRoute: typeof MembershipRoute
@@ -392,6 +405,13 @@ declare module '@tanstack/react-router' {
       path: '/hunting-services'
       fullPath: '/hunting-services'
       preLoaderRoute: typeof HuntingServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gallery': {
+      id: '/gallery'
+      path: '/gallery'
+      fullPath: '/gallery'
+      preLoaderRoute: typeof GalleryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/faqs': {
@@ -523,6 +543,7 @@ const rootRouteChildren: RootRouteChildren = {
   EstimatorRoute: EstimatorRoute,
   ExperienceRoute: ExperienceRoute,
   FaqsRoute: FaqsRoute,
+  GalleryRoute: GalleryRoute,
   HuntingServicesRoute: HuntingServicesRoute,
   JournalRoute: JournalRoute,
   MembershipRoute: MembershipRoute,
@@ -538,13 +559,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

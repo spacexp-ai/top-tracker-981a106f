@@ -4,7 +4,8 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { Reveal } from "@/components/Reveal";
 import { Eyebrow } from "@/components/Eyebrow";
 import { ArrowRight, Crosshair, Plane, Trophy, Tent, Compass, ShieldCheck } from "lucide-react";
-import experience from "@/assets/experience.jpg";
+import { photos } from "@/assets/photos";
+const experience = photos.gearAmmo;
 
 export const Route = createFileRoute("/hunting-services")({
   head: () => ({

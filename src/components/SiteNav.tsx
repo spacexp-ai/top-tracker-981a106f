@@ -11,6 +11,7 @@ const leftLinks = [
 ];
 
 const rightLinks = [
+  { to: "/gallery", label: "Gallery" },
   { to: "/journal", label: "Journal" },
   { to: "/conservation", label: "Conservation" },
   { to: "/contact", label: "Contact" },
