@@ -81,21 +81,10 @@ export function SiteNav() {
               {l.label}
             </Link>
           ))}
-          <Link
-            to="/auth"
-            className="ml-3 inline-flex items-center gap-2 px-4 py-2 bg-accent text-accent-foreground text-[10px] tracking-[0.3em] uppercase font-medium border border-accent hover:bg-transparent hover:text-accent transition-all duration-300"
-          >
-            Member Portal
-          </Link>
         </nav>
 
-        {/* Mobile Membership shortcut */}
-        <Link
-          to="/membership"
-          className="lg:hidden justify-self-end inline-flex items-center px-3 py-2 bg-accent text-accent-foreground text-[10px] tracking-[0.3em] uppercase"
-        >
-          Join
-        </Link>
+        {/* Mobile right-side spacer to balance grid */}
+        <span className="lg:hidden" />
       </div>
 
       {open && (
