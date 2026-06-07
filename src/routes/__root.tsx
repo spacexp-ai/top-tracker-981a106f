@@ -93,6 +93,7 @@ function RootComponent() {
       <LogoSplash />
       <Outlet />
       <WildlifePopup />
+      <CompassGate />
       <CookieConsent />
     </QueryClientProvider>
   );
