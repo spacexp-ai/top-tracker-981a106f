@@ -12,6 +12,7 @@ import appCss from "../styles.css?url";
 import { LogoSplash } from "@/components/LogoSplash";
 import { WildlifePopup } from "@/components/WildlifePopup";
 import { CookieConsent } from "@/components/CookieConsent";
+import { CompassGate } from "@/components/CompassGate";
 
 function NotFoundComponent() {
   return (
@@ -62,7 +63,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "stylesheet", href: appCss },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" },
+      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" },
     ],
   }),
   shellComponent: RootShell,
@@ -92,6 +93,7 @@ function RootComponent() {
       <LogoSplash />
       <Outlet />
       <WildlifePopup />
+      <CompassGate />
       <CookieConsent />
     </QueryClientProvider>
   );
