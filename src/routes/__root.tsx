@@ -12,6 +12,7 @@ import appCss from "../styles.css?url";
 import { LogoSplash } from "@/components/LogoSplash";
 import { WildlifePopup } from "@/components/WildlifePopup";
 import { CookieConsent } from "@/components/CookieConsent";
+import { CompassGate } from "@/components/CompassGate";
 
 function NotFoundComponent() {
   return (
