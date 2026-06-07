@@ -57,82 +57,62 @@ export function CompassGate() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
             onClick={() => setOpen(false)}
-            className="fixed inset-0 z-[100] flex items-start md:items-center justify-center overflow-y-auto p-4 md:p-8"
-            style={{ background: "rgba(3,2,1,0.88)", backdropFilter: "blur(6px)" }}
+            className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto p-4 md:p-8"
+            style={{ background: "rgba(3,2,1,0.78)", backdropFilter: "blur(10px)" }}
           >
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 20 }}
-              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+              initial={{ opacity: 0, y: 24, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 16, scale: 0.97 }}
+              transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-md mt-6 md:mt-0"
+              className="relative w-full max-w-[460px]"
             >
-              {/* Arch */}
+              {/* Driftwood arch — the only frame */}
               <img
                 src={arch}
                 alt=""
-                className="w-full block select-none pointer-events-none drop-shadow-[0_10px_30px_rgba(0,0,0,0.7)]"
+                className="w-full block select-none pointer-events-none drop-shadow-[0_25px_60px_rgba(0,0,0,0.9)]"
                 draggable={false}
               />
 
-              {/* Card hanging beneath arch */}
-              <div
-                className="-mt-px bg-[#161008] border border-t-0 px-7 py-8 md:px-9 md:pb-10 md:pt-9 relative"
-                style={{ borderColor: "rgba(180,140,70,0.35)" }}
+              {/* Close — small, floating outside the arch */}
+              <button
+                onClick={() => setOpen(false)}
+                aria-label="Close"
+                className="absolute -top-4 -right-2 h-9 w-9 inline-flex items-center justify-center text-[#e8c87a]/70 hover:text-white transition"
               >
-                <button
-                  onClick={() => setOpen(false)}
-                  aria-label="Close"
-                  className="absolute top-3 right-3 h-8 w-8 inline-flex items-center justify-center text-[#c9a84c] hover:text-white hover:bg-[rgba(201,168,76,0.1)] transition"
+                <X className="h-4 w-4" />
+              </button>
+
+              {/* Menu nested inside the arch opening — no card, no overlay */}
+              <div
+                className="absolute flex flex-col items-center justify-center text-center"
+                style={{ top: "26%", bottom: "8%", left: "22%", right: "22%" }}
+              >
+                <h2
+                  className="text-[#f3e3b8] text-xl md:text-2xl leading-tight"
+                  style={{
+                    fontFamily: "'Playfair Display', 'Cormorant Garamond', serif",
+                    textShadow: "0 2px 12px rgba(0,0,0,0.95)",
+                  }}
                 >
-                  <X className="h-4 w-4" />
-                </button>
-
-                {/* Compass pip */}
-                <div className="flex justify-center">
-                  <div className="h-12 w-12 rounded-full overflow-hidden ring-1 ring-[rgba(201,168,76,0.5)] bg-[#0d0905]">
-                    <img src={compass} alt="" className="h-full w-full object-cover" />
-                  </div>
-                </div>
-
-                <h2 className="mt-5 text-center font-display text-3xl md:text-4xl text-[#f3e3b8]" style={{ fontFamily: "'Playfair Display', 'Cormorant Garamond', serif" }}>
                   Enter the Gate
                 </h2>
-                <p className="mt-2 text-center text-[10px] tracking-[0.35em] uppercase text-[#c9a84c]">
-                  Member portal — Top Trackers
+                <p
+                  className="mt-1 text-[8px] tracking-[0.4em] uppercase text-[#c9a84c]"
+                  style={{ textShadow: "0 2px 8px rgba(0,0,0,0.95)" }}
+                >
+                  Top Trackers
                 </p>
 
-                <div className="mt-7 space-y-3" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-                  <GateLink
-                    to="/membership"
-                    title="Join the Club"
-                    subtitle="Apply for an invitation"
-                    icon={<ArrowRight className="h-4 w-4" />}
-                    onClose={() => setOpen(false)}
-                    highlighted
-                  />
-                  <GateLink
-                    to="/auth"
-                    title="Member Login"
-                    subtitle="Return to the camp"
-                    icon={<Lock className="h-4 w-4" />}
-                    onClose={() => setOpen(false)}
-                  />
-
-                  <div className="flex items-center gap-3 py-1">
-                    <span className="h-px flex-1 bg-[rgba(201,168,76,0.2)]" />
-                    <span className="text-[9px] tracking-[0.35em] uppercase text-[#7a6a4a]">or</span>
-                    <span className="h-px flex-1 bg-[rgba(201,168,76,0.2)]" />
-                  </div>
-
-                  <GateLink
-                    to="/contact"
-                    title="Book your safari"
-                    subtitle="Begin planning your expedition"
-                    icon={<Calendar className="h-4 w-4" />}
-                    onClose={() => setOpen(false)}
-                  />
+                <div
+                  className="mt-4 w-full flex flex-col items-center gap-1"
+                  style={{ fontFamily: "'Cormorant Garamond', serif" }}
+                >
+                  <GateLink to="/membership" title="Join the Club" icon={<ArrowRight className="h-3 w-3" />} onClose={() => setOpen(false)} highlighted />
+                  <GateLink to="/auth" title="Member Login" icon={<Lock className="h-3 w-3" />} onClose={() => setOpen(false)} />
+                  <GateLink to="/contact" title="Book a Safari" icon={<Calendar className="h-3 w-3" />} onClose={() => setOpen(false)} />
                 </div>
               </div>
             </motion.div>
@@ -144,25 +124,23 @@ export function CompassGate() {
 }
 
 function GateLink({
-  to, title, subtitle, icon, onClose, highlighted,
+  to, title, icon, onClose, highlighted,
 }: {
-  to: string; title: string; subtitle: string; icon: React.ReactNode; onClose: () => void; highlighted?: boolean;
+  to: string; title: string; icon: React.ReactNode; onClose: () => void; highlighted?: boolean;
 }) {
   return (
     <Link
       to={to}
       onClick={onClose}
-      className={`group flex items-center justify-between gap-4 px-5 py-3.5 border transition-all ${
-        highlighted
-          ? "bg-[rgba(201,168,76,0.08)] border-[rgba(201,168,76,0.6)] hover:bg-[rgba(201,168,76,0.16)]"
-          : "bg-transparent border-[rgba(201,168,76,0.3)] hover:border-[rgba(201,168,76,0.6)] hover:bg-[rgba(201,168,76,0.05)]"
+      className={`group inline-flex items-center gap-2 px-2 py-1 transition-all ${
+        highlighted ? "text-[#f5e7be]" : "text-[#d9c790]/90 hover:text-[#f5e7be]"
       }`}
+      style={{ textShadow: "0 2px 10px rgba(0,0,0,0.95)" }}
     >
-      <div className="text-left">
-        <div className="text-[#f3e3b8] text-xl leading-tight">{title}</div>
-        <div className="text-[#9a8a6a] text-xs italic mt-0.5">{subtitle}</div>
-      </div>
-      <span className="text-[#c9a84c] group-hover:translate-x-0.5 transition-transform">{icon}</span>
+      <span className="text-base md:text-lg tracking-wide border-b border-[rgba(201,168,76,0.35)] group-hover:border-[rgba(201,168,76,0.85)] pb-0.5 transition-colors">
+        {title}
+      </span>
+      <span className="text-[#c9a84c] opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition">{icon}</span>
     </Link>
   );
 }
