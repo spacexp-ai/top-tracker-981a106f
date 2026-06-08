@@ -8,6 +8,7 @@ const leftLinks = [
   { to: "/", label: "Welcome" },
   { to: "/our-story", label: "Our Story" },
   { to: "/experience", label: "The Experience" },
+  { to: "/membership", label: "Membership" },
 ];
 
 const rightLinks = [
