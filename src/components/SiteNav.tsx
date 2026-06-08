@@ -1,8 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
-import logoAsset from "@/assets/tt-logo-crest.png.asset.json";
-const logo = logoAsset.url;
+import logo from "@/assets/logo.png";
 
 const leftLinks = [
   { to: "/", label: "Welcome" },

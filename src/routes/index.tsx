@@ -50,7 +50,7 @@ function Home() {
 
       {/* HERO */}
       <section ref={heroRef} className="relative h-[100svh] overflow-hidden bg-ink">
-        <motion.div style={{ y }} className="absolute inset-0">
+        <motion.div style={{ y }} className="absolute inset-0 bg-ink">
           <video
             src="/media/hero-intro.mp4"
             poster={hero}
@@ -58,16 +58,16 @@ function Home() {
             muted
             loop
             playsInline
-            className="w-full h-[120%] object-cover opacity-90"
+            className="w-full h-[110%] object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/30 to-ink/95" />
+          <div className="absolute inset-0 bg-gradient-to-b from-ink/50 via-ink/10 to-ink/95" />
         </motion.div>
 
         <motion.div style={{ y: titleY, opacity }} className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1 }}
+            transition={{ duration: 0.6 }}
             className="mb-6"
           >
             <div className="vintage-divider text-[10px] tracking-[0.5em] uppercase text-accent">
@@ -78,7 +78,7 @@ function Home() {
           <motion.h1
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2, delay: 0.2 }}
+            transition={{ duration: 0.7, delay: 0.1 }}
             className="font-display text-bone text-[18vw] md:text-[10vw] leading-[0.95] max-w-6xl"
           >
             <span className="italic font-serif text-accent">Welcome</span>.
@@ -87,7 +87,7 @@ function Home() {
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 1.5, delay: 0.8 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
             className="mt-8 max-w-2xl text-bone/80 font-serif text-xl md:text-2xl tracking-wide"
           >
             To Africa's premier hunting club — where the chase is shaped by
@@ -97,7 +97,7 @@ function Home() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 1.1 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
             className="mt-10 flex flex-wrap gap-4 justify-center"
           >
             <Link
@@ -119,7 +119,7 @@ function Home() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.5 }}
+          transition={{ delay: 0.7 }}
           className="absolute bottom-8 left-1/2 -translate-x-1/2 text-bone/70 text-[10px] tracking-[0.5em] uppercase z-10"
         >
           <span className="inline-block animate-pulse">↓ Scroll</span>
@@ -174,8 +174,8 @@ function Home() {
               { Icon: Mountain, title: "Respect", body: "For the animal, the land, and the communities who steward it. Conservation is the price of the privilege." },
             ].map(({ Icon, title, body }, i) => (
               <Reveal key={title} delay={i * 0.1}>
-                <div className="bg-ink p-10 h-full hover:bg-forest/30 transition-colors duration-500 group">
-                  <Icon className="h-10 w-10 text-accent group-hover:scale-110 transition-transform duration-500" strokeWidth={1.2} />
+                <div className="bg-ink p-10 h-full hover:bg-forest/30 transition-colors duration-300 group">
+                  <Icon className="h-10 w-10 text-accent group-hover:scale-110 transition-transform duration-300" strokeWidth={1.2} />
                   <h3 className="mt-8 font-display text-2xl tracking-[0.15em]">{title.toUpperCase()}</h3>
                   <p className="mt-4 font-serif text-lg text-bone/70 leading-relaxed">{body}</p>
                 </div>
@@ -217,14 +217,14 @@ function Home() {
               { Icon: AcaciaIcon, label: "Acacia", note: "Camp shade. Lantern post." },
             ].map(({ Icon, label, note }, i) => (
               <AnimatedIcon key={label} delay={i * 0.06}>
-                <div className="group bg-bone hover:bg-forest transition-colors duration-500 p-8 h-44 flex flex-col items-center justify-center text-center relative overflow-hidden">
-                  <div className="text-forest group-hover:text-accent transition-colors duration-500">
+                <div className="group bg-bone hover:bg-forest transition-colors duration-300 p-8 h-44 flex flex-col items-center justify-center text-center relative overflow-hidden">
+                  <div className="text-forest group-hover:text-accent transition-colors duration-300">
                     <Icon size={56} />
                   </div>
                   <div className="mt-3 font-display text-sm tracking-[0.3em] uppercase text-forest group-hover:text-bone transition-colors">
                     {label}
                   </div>
-                  <div className="absolute inset-x-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform duration-500 bg-forest text-bone/85 font-serif italic text-sm py-3 px-2">
+                  <div className="absolute inset-x-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-forest text-bone/85 font-serif italic text-sm py-3 px-2">
                     {note}
                   </div>
                 </div>

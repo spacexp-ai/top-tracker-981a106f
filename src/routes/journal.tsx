@@ -170,7 +170,7 @@ function Journal() {
                 whileHover={{ scale: 1.02 }}
                 className={`overflow-hidden bg-bone/5 ${t.span}`}
               >
-                <img src={t.src} alt="" loading="lazy" className="w-full h-full object-cover transition-transform duration-700 hover:scale-110" />
+                <img src={t.src} alt="" loading="lazy" className="w-full h-full object-cover transition-transform duration-500 hover:scale-110" />
               </motion.figure>
             ))}
           </div>
