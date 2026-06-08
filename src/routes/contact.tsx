@@ -181,12 +181,17 @@ function Contact() {
             </Reveal>
             <Reveal delay={0.3}>
               <div className="bg-card border border-border p-6">
-                <div className="text-[10px] tracking-[0.4em] uppercase text-accent mb-3">Camp</div>
+                <div className="text-[10px] tracking-[0.4em] uppercase text-accent mb-3">Office</div>
                 <ul className="space-y-3 font-serif text-base">
                   <li className="flex gap-3"><MapPin className="h-4 w-4 text-ember mt-1 shrink-0" /> Losirva, Esilalei, Monduli — Tanzania</li>
                   <li className="flex gap-3"><Phone className="h-4 w-4 text-ember mt-1 shrink-0" /> +255 763 075 130</li>
                   <li className="flex gap-3"><Mail className="h-4 w-4 text-ember mt-1 shrink-0" /> info@top-trackers.com</li>
                 </ul>
+                <div className="mt-5 pt-4 border-t border-border">
+                  <div className="text-[10px] tracking-[0.4em] uppercase text-accent mb-2">Base Camp</div>
+                  <div className="font-serif text-sm text-foreground/75">on the bank of Njombe River</div>
+                  <div className="mt-1 text-[11px] tracking-[0.18em] text-muted-foreground">6°54′21.0″S · 34°59′14.8″E</div>
+                </div>
               </div>
             </Reveal>
           </div>
