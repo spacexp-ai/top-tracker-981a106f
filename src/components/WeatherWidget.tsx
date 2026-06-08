@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { Cloud, CloudRain, CloudSnow, Sun, CloudSun, Loader2, Wind } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-// Esilalei, Monduli, Tanzania
-const LAT = -3.43;
-const LON = 36.0;
+// Ruaha, Tanzania (Njombe River concession)
+const LAT = -6.9058;
+const LON = 34.9874;
 
 type Forecast = {
   date: string;
