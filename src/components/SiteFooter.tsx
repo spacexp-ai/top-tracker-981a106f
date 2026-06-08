@@ -31,12 +31,17 @@ export function SiteFooter() {
           </div>
 
           <div className="md:col-span-3">
-            <h4 className="text-[11px] tracking-[0.3em] uppercase text-accent mb-5">Camp</h4>
+            <h4 className="text-[11px] tracking-[0.3em] uppercase text-accent mb-5">Office</h4>
             <ul className="space-y-3 text-sm text-bone/75">
-              <li className="flex items-start gap-2"><MapPin className="h-4 w-4 mt-0.5 text-accent shrink-0" /> <span>Esilalei, Monduli — Tanzania</span></li>
+              <li className="flex items-start gap-2"><MapPin className="h-4 w-4 mt-0.5 text-accent shrink-0" /> <span>Losirva, Esilalei, Monduli — Tanzania</span></li>
               <li className="flex items-center gap-2"><Phone className="h-4 w-4 text-accent shrink-0" /> <span>+255 763 075 130</span></li>
               <li className="flex items-start gap-2"><Mail className="h-4 w-4 mt-0.5 text-accent shrink-0" /> <span className="break-all">info@top-trackers.com</span></li>
             </ul>
+            <div className="mt-5 pt-4 border-t border-bone/10">
+              <div className="text-[10px] tracking-[0.3em] uppercase text-accent/80 mb-1.5">Base Camp</div>
+              <div className="text-sm text-bone/70 font-serif italic">on the bank of Njombe River</div>
+              <div className="text-[11px] tracking-[0.18em] text-bone/45 mt-1">6°54′21.0″S · 34°59′14.8″E</div>
+            </div>
           </div>
 
           <div className="md:col-span-2">
