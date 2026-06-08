@@ -21,6 +21,21 @@ export const Route = createFileRoute("/membership")({
 
 const tiers = [
   {
+    name: "Observer Pass",
+    price: "Free",
+    per: "guest",
+    tag: "Walk in, no rifle",
+    observer: true,
+    perks: [
+      "For guests, photographers, companions",
+      "Experience camp, bush, and story — no rifle",
+      "Full-board tented accommodation",
+      "Shared camp activities at the long table",
+      "Non-hunting concession access with a guide",
+    ],
+    cta: "Request Observer Pass",
+  },
+  {
     name: "Tracker",
     price: "$2,400",
     per: "annual",
