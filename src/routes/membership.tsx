@@ -19,7 +19,18 @@ export const Route = createFileRoute("/membership")({
   component: Membership,
 });
 
-const tiers = [
+type Tier = {
+  name: string;
+  price: string;
+  per: string;
+  tag: string;
+  perks: string[];
+  featured?: boolean;
+  observer?: boolean;
+  cta?: string;
+};
+
+const tiers: Tier[] = [
   {
     name: "Observer Pass",
     price: "Free",
