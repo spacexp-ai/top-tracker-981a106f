@@ -26,9 +26,12 @@ export function PortalShell({ children, title }: { children: ReactNode; title: s
   }
 
   return (
-    <div className="min-h-screen bg-[#1a1a1a] text-[#f5f5f0]">
+    <div className="relative min-h-screen bg-[#1a1a1a] text-[#f5f5f0]">
+      {/* Topographic Background Texture */}
+      <div className="fixed inset-0 z-0 opacity-5 pointer-events-none bg-[url('/topo-bg.png')] bg-cover bg-center bg-no-repeat mix-blend-lighten" />
+      
       {/* Topbar */}
-      <header className="sticky top-0 z-40 bg-[#1a1a1a]/90 backdrop-blur border-b border-[#3d3d3d] px-4 md:px-8 py-4 flex items-center justify-between">
+      <header className="relative z-40 sticky top-0 bg-[#1a1a1a]/90 backdrop-blur border-b border-[#3d3d3d] px-4 md:px-8 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <button className="lg:hidden p-1" onClick={() => setOpen(!open)}>{open ? <X /> : <Menu />}</button>
           <Link to="/portal" className="font-display text-[#c9a84c] text-lg tracking-wider">◆ TOP TRACKERS</Link>
