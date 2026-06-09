@@ -40,8 +40,19 @@ function Hunts() {
   const [tab, setTab] = useState<"upcoming" | "past">("upcoming");
   const [showKitFor, setShowKitFor] = useState<any>(null); // store booking object
 
-  const upcoming = bookings.filter((b) => !b.end_date || !isPast(new Date(b.end_date)));
-  const past = bookings.filter((b) => b.end_date && isPast(new Date(b.end_date)));
+  const upcoming = bookings.filter((b) => {
+    if (!b.end_date) return true;
+    const d = new Date(b.end_date);
+    if (isNaN(d.getTime())) return true;
+    return !isPast(d);
+  });
+  
+  const past = bookings.filter((b) => {
+    if (!b.end_date) return false;
+    const d = new Date(b.end_date);
+    if (isNaN(d.getTime())) return false;
+    return isPast(d);
+  });
 
   const activeBookings = tab === "upcoming" ? upcoming : past;
 

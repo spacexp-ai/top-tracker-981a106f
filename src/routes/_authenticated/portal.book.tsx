@@ -143,7 +143,7 @@ function Book() {
                     className={`w-full h-full p-5 text-left border transition duration-300 ${speciesId === s.id ? "border-[#c9a84c] bg-[#1a1a1a] shadow-[0_0_15px_rgba(201,168,76,0.1)]" : "border-[#3d3d3d] bg-[#2d2d2d] hover:border-[#c9a84c]/60 hover:-translate-y-1"}`}>
                     <div className="text-4xl mb-3 transition-transform group-hover:scale-110 origin-left">{s.emoji}</div>
                     <div className="font-display text-lg text-[#f5f5f0]">{s.name}</div>
-                    <div className="text-xs font-mono text-[#c9a84c] mt-1">${s.base_price_usd.toLocaleString()}</div>
+                    <div className="font-mono text-xs text-[#c9a84c] mt-1">${(s.base_price_usd ?? 0).toLocaleString()}</div>
                     <div className="mt-3 pt-3 border-t border-[#3d3d3d] text-[10px] tracking-[0.2em] uppercase text-[#a8a8a0] flex items-center gap-1">
                       <MapPin className="h-3 w-3" /> {s.concession}
                     </div>
@@ -222,7 +222,7 @@ function Book() {
                 <button key={p.id} onClick={() => setPhId(p.id)}
                   className={`text-left p-6 border transition duration-300 ${phId === p.id ? "border-[#c9a84c] bg-[#1a1a1a] shadow-[0_0_15px_rgba(201,168,76,0.1)]" : "border-[#3d3d3d] bg-[#2d2d2d] hover:border-[#c9a84c]/60 hover:-translate-y-1"}`}>
                   <div className="flex items-center gap-4 mb-4">
-                    <div className="h-12 w-12 rounded-full bg-[#1a1a1a] border border-[#3d3d3d] flex items-center justify-center text-[#c9a84c] font-display text-xl">{p.name.charAt(0)}</div>
+                    <div className="h-12 w-12 rounded-full bg-[#1a1a1a] border border-[#3d3d3d] flex items-center justify-center text-[#c9a84c] font-display text-xl">{p.name ? p.name.charAt(0) : "?"}</div>
                     <div>
                       <div className="font-display text-lg text-[#f5f5f0]">{p.name}</div>
                       <div className="text-[10px] tracking-[0.3em] uppercase text-[#c9a84c]">{p.years_experience} seasons</div>
