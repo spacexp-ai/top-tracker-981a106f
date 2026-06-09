@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Reveal } from "@/components/Reveal";
@@ -89,10 +89,10 @@ const expeditions: Expedition[] = [
 ];
 
 const timeline = [
-  { num: "01 — Plan", title: "Plan", letter: "P", desc: "Speak with a PH. We match you to a concession, season, and party size. Permits and logistics follow." },
-  { num: "02 — Arrive", title: "Arrive", letter: "A", desc: "Charter flight to the bush strip. Camp is ready. Tracking begins at first light the next morning." },
-  { num: "03 — Track", title: "Track", letter: "R", desc: "Days in the field with your PH and Maasai scouts. Patience, craft, and the land doing the teaching." },
-  { num: "04 — Return", title: "Return", letter: "T", desc: "Trophies documented and shipped. CITES handled. You leave with the story; we handle everything else." },
+  { num: "01 — Plan", title: "Plan", image: photos.guideJeep, desc: "Speak with a PH. We match you to a concession, season, and party size. Permits and logistics follow." },
+  { num: "02 — Arrive", title: "Arrive", image: photos.bushPlane, desc: "Charter flight to the bush strip. Camp is ready. Tracking begins at first light the next morning." },
+  { num: "03 — Track", title: "Track", image: photos.phWalking, desc: "Days in the field with your PH and Maasai scouts. Patience, craft, and the land doing the teaching." },
+  { num: "04 — Return", title: "Return", image: photos.vintageZebra, desc: "Trophies documented and shipped. CITES handled. You leave with the story; we handle everything else." },
 ];
 
 const services = [
@@ -135,6 +135,13 @@ function Experience() {
   const [open, setOpen] = useState<string | null>(null);
 
   const go = (n: number) => setCur((n + expeditions.length) % expeditions.length);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCur((c) => (c + 1) % expeditions.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
 
   return (
     <div className="min-h-screen bg-background">
@@ -229,8 +236,9 @@ function Experience() {
             {timeline.map((t, i) => (
               <Reveal key={t.title} delay={i * 0.08}>
                 <div className={`h-full ${i < 3 ? "lg:border-r" : ""} border-accent/15`}>
-                  <div className="aspect-square bg-ink flex items-center justify-center">
-                    <span className="font-display text-[12rem] leading-none text-accent/70 select-none">{t.letter}</span>
+                  <div className="aspect-square bg-ink relative overflow-hidden group">
+                    <div className="absolute inset-0 bg-ink/20 group-hover:bg-transparent transition-colors duration-500 z-10" />
+                    <img src={t.image} alt={t.title} loading="lazy" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   </div>
                   <div className="p-6">
                     <p className="text-[10px] tracking-[0.22em] uppercase text-muted-foreground mb-1.5">{t.num}</p>
@@ -266,6 +274,39 @@ function Experience() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* RIFLE & EQUIPMENT RENTAL */}
+      <section className="paper-bg pb-20">
+        <div className="mx-auto max-w-7xl px-6">
+          <Reveal>
+            <div className="border border-accent/20 bg-card overflow-hidden">
+              <div className="grid md:grid-cols-[1fr_1fr]">
+                <div className="p-8 md:p-12 lg:p-16 flex flex-col justify-center">
+                  <p className="text-[10px] tracking-[0.3em] uppercase text-accent mb-4">Equipment & Gear</p>
+                  <h2 className="font-display italic text-3xl md:text-4xl text-forest leading-tight mb-6">
+                    Rifle Rental.
+                  </h2>
+                  <p className="font-serif text-base text-foreground/75 leading-relaxed mb-6">
+                    Travelling with firearms is increasingly complex. We maintain an immaculate armory in camp for our clients to use. Our collection includes scoped large-calibre rifles specifically suited to African dangerous and plains game.
+                  </p>
+                  <ul className="space-y-3 font-serif text-sm text-foreground/70 mb-8">
+                    <li className="flex gap-3"><span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-ember shrink-0" />.375 H&H Magnum for general dangerous game</li>
+                    <li className="flex gap-3"><span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-ember shrink-0" />.416 Rigby for heavy cover buffalo and elephant</li>
+                    <li className="flex gap-3"><span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-ember shrink-0" />.300 Win Mag for longer plains game shots</li>
+                  </ul>
+                  <p className="font-serif italic text-sm text-muted-foreground border-l border-accent/50 pl-4">
+                    All rental rifles are sighted-in upon your arrival at camp. Premium ammunition is supplied per round.
+                  </p>
+                </div>
+                <div className="bg-ink relative min-h-[300px]">
+                  <img src={photos.gearAmmo} alt="Rifles and Ammunition" className="absolute inset-0 w-full h-full object-cover opacity-80" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-card to-transparent w-1/4 hidden md:block" />
+                </div>
+              </div>
+            </div>
+          </Reveal>
         </div>
       </section>
 

@@ -4,7 +4,6 @@ import { Menu, X } from "lucide-react";
 import logo from "@/assets/logo.png";
 
 const leftLinks = [
-  { to: "/", label: "Welcome" },
   { to: "/our-story", label: "Our Story" },
   { to: "/experience", label: "The Experience" },
   { to: "/membership", label: "Membership" },
@@ -42,7 +41,7 @@ export function SiteNav() {
             <Link
               key={l.to}
               to={l.to}
-              className="relative px-3 py-2 text-[11px] tracking-[0.25em] uppercase text-bone/85 hover:text-accent transition-colors"
+              className="relative px-3 py-2 text-[10px] tracking-[0.2em] uppercase text-bone/85 hover:text-accent transition-colors"
               activeProps={{ className: "text-accent" }}
               activeOptions={{ exact: l.to === "/" }}
             >
@@ -75,7 +74,7 @@ export function SiteNav() {
             <Link
               key={l.to}
               to={l.to}
-              className="relative px-3 py-2 text-[11px] tracking-[0.25em] uppercase text-bone/85 hover:text-accent transition-colors"
+              className="relative px-3 py-2 text-[10px] tracking-[0.2em] uppercase text-bone/85 hover:text-accent transition-colors"
               activeProps={{ className: "text-accent" }}
             >
               {l.label}
@@ -99,13 +98,6 @@ export function SiteNav() {
               {l.label}
             </Link>
           ))}
-          <Link
-            to="/membership"
-            onClick={() => setOpen(false)}
-            className="text-accent tracking-[0.2em] uppercase text-sm"
-          >
-            Membership
-          </Link>
         </div>
       )}
     </header>

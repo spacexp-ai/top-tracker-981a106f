@@ -13,6 +13,7 @@ import { LogoSplash } from "@/components/LogoSplash";
 import { WildlifePopup } from "@/components/WildlifePopup";
 import { CookieConsent } from "@/components/CookieConsent";
 import { CompassGate } from "@/components/CompassGate";
+import { CustomCursor } from "@/components/CustomCursor";
 
 function NotFoundComponent() {
   return (
@@ -95,6 +96,7 @@ function RootComponent() {
       <WildlifePopup />
       <CompassGate />
       <CookieConsent />
+      <CustomCursor />
     </QueryClientProvider>
   );
 }

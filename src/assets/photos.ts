@@ -1,4 +1,5 @@
 // Central manifest of curated photography
+import timeline2023 from "./photos/timeline2023.jpg";
 import acaciaSunset from "./photos/acaciaSunset.jpg";
 import breakfast from "./photos/breakfast.jpg";
 import buffalo from "./photos/buffalo.jpg";
@@ -40,6 +41,7 @@ import walkingTrail from "./photos/walkingTrail.jpg";
 import zebra from "./photos/zebra.jpg";
 
 export const photos = {
+  timeline2023,
   acaciaSunset,
   breakfast,
   buffalo,

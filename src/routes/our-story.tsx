@@ -22,10 +22,10 @@ export const Route = createFileRoute("/our-story")({
 });
 
 const timeline = [
-  { year: "2023", title: "First fire", body: "Top Trackers is founded by a small circle of Tanzanian PHs and European hunters seeking a quieter, more ethical way to hunt." },
-  { year: "2024", title: "The concessions", body: "Long-term stewardship agreements signed across three legendary concessions in the Selous, Maasai Steppe and Iringa highlands." },
-  { year: "2025", title: "The camp", body: "Esilalei base camp opens — canvas, brass, and lantern light, built with local Maasai craftsmen." },
-  { year: "2026", title: "The club", body: "Membership opens to a limited circle of trackers, professional hunters, and legacy patrons." },
+  { year: "2023", title: "First fire", image: photos.timeline2023, body: "Top Trackers is founded by a small circle of Tanzanian PHs and European hunters seeking a quieter, more ethical way to hunt." },
+  { year: "2024", title: "The concessions", image: photos.vintageLeopard, body: "Long-term stewardship agreements signed across three legendary concessions in the Selous, Maasai Steppe and Iringa highlands." },
+  { year: "2025", title: "The camp", image: photos.campNight, body: "Our Base camp opens — canvas, brass, and lantern light, built with local Maasai craftsmen." },
+  { year: "2026", title: "The club", image: photos.phWalking, body: "Membership opens to a limited circle of trackers, professional hunters, and legacy patrons." },
 ];
 
 function OurStory() {
@@ -90,15 +90,21 @@ function OurStory() {
             <div className="absolute left-2 md:left-1/2 top-0 bottom-0 w-px bg-accent/30" />
             {timeline.map((t, i) => (
               <Reveal key={t.year} delay={i * 0.08}>
-                <div className={`relative mb-16 md:grid md:grid-cols-2 gap-12 ${i % 2 ? "md:[&>*:first-child]:order-2" : ""}`}>
+                <div className={`group relative mb-24 md:grid md:grid-cols-2 gap-12 ${i % 2 ? "md:[&>*:first-child]:order-2" : ""}`}>
                   <div className={`md:text-right ${i % 2 ? "md:text-left" : ""}`}>
-                    <div className="font-display text-5xl text-accent">{t.year}</div>
+                    <div className="font-display text-5xl text-accent transition-colors duration-500 group-hover:text-ember">{t.year}</div>
                   </div>
-                  <div>
+                  <div className="relative">
                     <h3 className="font-display text-2xl tracking-[0.15em] uppercase">{t.title}</h3>
-                    <p className="mt-3 font-serif text-lg text-bone/75">{t.body}</p>
+                    <p className="mt-3 font-serif text-lg text-bone/75 transition-colors duration-500 group-hover:text-bone">{t.body}</p>
+                    
+                    {/* Hover Image */}
+                    <div className={`absolute top-full mt-8 w-full max-w-md aspect-[4/3] overflow-hidden opacity-0 scale-95 pointer-events-none group-hover:opacity-100 group-hover:scale-100 transition-all duration-700 z-10 hidden md:block ${i % 2 ? "right-0 origin-top-right" : "left-0 origin-top-left"}`}>
+                      <img src={t.image} alt={t.year} className="absolute inset-0 w-full h-full object-cover" />
+                      <div className="absolute inset-0 border border-accent/30" />
+                    </div>
                   </div>
-                  <div className="absolute left-0 md:left-1/2 top-3 -translate-x-1/2 h-3 w-3 rotate-45 bg-ember" />
+                  <div className="absolute left-0 md:left-1/2 top-3 -translate-x-1/2 h-3 w-3 rotate-45 bg-ember transition-transform duration-500 group-hover:scale-[1.7] group-hover:bg-accent" />
                 </div>
               </Reveal>
             ))}
