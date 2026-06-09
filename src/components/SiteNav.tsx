@@ -6,7 +6,7 @@ import logo from "@/assets/logo.png";
 const leftLinks = [
   { to: "/our-story", label: "Our Story" },
   { to: "/experience", label: "The Experience" },
-  { to: "/membership", label: "Membership" },
+  { to: "/membership", label: "Hunting Club" },
 ];
 
 const rightLinks = [
