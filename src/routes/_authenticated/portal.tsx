@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useState, useEffect } from "react";
@@ -9,8 +9,19 @@ import { format } from "date-fns";
 
 export const Route = createFileRoute("/_authenticated/portal")({
   head: () => ({ meta: [{ title: "The Campfire — Top Trackers" }] }),
-  component: Dashboard,
+  component: PortalLayout,
 });
+
+function PortalLayout() {
+  const routerState = useRouterState();
+  const isExact = routerState.location.pathname === "/portal" || routerState.location.pathname === "/portal/";
+  
+  if (!isExact) {
+    return <Outlet />;
+  }
+
+  return <Dashboard />;
+}
 
 function Dashboard() {
   const fn = useServerFn(getDashboard);
