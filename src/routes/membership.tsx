@@ -222,6 +222,7 @@ function Membership() {
             </div>
           </div>
         </div>
+      </section>
 
       <SiteFooter />
     </div>
