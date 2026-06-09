@@ -73,27 +73,37 @@ export function PortalShell({ children, title }: { children: ReactNode; title: s
             </DropdownMenuLabel>
             <DropdownMenuSeparator className="bg-[#3d3d3d]" />
             <DropdownMenuGroup>
-              <DropdownMenuItem className="focus:bg-[#1a1a1a] focus:text-[#c9a84c] cursor-pointer">
-                <User className="mr-2 h-4 w-4" />
-                <span>My Profile</span>
+              <DropdownMenuItem asChild className="focus:bg-[#1a1a1a] focus:text-[#c9a84c] cursor-pointer">
+                <Link to="/portal/account">
+                  <User className="mr-2 h-4 w-4" />
+                  <span>My Profile</span>
+                </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem className="focus:bg-[#1a1a1a] focus:text-[#c9a84c] cursor-pointer">
-                <ImageIcon className="mr-2 h-4 w-4" />
-                <span>Photos</span>
+              <DropdownMenuItem asChild className="focus:bg-[#1a1a1a] focus:text-[#c9a84c] cursor-pointer">
+                <Link to="/portal/trophy-room">
+                  <ImageIcon className="mr-2 h-4 w-4" />
+                  <span>Photos</span>
+                </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem className="focus:bg-[#1a1a1a] focus:text-[#c9a84c] cursor-pointer">
-                <Users2 className="mr-2 h-4 w-4" />
-                <span>Followers</span>
+              <DropdownMenuItem asChild className="focus:bg-[#1a1a1a] focus:text-[#c9a84c] cursor-pointer">
+                <Link to="/portal/community">
+                  <Users2 className="mr-2 h-4 w-4" />
+                  <span>Followers</span>
+                </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem className="focus:bg-[#1a1a1a] focus:text-[#c9a84c] cursor-pointer">
-                <Users className="mr-2 h-4 w-4" />
-                <span>Groups</span>
+              <DropdownMenuItem asChild className="focus:bg-[#1a1a1a] focus:text-[#c9a84c] cursor-pointer">
+                <Link to="/portal/community">
+                  <Users className="mr-2 h-4 w-4" />
+                  <span>Groups</span>
+                </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator className="bg-[#3d3d3d]" />
-            <DropdownMenuItem className="focus:bg-[#1a1a1a] focus:text-[#c9a84c] cursor-pointer">
-              <Settings className="mr-2 h-4 w-4" />
-              <span>Preferences</span>
+            <DropdownMenuItem asChild className="focus:bg-[#1a1a1a] focus:text-[#c9a84c] cursor-pointer">
+              <Link to="/portal/account">
+                <Settings className="mr-2 h-4 w-4" />
+                <span>Preferences</span>
+              </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator className="bg-[#3d3d3d]" />
             <DropdownMenuItem onClick={signOut} className="focus:bg-[#1a1a1a] focus:text-[#c9a84c] cursor-pointer">
