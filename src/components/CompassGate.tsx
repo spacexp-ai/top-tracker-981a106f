@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { AnimatePresence, motion, useMotionValue, useTransform, useSpring } from "framer-motion";
-import { ArrowRight, Lock, Calendar, X, Compass } from "lucide-react";
+import { ArrowRight, Lock, Calendar, X } from "lucide-react";
+import compassImage from "@/assets/compass.png";
 
 export function CompassGate() {
   const [open, setOpen] = useState(false);
@@ -34,9 +35,13 @@ export function CompassGate() {
           aria-label="Open Member Portal"
           className="relative h-16 w-16 md:h-[72px] md:w-[72px] rounded-full overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.55)] ring-2 ring-[rgba(201,168,76,0.5)] hover:ring-[rgba(201,168,76,0.9)] transition-all bg-[#161008]"
         >
-          <motion.div style={{ rotate }} className="h-full w-full flex items-center justify-center p-3 text-[#c9a84c]">
-            <Compass className="h-full w-full stroke-1" />
-          </motion.div>
+          <motion.img
+            src={compassImage}
+            alt="Compass Menu"
+            style={{ rotate }}
+            className="h-full w-full object-cover scale-[1.15]"
+            draggable={false}
+          />
         </button>
       </div>
 
