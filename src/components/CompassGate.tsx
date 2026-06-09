@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { AnimatePresence, motion, useMotionValue, useTransform, useSpring } from "framer-motion";
 import { ArrowRight, Lock, Calendar, X } from "lucide-react";
 import compassImage from "@/assets/compass.png";
+import woodenGate from "@/assets/wooden-gate.png";
 
 export function CompassGate() {
   const [open, setOpen] = useState(false);
@@ -62,8 +63,10 @@ export function CompassGate() {
               exit={{ opacity: 0, y: 16, scale: 0.97 }}
               transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-[420px] aspect-[4/5] rounded-t-full border-[8px] border-[#2c1e13] bg-[#120c08] shadow-[0_25px_60px_rgba(0,0,0,0.9)] overflow-hidden"
+              className="relative w-full max-w-[420px] aspect-[4/5] flex flex-col items-center justify-center"
             >
+              <img src={woodenGate} alt="Wooden Gate" className="absolute inset-0 w-full h-full object-contain pointer-events-none drop-shadow-[0_25px_50px_rgba(0,0,0,0.9)]" />
+
               {/* Close — small, floating outside the arch */}
               <button
                 onClick={() => setOpen(false)}
@@ -73,10 +76,10 @@ export function CompassGate() {
                 <X className="h-4 w-4" />
               </button>
 
-              {/* Menu nested inside the arch opening — no card, no overlay */}
+              {/* Menu nested inside the painted wooden arch */}
               <div
-                className="absolute flex flex-col items-center justify-center text-center"
-                style={{ top: "26%", bottom: "8%", left: "22%", right: "22%" }}
+                className="relative z-10 flex flex-col items-center justify-center text-center px-8"
+                style={{ marginTop: "15%" }}
               >
                 <h2
                   className="text-[#f3e3b8] text-xl md:text-2xl leading-tight"
