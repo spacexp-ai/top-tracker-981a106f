@@ -7,7 +7,7 @@ import { format, differenceInCalendarDays, addDays } from "date-fns";
 import { PortalShell } from "@/components/portal/PortalShell";
 import { getCatalog, saveBooking, getDashboard } from "@/lib/portal.functions";
 import { Calendar } from "@/components/ui/calendar";
-import { ArrowLeft, ArrowRight, Check, Loader2, MapPin, Heart } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, Loader2, MapPin, Heart, Lock } from "lucide-react";
 
 const search = z.object({ id: z.string().uuid().optional() });
 
@@ -103,9 +103,19 @@ function Book() {
   function next() { setStep((s) => Math.min(6, s + 1)); saveMut.mutate("draft"); }
   function prev() { setStep((s) => Math.max(1, s - 1)); }
 
+  const [isPaying, setIsPaying] = useState(false);
+  const [isConfirmed, setIsConfirmed] = useState(false);
+
   async function submit() {
     await saveMut.mutateAsync("submitted");
-    navigate({ to: "/portal" });
+    setStep(7);
+  }
+
+  async function handlePayment() {
+    setIsPaying(true);
+    await new Promise(r => setTimeout(r, 2000));
+    setIsPaying(false);
+    setIsConfirmed(true);
   }
 
   const canNext = ({ 1: !!speciesId, 2: !!range.from && !!range.to, 3: !!phId, 4: !!campTier, 5: true, 6: true } as Record<number, boolean>)[step];
@@ -303,9 +313,79 @@ function Book() {
           </>
         )}
 
+        {step === 7 && (
+          <div className="text-center py-12">
+            {!isConfirmed ? (
+              <div className="animate-in fade-in zoom-in duration-500">
+                <H>Secure Your Dates</H>
+                <P>A deposit of $1,500 USD is required to confirm your expedition.</P>
+                
+                <div className="mt-8 bg-[#1a1a1a] border border-[#3d3d3d] p-8 max-w-sm mx-auto text-left relative overflow-hidden shadow-2xl">
+                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#c9a84c] to-transparent opacity-50" />
+                  <div className="flex justify-between items-end mb-6">
+                    <span className="text-[10px] tracking-[0.3em] uppercase text-[#a8a8a0]">Deposit Due</span>
+                    <span className="font-display text-3xl text-[#f5f5f0]">$1,500</span>
+                  </div>
+                  <button 
+                    onClick={handlePayment} 
+                    disabled={isPaying}
+                    className="w-full inline-flex justify-center items-center gap-2 px-6 py-4 bg-[#c9a84c] text-[#1a1a1a] text-[10px] tracking-[0.3em] uppercase disabled:opacity-50 transition hover:bg-[#b08f36]"
+                  >
+                    {isPaying ? <Loader2 className="h-4 w-4 animate-spin" /> : <Lock className="h-4 w-4" />}
+                    {isPaying ? "Processing..." : "Pay Securely"}
+                  </button>
+                  <div className="mt-4 text-center">
+                    <p className="text-[9px] text-[#a8a8a0] uppercase tracking-widest flex items-center justify-center gap-1">
+                      <Lock className="h-2 w-2" /> Encrypted by Stripe
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#1a1a1a] border border-[#c9a84c] text-[#c9a84c] mb-6 shadow-[0_0_20px_rgba(201,168,76,0.1)]">
+                  <Check className="h-8 w-8" />
+                </div>
+                <H>Expedition Confirmed</H>
+                <P>Your deposit is secured. The camp is preparing for your arrival.</P>
+                
+                <div className="mt-8 bg-[#1a1a1a] border border-[#3d3d3d] p-8 text-left max-w-md mx-auto relative overflow-hidden">
+                  <div className="absolute top-0 right-0 p-4 opacity-5">
+                    <Check className="h-32 w-32" />
+                  </div>
+                  <div className="relative z-10">
+                    <div className="text-[10px] tracking-[0.4em] uppercase text-[#c9a84c] mb-4">Booking Reference</div>
+                    <div className="font-mono text-2xl text-[#f5f5f0] mb-8 pb-4 border-b border-[#3d3d3d]/50">
+                      {bookingId?.split('-')[0].toUpperCase()}
+                    </div>
+                    
+                    <ul className="space-y-4 text-sm font-mono text-[#f5f5f0]">
+                      <li className="flex justify-between">
+                        <span className="text-[#5a5a55] text-[10px] uppercase tracking-widest">Quarry</span> 
+                        <span>{selectedSpecies?.name}</span>
+                      </li>
+                      <li className="flex justify-between">
+                        <span className="text-[#5a5a55] text-[10px] uppercase tracking-widest">Dates</span> 
+                        <span>{range.from ? format(range.from, "PP") : ""}</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                
+                <div className="mt-10">
+                  <Link to="/portal/hunts" className="inline-flex items-center gap-2 px-8 py-3 border border-[#c9a84c] text-[#c9a84c] hover:bg-[#c9a84c] hover:text-[#1a1a1a] text-[10px] tracking-[0.3em] uppercase transition">
+                    View My Hunts
+                  </Link>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Footer */}
-        <div className="mt-8 flex items-center justify-between border-t border-[#3d3d3d] pt-6">
-          <button onClick={prev} disabled={step === 1}
+        {step < 7 && (
+          <div className="mt-8 flex items-center justify-between border-t border-[#3d3d3d] pt-6">
+            <button onClick={prev} disabled={step === 1}
             className="inline-flex items-center gap-2 text-[10px] tracking-[0.3em] uppercase text-[#a8a8a0] hover:text-[#c9a84c] disabled:opacity-40">
             <ArrowLeft className="h-3 w-3" /> Back
           </button>
@@ -325,7 +405,7 @@ function Book() {
               </button>
             )}
           </div>
-        </div>
+        )}
       </div>
 
       <div className="mt-4 text-right">
