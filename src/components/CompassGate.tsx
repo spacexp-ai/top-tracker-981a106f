@@ -1,12 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { AnimatePresence, motion, useMotionValue, useTransform, useSpring } from "framer-motion";
-import { ArrowRight, Lock, Calendar, X } from "lucide-react";
-import compassAsset from "@/assets/compass.png.asset.json";
-import archAsset from "@/assets/driftwood-arch.png.asset.json";
-
-const compass = compassAsset.url;
-const arch = archAsset.url;
+import { ArrowRight, Lock, Calendar, X, Compass } from "lucide-react";
 
 export function CompassGate() {
   const [open, setOpen] = useState(false);
@@ -39,13 +34,9 @@ export function CompassGate() {
           aria-label="Open Member Portal"
           className="relative h-16 w-16 md:h-[72px] md:w-[72px] rounded-full overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.55)] ring-2 ring-[rgba(201,168,76,0.5)] hover:ring-[rgba(201,168,76,0.9)] transition-all bg-[#161008]"
         >
-          <motion.img
-            src={compass}
-            alt=""
-            style={{ rotate }}
-            className="h-full w-full object-cover"
-            draggable={false}
-          />
+          <motion.div style={{ rotate }} className="h-full w-full flex items-center justify-center p-3 text-[#c9a84c]">
+            <Compass className="h-full w-full stroke-1" />
+          </motion.div>
         </button>
       </div>
 
@@ -66,21 +57,13 @@ export function CompassGate() {
               exit={{ opacity: 0, y: 16, scale: 0.97 }}
               transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-[460px]"
+              className="relative w-full max-w-[420px] aspect-[4/5] rounded-t-full border-[8px] border-[#2c1e13] bg-[#120c08] shadow-[0_25px_60px_rgba(0,0,0,0.9)] overflow-hidden"
             >
-              {/* Driftwood arch — the only frame */}
-              <img
-                src={arch}
-                alt=""
-                className="w-full block select-none pointer-events-none drop-shadow-[0_25px_60px_rgba(0,0,0,0.9)]"
-                draggable={false}
-              />
-
               {/* Close — small, floating outside the arch */}
               <button
                 onClick={() => setOpen(false)}
                 aria-label="Close"
-                className="absolute -top-4 -right-2 h-9 w-9 inline-flex items-center justify-center text-[#e8c87a]/70 hover:text-white transition"
+                className="absolute top-6 right-6 z-10 h-10 w-10 inline-flex items-center justify-center rounded-full bg-black/40 text-[#e8c87a]/70 hover:text-white transition hover:bg-black/80"
               >
                 <X className="h-4 w-4" />
               </button>
