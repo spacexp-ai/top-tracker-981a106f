@@ -11,11 +11,11 @@ const nav = [
   { to: "/portal", label: "The Campfire", icon: BinocularIcon, exact: true },
   { to: "/portal/book", label: "Plan New Hunt", icon: WaterproofMapIcon },
   { to: "/portal/hunts", label: "My Hunts", icon: HuntingBackpackIcon },
+  { to: "/portal/trophy-room", label: "Trophy Room", icon: Trophy },
   { to: "/portal/community", label: "The Lodge", icon: Users },
   { to: "/portal/account", label: "Account", icon: UserCog },
 ];
 const soon = [
-  { label: "Trophy Room", icon: Trophy },
   { label: "Field Journal", icon: HunterBookIcon },
   { label: "Conservation Score", icon: LeafyGreen },
 ];

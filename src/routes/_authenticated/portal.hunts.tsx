@@ -4,8 +4,8 @@ import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import { PortalShell } from "@/components/portal/PortalShell";
 import { getDashboard } from "@/lib/portal.functions";
-import { format, isPast } from "date-fns";
-import { Download, Calendar as CalendarIcon, Briefcase, ChevronRight, X } from "lucide-react";
+import { format, isPast, differenceInDays } from "date-fns";
+import { Download, Calendar as CalendarIcon, Briefcase, ChevronRight, X, Cloud, Thermometer, Clock } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/portal/hunts")({
   head: () => ({ meta: [{ title: "My Hunts — Top Trackers" }] }),
@@ -31,6 +31,40 @@ function generateICS(b: any) {
 
 function downloadItinerary() {
   alert("Downloading your detailed itinerary PDF...");
+}
+
+function HuntCountdown({ date }: { date: string }) {
+  const days = differenceInDays(new Date(date), new Date());
+  if (days < 0) return <span className="text-[#a8a8a0]">In Progress</span>;
+  if (days === 0) return <span className="text-[#c9a84c] animate-pulse">Departs Today</span>;
+  return (
+    <div className="flex items-center gap-2 text-[#c9a84c]">
+      <Clock className="h-4 w-4" />
+      <span className="font-display text-xl">{days} <span className="text-sm font-sans tracking-[0.2em] uppercase text-[#a8a8a0]">Days</span></span>
+    </div>
+  );
+}
+
+function HuntWeather({ lat, lng }: { lat: number, lng: number }) {
+  const { data, isLoading } = useQuery({
+    queryKey: ["weather", lat, lng],
+    queryFn: async () => {
+      const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current=temperature_2m,weather_code&temperature_unit=fahrenheit`);
+      return res.json();
+    },
+    refetchInterval: 300000,
+  });
+
+  if (isLoading) return <div className="text-[10px] text-[#5a5a55] animate-pulse">Fetching Weather...</div>;
+
+  const temp = data?.current?.temperature_2m ? Math.round(data.current.temperature_2m) : "--";
+  
+  return (
+    <div className="flex items-center gap-3 text-xs text-[#a8a8a0]">
+      <span className="flex items-center gap-1"><Thermometer className="h-3 w-3 text-[#c9a84c]" /> {temp}°F</span>
+      <span className="flex items-center gap-1"><Cloud className="h-3 w-3 text-[#c9a84c]" /> Outlook</span>
+    </div>
+  );
 }
 
 function Hunts() {
@@ -90,7 +124,7 @@ function Hunts() {
             const progress = isDraft ? 25 : b.status === "submitted" ? 50 : 100;
             
             return (
-              <div key={b.id} className="relative bg-[#2d2d2d] border border-[#3d3d3d] hover:border-[#c9a84c]/40 transition group overflow-hidden flex flex-col md:flex-row shadow-sm">
+              <div key={b.id} className="relative bg-[#2d2d2d] border border-[#3d3d3d] hover:border-[#c9a84c]/40 transition-all duration-300 group overflow-hidden flex flex-col md:flex-row shadow-sm hover:shadow-2xl hover:-translate-y-1">
                 
                 {/* Background Image per card */}
                 <div className="absolute inset-0 bg-[url('/images/hunts-bg.jpg')] bg-cover bg-center opacity-10 mix-blend-luminosity group-hover:opacity-20 transition-opacity duration-700 pointer-events-none" />
@@ -113,16 +147,26 @@ function Hunts() {
                     </div>
                   </div>
 
-                  {/* Progress Bar */}
-                  <div className="mt-4">
-                    <div className="flex justify-between text-[9px] tracking-[0.2em] uppercase text-[#5a5a55] mb-1.5">
-                      <span className={progress >= 25 ? "text-[#a8a8a0]" : ""}>Draft</span>
-                      <span className={progress >= 50 ? "text-[#a8a8a0]" : ""}>Review</span>
-                      <span className={progress >= 100 ? "text-[#a8a8a0]" : ""}>Confirmed</span>
+                  {/* Progress Bar & Additions */}
+                  <div className="mt-4 flex flex-wrap items-end justify-between gap-4">
+                    <div className="flex-1 min-w-[200px]">
+                      <div className="flex justify-between text-[9px] tracking-[0.2em] uppercase text-[#5a5a55] mb-1.5">
+                        <span className={progress >= 25 ? "text-[#a8a8a0]" : ""}>Draft</span>
+                        <span className={progress >= 50 ? "text-[#a8a8a0]" : ""}>Review</span>
+                        <span className={progress >= 100 ? "text-[#a8a8a0]" : ""}>Confirmed</span>
+                      </div>
+                      <div className="h-1 bg-[#1a1a1a] rounded-full overflow-hidden">
+                        <div className="h-full bg-[#c9a84c] transition-all duration-1000 ease-out" style={{ width: `${progress}%` }} />
+                      </div>
                     </div>
-                    <div className="h-1 bg-[#1a1a1a] rounded-full overflow-hidden">
-                      <div className="h-full bg-[#c9a84c] transition-all duration-1000 ease-out" style={{ width: `${progress}%` }} />
-                    </div>
+                    
+                    {b.status === "confirmed" && b.start_date && (
+                      <div className="flex items-center gap-6 bg-[#1a1a1a]/50 p-3 border border-[#3d3d3d]/50">
+                        <HuntWeather lat={-7.77} lng={35.69} />
+                        <div className="w-px h-6 bg-[#3d3d3d]/50" />
+                        <HuntCountdown date={b.start_date} />
+                      </div>
+                    )}
                   </div>
                 </div>
 
