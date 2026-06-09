@@ -1,44 +1,84 @@
 // Central manifest of curated photography
+import acaciaSunset from "./photos/acaciaSunset.jpg";
+import breakfast from "./photos/breakfast.jpg";
+import buffalo from "./photos/buffalo.jpg";
+import buffaloHerd from "./photos/buffaloHerd.jpg";
+import bushPlane from "./photos/bushPlane.jpg";
+import campAerial from "./photos/campAerial.jpg";
+import campDeck from "./photos/campDeck.jpg";
+import campNight from "./photos/campNight.jpg";
+import children from "./photos/children.jpg";
+import conservation from "./photos/conservation.jpg";
+import dinner from "./photos/dinner.jpg";
+import elephant from "./photos/elephant.jpg";
+import elephantPortrait from "./photos/elephantPortrait.jpg";
+import gameDrive from "./photos/gameDrive.jpg";
+import gearAmmo from "./photos/gearAmmo.jpg";
+import gearKit from "./photos/gearKit.jpg";
+import giraffe from "./photos/giraffe.jpg";
+import guideJeep from "./photos/guideJeep.jpg";
+import helicopter from "./photos/helicopter.jpg";
+import hero from "./photos/hero.jpg";
+import hunterSunset from "./photos/hunterSunset.jpg";
+import hunterValley from "./photos/hunterValley.jpg";
+import hyena from "./photos/hyena.jpg";
+import kudu from "./photos/kudu.jpg";
+import leopard from "./photos/leopard.jpg";
+import lion from "./photos/lion.jpg";
+import lioness from "./photos/lioness.jpg";
+import maasaiJump from "./photos/maasaiJump.jpg";
+import maasaiVillage from "./photos/maasaiVillage.jpg";
+import maasaiWoman from "./photos/maasaiWoman.jpg";
+import milkyway from "./photos/milkyway.jpg";
+import owl from "./photos/owl.jpg";
+import phWalking from "./photos/phWalking.jpg";
+import rhino from "./photos/rhino.jpg";
+import touristsElephants from "./photos/touristsElephants.jpg";
+import vintageLeopard from "./photos/vintageLeopard.jpg";
+import vintageZebra from "./photos/vintageZebra.jpg";
+import walkingTrail from "./photos/walkingTrail.jpg";
+import zebra from "./photos/zebra.jpg";
+
 export const photos = {
-  acaciaSunset: "https://images.unsplash.com/photo-1547471080-7fc2caa6f17f?auto=format&fit=crop&q=80",
-  breakfast: "https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?auto=format&fit=crop&q=80",
-  buffalo: "https://images.unsplash.com/photo-1582264669814-192eab856a94?auto=format&fit=crop&q=80",
-  buffaloHerd: "https://images.unsplash.com/photo-1582264669814-192eab856a94?auto=format&fit=crop&q=80",
-  bushPlane: "https://images.unsplash.com/photo-1533580556209-566bc9ee68e9?auto=format&fit=crop&q=80",
-  campAerial: "https://images.unsplash.com/photo-1510798831971-661eb04b3739?auto=format&fit=crop&q=80",
-  campDeck: "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&q=80",
-  campNight: "https://images.unsplash.com/photo-1517824806704-9040b037703b?auto=format&fit=crop&q=80",
-  children: "https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?auto=format&fit=crop&q=80",
-  conservation: "https://images.unsplash.com/photo-1496309732348-3627f3f040ee?auto=format&fit=crop&q=80",
-  dinner: "https://images.unsplash.com/photo-1511690656952-34342bb7c2f2?auto=format&fit=crop&q=80",
-  elephant: "https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?auto=format&fit=crop&q=80",
-  elephantPortrait: "https://images.unsplash.com/photo-1581852087114-1da27181f08e?auto=format&fit=crop&q=80",
-  gameDrive: "https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&q=80",
-  gearAmmo: "https://images.unsplash.com/photo-1504280650953-e8bb0f1c379a?auto=format&fit=crop&q=80",
-  gearKit: "https://images.unsplash.com/photo-1452421822248-d4c2b47f0c81?auto=format&fit=crop&q=80",
-  giraffe: "https://images.unsplash.com/photo-1534567059665-cb5222165089?auto=format&fit=crop&q=80",
-  guideJeep: "https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&q=80",
-  helicopter: "https://images.unsplash.com/photo-1515099318357-194d29ca5a08?auto=format&fit=crop&q=80",
-  hero: "https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&q=80",
-  hunterSunset: "https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&q=80",
-  hunterValley: "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&q=80",
-  hyena: "https://images.unsplash.com/photo-1582264669814-192eab856a94?auto=format&fit=crop&q=80",
-  kudu: "https://images.unsplash.com/photo-1582264669814-192eab856a94?auto=format&fit=crop&q=80",
-  leopard: "https://images.unsplash.com/photo-1521651201144-634f700b36ef?auto=format&fit=crop&q=80",
-  lion: "https://images.unsplash.com/photo-1517824806704-9040b037703b?auto=format&fit=crop&q=80",
-  lioness: "https://images.unsplash.com/photo-1517824806704-9040b037703b?auto=format&fit=crop&q=80",
-  maasaiJump: "https://images.unsplash.com/photo-1489392191049-fc10c97e64b6?auto=format&fit=crop&q=80",
-  maasaiVillage: "https://images.unsplash.com/photo-1489392191049-fc10c97e64b6?auto=format&fit=crop&q=80",
-  maasaiWoman: "https://images.unsplash.com/photo-1489392191049-fc10c97e64b6?auto=format&fit=crop&q=80",
-  milkyway: "https://images.unsplash.com/photo-1505506874110-6a7a6c9924cb?auto=format&fit=crop&q=80",
-  owl: "https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&q=80",
-  phWalking: "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&q=80",
-  rhino: "https://images.unsplash.com/photo-1534567059665-cb5222165089?auto=format&fit=crop&q=80",
-  touristsElephants: "https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?auto=format&fit=crop&q=80",
-  vintageLeopard: "https://images.unsplash.com/photo-1521651201144-634f700b36ef?auto=format&fit=crop&q=80",
-  vintageZebra: "https://images.unsplash.com/photo-1501705388883-4ed8a543392c?auto=format&fit=crop&q=80",
-  walkingTrail: "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&q=80",
-  zebra: "https://images.unsplash.com/photo-1501705388883-4ed8a543392c?auto=format&fit=crop&q=80",
+  acaciaSunset,
+  breakfast,
+  buffalo,
+  buffaloHerd,
+  bushPlane,
+  campAerial,
+  campDeck,
+  campNight,
+  children,
+  conservation,
+  dinner,
+  elephant,
+  elephantPortrait,
+  gameDrive,
+  gearAmmo,
+  gearKit,
+  giraffe,
+  guideJeep,
+  helicopter,
+  hero,
+  hunterSunset,
+  hunterValley,
+  hyena,
+  kudu,
+  leopard,
+  lion,
+  lioness,
+  maasaiJump,
+  maasaiVillage,
+  maasaiWoman,
+  milkyway,
+  owl,
+  phWalking,
+  rhino,
+  touristsElephants,
+  vintageLeopard,
+  vintageZebra,
+  walkingTrail,
+  zebra,
 } as const;
 
 export type PhotoKey = keyof typeof photos;
