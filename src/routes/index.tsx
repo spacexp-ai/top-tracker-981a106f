@@ -19,11 +19,12 @@ import {
   CompassRoseIcon,
   AcaciaIcon,
 } from "@/components/WildlifeIcons";
-import hero from "@/assets/hero-savanna.jpg";
-import camp from "@/assets/camp.jpg";
-import experience from "@/assets/experience.jpg";
-import wildlife from "@/assets/wildlife.jpg";
+import { photos } from "@/assets/photos";
 import map from "@/assets/map-texture.jpg";
+const hero = photos.acaciaSunset;
+const camp = photos.campNight;
+const experience = photos.hunterValley;
+const wildlife = photos.lioness;
 
 export const Route = createFileRoute("/")({
   head: () => ({

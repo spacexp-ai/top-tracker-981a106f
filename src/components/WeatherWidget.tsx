@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { Cloud, CloudRain, CloudSnow, Sun, CloudSun, Loader2, Wind } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-// Esilalei, Monduli, Tanzania
-const LAT = -3.43;
-const LON = 36.0;
+// Ruaha, Tanzania (Njombe River concession)
+const LAT = -6.9058;
+const LON = 34.9874;
 
 type Forecast = {
   date: string;
@@ -75,7 +75,7 @@ export function WeatherWidget({ selectedDate }: { selectedDate?: Date }) {
   if (!data) {
     return (
       <div className="bg-card border border-border p-5 flex items-center gap-3 text-sm text-muted-foreground">
-        <Loader2 className="h-4 w-4 animate-spin" /> Reading the sky over Esilalei…
+        <Loader2 className="h-4 w-4 animate-spin" /> Reading the sky over Ruaha…
       </div>
     );
   }
@@ -91,7 +91,7 @@ export function WeatherWidget({ selectedDate }: { selectedDate?: Date }) {
   return (
     <div className="bg-ink text-bone border border-accent/40 p-5 shadow-[var(--shadow-vintage)]">
       <div className="flex items-center justify-between">
-        <div className="text-[10px] tracking-[0.4em] uppercase text-accent">Esilalei · Tanzania</div>
+        <div className="text-[10px] tracking-[0.4em] uppercase text-accent">Ruaha · Tanzania</div>
         <div className="text-[10px] tracking-[0.3em] uppercase text-bone/50">
           {selectedDate ? selectedDate.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }) : "Today"}
         </div>

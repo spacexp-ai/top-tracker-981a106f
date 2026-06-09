@@ -4,7 +4,8 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { Reveal } from "@/components/Reveal";
 import { Eyebrow } from "@/components/Eyebrow";
 import { ArrowRight } from "lucide-react";
-import hero from "@/assets/wildlife.jpg";
+import { photos } from "@/assets/photos";
+const hero = photos.acaciaSunset;
 import map from "@/assets/map-texture.jpg";
 
 export const Route = createFileRoute("/our-story")({

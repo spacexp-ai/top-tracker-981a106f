@@ -5,7 +5,8 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { Reveal } from "@/components/Reveal";
 import { Eyebrow } from "@/components/Eyebrow";
 import { Briefcase, Compass, TreePine, ArrowRight, Check } from "lucide-react";
-import camp from "@/assets/camp.jpg";
+import { photos } from "@/assets/photos";
+const camp = photos.conservation;
 
 export const Route = createFileRoute("/partners")({
   head: () => ({

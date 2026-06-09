@@ -4,7 +4,8 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { Reveal } from "@/components/Reveal";
 import { Eyebrow } from "@/components/Eyebrow";
 import { ArrowRight, Check, Crown } from "lucide-react";
-import wildlife from "@/assets/wildlife.jpg";
+import { photos } from "@/assets/photos";
+const wildlife = photos.dinner;
 
 export const Route = createFileRoute("/membership")({
   head: () => ({
@@ -18,7 +19,33 @@ export const Route = createFileRoute("/membership")({
   component: Membership,
 });
 
-const tiers = [
+type Tier = {
+  name: string;
+  price: string;
+  per: string;
+  tag: string;
+  perks: string[];
+  featured?: boolean;
+  observer?: boolean;
+  cta?: string;
+};
+
+const tiers: Tier[] = [
+  {
+    name: "Observer Pass",
+    price: "Free",
+    per: "guest",
+    tag: "Walk in, no rifle",
+    observer: true,
+    perks: [
+      "For guests, photographers, companions",
+      "Experience camp, bush, and story — no rifle",
+      "Full-board tented accommodation",
+      "Shared camp activities at the long table",
+      "Non-hunting concession access with a guide",
+    ],
+    cta: "Request Observer Pass",
+  },
   {
     name: "Tracker",
     price: "$2,400",
@@ -77,36 +104,50 @@ function Membership() {
             Membership, <span className="italic font-serif text-accent">by invitation.</span>
           </h1>
           <p className="mt-8 font-serif text-2xl text-bone/80 max-w-2xl">
-            Three tiers of belonging. Each opens doors deeper into the bush, the camp, and the community.
+            Four tiers of belonging. From a free Observer Pass through Legacy — each opens doors deeper into the bush, the camp, and the community.
           </p>
         </div>
       </section>
 
       <section className="paper-bg py-28">
-        <div className="mx-auto max-w-7xl px-6 grid md:grid-cols-3 gap-6">
+        <div className="mx-auto max-w-7xl px-6 grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {tiers.map((t, i) => (
-            <Reveal key={t.name} delay={i * 0.1}>
-              <div className={`relative h-full p-10 border bg-card ${t.featured ? "border-ember md:-translate-y-6 shadow-[var(--shadow-vintage)]" : "border-border"} transition hover:-translate-y-1`}>
+            <Reveal key={t.name} delay={i * 0.08}>
+              <div className={`relative h-full p-8 border bg-card ${t.featured ? "border-ember lg:-translate-y-6 shadow-[var(--shadow-vintage)]" : t.observer ? "border-accent/40 border-dashed" : "border-border"} transition hover:-translate-y-1`}>
                 {t.featured && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-ember text-bone px-4 py-1 text-[10px] tracking-[0.3em] uppercase">
                     Most chosen
                   </div>
                 )}
+                {t.observer && (
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-background border border-accent/50 text-accent px-4 py-1 text-[10px] tracking-[0.3em] uppercase">
+                    Free
+                  </div>
+                )}
                 {t.featured && <Crown className="absolute top-6 right-6 h-5 w-5 text-ember" />}
                 <div className="text-[10px] tracking-[0.4em] uppercase text-accent">{t.tag}</div>
-                <h3 className="mt-3 font-display text-3xl tracking-[0.1em] uppercase text-forest">{t.name}</h3>
+                <h3 className="mt-3 font-display text-2xl tracking-[0.08em] uppercase text-forest">{t.name}</h3>
                 <div className="mt-6 flex items-baseline gap-2">
-                  <span className="font-display text-4xl text-foreground">{t.price}</span>
-                  <span className="text-muted-foreground text-sm tracking-widest uppercase">/ {t.per}</span>
+                  <span className="font-display text-3xl text-foreground">{t.price}</span>
+                  <span className="text-muted-foreground text-xs tracking-widest uppercase">/ {t.per}</span>
                 </div>
-                <div className="mt-8 h-px bg-border" />
-                <ul className="mt-8 space-y-3 text-sm text-foreground/85">
+                <div className="mt-6 h-px bg-border" />
+                <ul className="mt-6 space-y-2.5 text-sm text-foreground/85">
                   {t.perks.map((p) => (
                     <li key={p} className="flex gap-3"><Check className="h-4 w-4 text-ember shrink-0 mt-0.5" /><span>{p}</span></li>
                   ))}
                 </ul>
-                <Link to="/membership-apply" className={`mt-10 inline-flex w-full justify-center items-center gap-2 px-6 py-3.5 tracking-[0.3em] text-[11px] uppercase transition ${t.featured ? "bg-ember text-bone hover:bg-forest" : "border border-forest text-forest hover:bg-forest hover:text-bone"}`}>
-                  Apply <ArrowRight className="h-4 w-4" />
+                <Link
+                  to={t.observer ? "/contact" : "/membership-apply"}
+                  className={`mt-8 inline-flex w-full justify-center items-center gap-2 px-5 py-3 tracking-[0.3em] text-[10px] uppercase transition ${
+                    t.featured
+                      ? "bg-ember text-bone hover:bg-forest"
+                      : t.observer
+                        ? "border border-accent/60 text-accent hover:bg-accent hover:text-accent-foreground"
+                        : "border border-forest text-forest hover:bg-forest hover:text-bone"
+                  }`}
+                >
+                  {t.cta ?? "Apply"} <ArrowRight className="h-4 w-4" />
                 </Link>
               </div>
             </Reveal>

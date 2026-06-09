@@ -1,22 +1,23 @@
 import { motion } from "framer-motion";
 import { Instagram, ArrowUpRight } from "lucide-react";
 import { Eyebrow } from "@/components/Eyebrow";
-import wildlife from "@/assets/wildlife.jpg";
-import camp from "@/assets/camp.jpg";
-import experience from "@/assets/experience.jpg";
-import hero from "@/assets/hero-savanna.jpg";
+import { photos } from "@/assets/photos";
 
 // Curated still-frames standing in for the live Instagram feed.
 // The carousel links out to the real account: @top_trackers
 const tiles = [
-  { src: experience, alt: "Dawn drive across the steppe" },
-  { src: wildlife, alt: "Cape buffalo at the waterhole" },
-  { src: camp, alt: "Lantern light at base camp" },
-  { src: hero, alt: "Acacia line at golden hour" },
-  { src: experience, alt: "Tracker reading sign" },
-  { src: wildlife, alt: "Leopard rosettes in the thornveld" },
-  { src: camp, alt: "Brass kettle, canvas mess" },
-  { src: hero, alt: "Storm light over the Maasai Steppe" },
+  { src: photos.hunterValley, alt: "Scanning the valley at first light" },
+  { src: photos.lioness, alt: "Lioness and cub on a fallen tree" },
+  { src: photos.campNight, alt: "Lantern light at base camp" },
+  { src: photos.acaciaSunset, alt: "Acacia silhouette at sunset" },
+  { src: photos.elephant, alt: "Elephants gather at the waterhole" },
+  { src: photos.vintageLeopard, alt: "Leopard rosettes in the thornveld" },
+  { src: photos.gearAmmo, alt: "Brass, blue, and walnut on the kit table" },
+  { src: photos.milkyway, alt: "Milky way over the camp" },
+  { src: photos.maasaiJump, alt: "Maasai dancer mid-jump" },
+  { src: photos.kudu, alt: "Greater kudu bull standing tall" },
+  { src: photos.guideJeep, alt: "Guide at the wheel of the cruiser" },
+  { src: photos.bushPlane, alt: "Bush plane on the dirt strip" },
 ];
 
 export function InstagramFeed() {

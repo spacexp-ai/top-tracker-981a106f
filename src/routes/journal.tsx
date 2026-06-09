@@ -5,10 +5,11 @@ import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Reveal } from "@/components/Reveal";
 import { Eyebrow } from "@/components/Eyebrow";
-import wildlife from "@/assets/wildlife.jpg";
-import camp from "@/assets/camp.jpg";
-import experience from "@/assets/experience.jpg";
-import hero from "@/assets/hero-savanna.jpg";
+import { photos } from "@/assets/photos";
+const wildlife = photos.vintageLeopard;
+const camp = photos.campDeck;
+const experience = photos.maasaiVillage;
+const hero = photos.milkyway;
 
 export const Route = createFileRoute("/journal")({
   head: () => ({
