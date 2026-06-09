@@ -1,11 +1,21 @@
 import { Link, useRouter } from "@tanstack/react-router";
-import { Trophy, Users, LeafyGreen, UserCog, LogOut, Menu, X } from "lucide-react";
+import { Trophy, Users, LeafyGreen, UserCog, LogOut, Menu, X, ChevronDown, User, Settings, Image as ImageIcon, Users2 } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { BinocularIcon } from "@/components/icons/BinocularIcon";
 import { WaterproofMapIcon } from "@/components/icons/WaterproofMapIcon";
 import { HuntingBackpackIcon } from "@/components/icons/HuntingBackpackIcon";
 import { HunterBookIcon } from "@/components/icons/HunterBookIcon";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const nav = [
   { to: "/portal", label: "The Campfire", icon: BinocularIcon, exact: true },
@@ -40,9 +50,58 @@ export function PortalShell({ children, title }: { children: ReactNode; title: s
           <button className="lg:hidden p-1" onClick={() => setOpen(!open)}>{open ? <X /> : <Menu />}</button>
           <Link to="/portal" className="font-display text-[#c9a84c] text-lg tracking-wider">◆ TOP TRACKERS</Link>
         </div>
-        <button onClick={signOut} className="text-[10px] tracking-[0.3em] uppercase text-[#a8a8a0] hover:text-[#c9a84c] flex items-center gap-2">
-          <LogOut className="h-4 w-4" /> Sign out
-        </button>
+        
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button className="flex items-center gap-3 hover:bg-[#2d2d2d] py-1 px-2 rounded-md transition-colors outline-none focus:ring-1 focus:ring-[#c9a84c]">
+              <span className="text-sm text-[#f5f5f0] hidden md:block">Tracker</span>
+              <Avatar className="h-8 w-8 border border-[#3d3d3d]">
+                <AvatarImage src="https://i.pravatar.cc/150?u=a042581f4e29026024d" alt="@tracker" />
+                <AvatarFallback>TR</AvatarFallback>
+              </Avatar>
+              <ChevronDown className="h-4 w-4 text-[#a8a8a0]" />
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-56 bg-[#2d2d2d] border-[#3d3d3d] text-[#f5f5f0]" align="end" forceMount>
+            <DropdownMenuLabel className="font-normal">
+              <div className="flex flex-col space-y-1">
+                <p className="text-sm font-medium leading-none text-[#f5f5f0]">Tracker</p>
+                <p className="text-xs leading-none text-[#a8a8a0]">
+                  tracker@toptrackers.com
+                </p>
+              </div>
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator className="bg-[#3d3d3d]" />
+            <DropdownMenuGroup>
+              <DropdownMenuItem className="focus:bg-[#1a1a1a] focus:text-[#c9a84c] cursor-pointer">
+                <User className="mr-2 h-4 w-4" />
+                <span>My Profile</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem className="focus:bg-[#1a1a1a] focus:text-[#c9a84c] cursor-pointer">
+                <ImageIcon className="mr-2 h-4 w-4" />
+                <span>Photos</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem className="focus:bg-[#1a1a1a] focus:text-[#c9a84c] cursor-pointer">
+                <Users2 className="mr-2 h-4 w-4" />
+                <span>Followers</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem className="focus:bg-[#1a1a1a] focus:text-[#c9a84c] cursor-pointer">
+                <Users className="mr-2 h-4 w-4" />
+                <span>Groups</span>
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+            <DropdownMenuSeparator className="bg-[#3d3d3d]" />
+            <DropdownMenuItem className="focus:bg-[#1a1a1a] focus:text-[#c9a84c] cursor-pointer">
+              <Settings className="mr-2 h-4 w-4" />
+              <span>Preferences</span>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator className="bg-[#3d3d3d]" />
+            <DropdownMenuItem onClick={signOut} className="focus:bg-[#1a1a1a] focus:text-[#c9a84c] cursor-pointer">
+              <LogOut className="mr-2 h-4 w-4" />
+              <span>Log Out</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </header>
 
       <div className="flex">
