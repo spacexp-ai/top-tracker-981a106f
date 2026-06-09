@@ -55,3 +55,60 @@ export const saveBooking = createServerFn({ method: "POST" })
     if (error) throw new Error(error.message);
     return row;
   });
+
+// --- MOCK COMMUNITY DATA ---
+const MOCK_PROFILES = [
+  {
+    id: "uuid-1",
+    name: "Alistair Sterling",
+    tier: "Tracker Tier+",
+    joined: "2024-03-12",
+    bio: "Based in London, traveling the world. I believe tracking is the ultimate form of meditation. Seeking the toughest terrain and the oldest bulls.",
+    favorite_quarry: "Cape Buffalo",
+    avatar: "/images/avatar-placeholder.jpg",
+    trophies: [
+      { id: 1, species: "Cape Buffalo", emoji: "🐃", location: "Tanzania", date: "2025-08-14" },
+      { id: 2, species: "Greater Kudu", emoji: "🦌", location: "South Africa", date: "2024-11-02" }
+    ],
+    social: { instagram: "@ast_tracks" }
+  },
+  {
+    id: "uuid-2",
+    name: "Elena Rostova",
+    tier: "Pathfinder Tier",
+    joined: "2025-01-05",
+    bio: "Conservationist and ethical tracker. I focus on older, past-prime males to fund anti-poaching initiatives.",
+    favorite_quarry: "Lion",
+    avatar: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
+    trophies: [
+      { id: 3, species: "Plains Zebra", emoji: "🦓", location: "Namibia", date: "2026-02-10" }
+    ],
+    social: { website: "elenarostova.com" }
+  },
+  {
+    id: "uuid-3",
+    name: "Marcus Vance",
+    tier: "Observer",
+    joined: "2026-05-20",
+    bio: "Getting ready for my first expedition in Tanzania. Looking for advice on optics and boots!",
+    favorite_quarry: "Leopard",
+    avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704d",
+    trophies: [],
+    social: {}
+  }
+];
+
+export const getCommunityDirectory = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async () => {
+    return MOCK_PROFILES;
+  });
+
+export const getCommunityProfile = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((id: string) => z.string().parse(id))
+  .handler(async ({ data: id }) => {
+    const profile = MOCK_PROFILES.find(p => p.id === id);
+    if (!profile) throw new Error("Profile not found");
+    return profile;
+  });
