@@ -1,17 +1,21 @@
 import { Link, useRouter } from "@tanstack/react-router";
-import { LayoutDashboard, Calendar, Trophy, BookOpen, Users, Compass, LeafyGreen, UserCog, LogOut, Menu, X } from "lucide-react";
+import { Trophy, Users, LeafyGreen, UserCog, LogOut, Menu, X } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { BinocularIcon } from "@/components/icons/BinocularIcon";
+import { WaterproofMapIcon } from "@/components/icons/WaterproofMapIcon";
+import { HuntingBackpackIcon } from "@/components/icons/HuntingBackpackIcon";
+import { HunterBookIcon } from "@/components/icons/HunterBookIcon";
 
 const nav = [
-  { to: "/portal", label: "The Campfire", icon: LayoutDashboard, exact: true },
-  { to: "/portal/book", label: "Plan New Hunt", icon: Compass },
-  { to: "/portal/hunts", label: "My Hunts", icon: Calendar },
+  { to: "/portal", label: "The Campfire", icon: BinocularIcon, exact: true },
+  { to: "/portal/book", label: "Plan New Hunt", icon: WaterproofMapIcon },
+  { to: "/portal/hunts", label: "My Hunts", icon: HuntingBackpackIcon },
   { to: "/portal/account", label: "Account", icon: UserCog },
 ];
 const soon = [
   { label: "Trophy Room", icon: Trophy },
-  { label: "Field Journal", icon: BookOpen },
+  { label: "Field Journal", icon: HunterBookIcon },
   { label: "Community", icon: Users },
   { label: "Conservation Score", icon: LeafyGreen },
 ];

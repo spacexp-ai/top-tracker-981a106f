@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
+import { useState, useEffect } from "react";
 import { PortalShell } from "@/components/portal/PortalShell";
 import { getDashboard } from "@/lib/portal.functions";
 import { Calendar, Compass, Trophy, BookOpen, ArrowRight, Wind, Thermometer, Moon, Activity, Map, Briefcase, Flame } from "lucide-react";
@@ -26,7 +27,7 @@ function Dashboard() {
       ) : (
         <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
           <div className="grid gap-5 md:grid-cols-3">
-            <Card title="My Next Hunt" icon={Calendar}>
+            <Card title="My Next Hunt" icon={Calendar} bgImage="/images/hunts-bg.jpg">
               {next ? (
                 <>
                   <div className="font-display text-2xl text-[#c9a84c]">
@@ -61,12 +62,12 @@ function Dashboard() {
               )}
             </Card>
 
-            <LockedCard title="Trophy Room" icon={Trophy} tier={tier}>
+            <LockedCard title="Trophy Room" icon={Trophy} tier={tier} bgImage="/images/buffalo-vintage.jpg">
               <div className="text-3xl font-display text-[#c9a84c]">—</div>
               <div className="text-xs text-[#a8a8a0]">Species recorded</div>
             </LockedCard>
 
-            <LockedCard title="Field Journal" icon={BookOpen} tier={tier}>
+            <LockedCard title="Field Journal" icon={BookOpen} tier={tier} bgImage="/images/gear.jpg">
               <div className="text-sm text-[#f5f5f0]">Q2 2026 — "The Buffalo of Maasai"</div>
               <div className="mt-2 text-xs text-[#a8a8a0]">Latest issue</div>
             </LockedCard>
@@ -75,15 +76,7 @@ function Dashboard() {
           <div className="grid gap-5 md:grid-cols-3 mt-8">
             <div className="md:col-span-2 space-y-8">
               {/* Weather window */}
-              <div className="bg-[#2d2d2d] border border-[#3d3d3d] p-6 hover:border-[#c9a84c]/30 transition duration-300">
-                <div className="text-[10px] tracking-[0.4em] uppercase text-[#c9a84c] mb-3">Upcoming Weather Window — Iringa</div>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                  <Stat icon={Thermometer} label="Temp" value="68–74°F" />
-                  <Stat icon={Wind} label="Wind" value="SE 8–15mph" />
-                  <Stat icon={Moon} label="Moon" value="Waxing gibbous" />
-                  <Stat icon={Activity} label="Hunt score" value="9.2 / 10" />
-                </div>
-              </div>
+              <LiveWeatherWidget />
 
               {/* Quick actions */}
               <div>
@@ -146,25 +139,33 @@ function Dashboard() {
   );
 }
 
-function Card({ title, icon: Icon, children }: { title: string; icon: React.ComponentType<{ className?: string }>; children: React.ReactNode }) {
+function Card({ title, icon: Icon, bgImage, children }: { title: string; icon: React.ComponentType<{ className?: string }>; bgImage?: string; children: React.ReactNode }) {
   return (
-    <div className="bg-[#2d2d2d] border border-[#3d3d3d] p-6 hover:border-[#c9a84c]/60 transition duration-300 shadow-sm">
-      <div className="flex items-center justify-between mb-4">
-        <span className="text-[10px] tracking-[0.4em] uppercase text-[#c9a84c]">{title}</span>
-        <Icon className="h-4 w-4 text-[#c9a84c]" />
+    <div className="relative bg-[#2d2d2d] border border-[#3d3d3d] p-6 hover:border-[#c9a84c]/60 transition duration-300 shadow-sm overflow-hidden group">
+      {bgImage && (
+        <>
+          <div className="absolute inset-0 bg-cover bg-center opacity-20 mix-blend-luminosity group-hover:opacity-30 transition-opacity duration-700" style={{ backgroundImage: `url(${bgImage})` }} />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#2d2d2d] via-[#2d2d2d]/80 to-transparent" />
+        </>
+      )}
+      <div className="relative z-10">
+        <div className="flex items-center justify-between mb-4">
+          <span className="text-[10px] tracking-[0.4em] uppercase text-[#c9a84c]">{title}</span>
+          <Icon className="h-4 w-4 text-[#c9a84c]" />
+        </div>
+        {children}
       </div>
-      {children}
     </div>
   );
 }
 
-function LockedCard({ title, icon, tier, children }: { title: string; icon: React.ComponentType<{ className?: string }>; tier: string; children: React.ReactNode }) {
+function LockedCard({ title, icon, tier, bgImage, children }: { title: string; icon: React.ComponentType<{ className?: string }>; tier: string; bgImage?: string; children: React.ReactNode }) {
   const locked = tier === "observer";
   return (
-    <div className="relative bg-[#2d2d2d] border border-[#3d3d3d] p-6 group">
-      <Card title={title} icon={icon}>{children}</Card>
+    <div className="relative bg-[#2d2d2d] border border-[#3d3d3d] group">
+      <Card title={title} icon={icon} bgImage={bgImage}>{children}</Card>
       {locked && (
-        <div className="absolute inset-0 bg-[#1a1a1a]/85 flex flex-col items-center justify-center text-center px-4 backdrop-blur-[2px] opacity-100 group-hover:bg-[#1a1a1a]/90 transition duration-300">
+        <div className="absolute inset-0 z-20 bg-[#1a1a1a]/85 flex flex-col items-center justify-center text-center px-4 backdrop-blur-[2px] opacity-100 group-hover:bg-[#1a1a1a]/90 transition duration-300">
           <div className="text-[10px] tracking-[0.4em] uppercase text-[#c9a84c]">Tracker tier+</div>
           <Link to="/membership-apply" className="mt-3 px-4 py-2 border border-[#c9a84c] text-[#c9a84c] hover:bg-[#c9a84c] hover:text-[#1a1a1a] text-[10px] tracking-[0.3em] uppercase transition">Upgrade</Link>
         </div>
@@ -192,3 +193,60 @@ function Stat({ icon: Icon, label, value }: { icon: React.ComponentType<{ classN
   );
 }
 
+function LiveWeatherWidget() {
+  const { data, isLoading } = useQuery({
+    queryKey: ["weather", "iringa"],
+    queryFn: async () => {
+      // Iringa coordinates: -7.77, 35.69
+      const res = await fetch("https://api.open-meteo.com/v1/forecast?latitude=-7.77&longitude=35.69&current=temperature_2m,wind_speed_10m,weather_code,is_day&temperature_unit=fahrenheit&wind_speed_unit=mph&timezone=Africa%2FDar_es_Salaam");
+      return res.json();
+    },
+    refetchInterval: 300000,
+  });
+
+  const [time, setTime] = useState(new Date());
+  useEffect(() => {
+    const timer = setInterval(() => setTime(new Date()), 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const tzTime = new Date(time.getTime() + (time.getTimezoneOffset() * 60000) + (3 * 3600000));
+  const timeStr = format(tzTime, "h:mm a");
+
+  const isDay = data?.current?.is_day === 1;
+  const temp = data?.current?.temperature_2m ? Math.round(data.current.temperature_2m) : "--";
+  const wind = data?.current?.wind_speed_10m ? Math.round(data.current.wind_speed_10m) : "--";
+  const code = data?.current?.weather_code ?? 0;
+  
+  const condition = code === 0 ? "Clear" : code < 4 ? "Cloudy" : code < 70 ? "Rain" : "Storm";
+
+  const bgClass = isDay 
+    ? "bg-gradient-to-br from-[#c9a84c]/20 to-[#1a1a1a]" 
+    : "bg-gradient-to-br from-[#1a1a1a] to-[#2d2d2d]";
+
+  return (
+    <div className={`relative border border-[#3d3d3d] p-6 overflow-hidden ${bgClass} transition-colors duration-1000 group`}>
+      {isDay ? (
+         <div className="absolute inset-0 bg-[url('/images/sunset.jpg')] bg-cover bg-center opacity-10 mix-blend-luminosity group-hover:opacity-20 transition-opacity duration-700" />
+      ) : null}
+      
+      <div className="relative z-10">
+        <div className="flex items-center justify-between mb-6">
+          <div className="text-[10px] tracking-[0.4em] uppercase text-[#c9a84c]">Live Weather — Iringa, TZ</div>
+          <div className="text-sm font-mono text-[#f5f5f0]">{timeStr} EAT</div>
+        </div>
+        
+        {isLoading ? (
+          <div className="animate-pulse text-[#a8a8a0] text-sm">Fetching telemetry...</div>
+        ) : (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+            <Stat icon={Thermometer} label="Temp" value={`${temp}°F`} />
+            <Stat icon={Wind} label="Wind" value={`${wind} mph`} />
+            <Stat icon={isDay ? Activity : Moon} label="Conditions" value={condition} />
+            <Stat icon={Activity} label="Hunt score" value={isDay ? "9.4 / 10" : "Night"} />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
