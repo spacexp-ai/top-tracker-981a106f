@@ -405,6 +405,7 @@ function Book() {
               </button>
             )}
           </div>
+        </div>
         )}
       </div>
 
