@@ -125,6 +125,24 @@ export type Database = {
           id: string
           tier: Database["public"]["Enums"]["app_role"]
           updated_at: string
+          bio: string | null
+          favorite_quarry: string | null
+          is_public: boolean | null
+          social_links: Json | null
+          experience_level: string | null
+          preferred_weapon: string | null
+          years_experience: number | null
+          boot_size: string | null
+          apparel_size: string | null
+          dominant_hand: string | null
+          firearm_permit_num: string | null
+          passport_country: string | null
+          passport_num: string | null
+          preferred_camp: string | null
+          primary_interests: string[] | null
+          emergency_name: string | null
+          emergency_phone: string | null
+          dietary: string | null
         }
         Insert: {
           avatar_url?: string | null
@@ -134,6 +152,24 @@ export type Database = {
           id: string
           tier?: Database["public"]["Enums"]["app_role"]
           updated_at?: string
+          bio?: string | null
+          favorite_quarry?: string | null
+          is_public?: boolean | null
+          social_links?: Json | null
+          experience_level?: string | null
+          preferred_weapon?: string | null
+          years_experience?: number | null
+          boot_size?: string | null
+          apparel_size?: string | null
+          dominant_hand?: string | null
+          firearm_permit_num?: string | null
+          passport_country?: string | null
+          passport_num?: string | null
+          preferred_camp?: string | null
+          primary_interests?: string[] | null
+          emergency_name?: string | null
+          emergency_phone?: string | null
+          dietary?: string | null
         }
         Update: {
           avatar_url?: string | null
@@ -143,6 +179,24 @@ export type Database = {
           id?: string
           tier?: Database["public"]["Enums"]["app_role"]
           updated_at?: string
+          bio?: string | null
+          favorite_quarry?: string | null
+          is_public?: boolean | null
+          social_links?: Json | null
+          experience_level?: string | null
+          preferred_weapon?: string | null
+          years_experience?: number | null
+          boot_size?: string | null
+          apparel_size?: string | null
+          dominant_hand?: string | null
+          firearm_permit_num?: string | null
+          passport_country?: string | null
+          passport_num?: string | null
+          preferred_camp?: string | null
+          primary_interests?: string[] | null
+          emergency_name?: string | null
+          emergency_phone?: string | null
+          dietary?: string | null
         }
         Relationships: []
       }
