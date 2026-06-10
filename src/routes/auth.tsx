@@ -15,7 +15,7 @@ export const Route = createFileRoute("/auth")({
 
 function AuthPage() {
   const navigate = useNavigate();
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
+  const [mode, setMode] = useState<"signin" | "signup" | "reset">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -37,7 +37,13 @@ function AuthPage() {
     setError(null);
     setLoading(true);
     try {
-      if (mode === "signup") {
+      if (mode === "reset") {
+        const { error } = await supabase.auth.resetPasswordForEmail(email, {
+          redirectTo: window.location.origin + "/reset-password",
+        });
+        if (error) throw error;
+        setError("If an account exists, a password reset link has been sent.");
+      } else if (mode === "signup") {
         const { error } = await supabase.auth.signUp({
           email,
           password,
@@ -54,7 +60,7 @@ function AuthPage() {
         if (error) throw error;
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Sign-in failed");
+      setError(err instanceof Error ? err.message : "Request failed");
     } finally {
       setLoading(false);
     }
@@ -92,9 +98,11 @@ function AuthPage() {
             ◆ Top Trackers
           </Link>
           <div className="bg-[#2d2d2d] border border-[#3d3d3d] p-8 md:p-10 shadow-2xl">
-            <h1 className="font-display text-3xl text-[#f5f5f0]">Welcome, Tracker</h1>
+            <h1 className="font-display text-3xl text-[#f5f5f0]">
+              {mode === "reset" ? "Reset Password" : "Welcome, Tracker"}
+            </h1>
             <p className="mt-2 text-sm text-[#a8a8a0]">
-              {mode === "signin" ? "Enter the camp." : "Request your seat by the fire."}
+              {mode === "signin" ? "Enter the camp." : mode === "signup" ? "Request your seat by the fire." : "We'll send you a link to get back in."}
             </p>
 
             <form onSubmit={submit} className="mt-6 space-y-4">
@@ -102,7 +110,17 @@ function AuthPage() {
                 <Field label="Display name" value={name} onChange={setName} placeholder="J. Hemingway" />
               )}
               <Field label="Email" type="email" value={email} onChange={setEmail} required placeholder="you@email.com" />
-              <Field label="Password" type="password" value={password} onChange={setPassword} required placeholder="••••••••••••" />
+              
+              {mode !== "reset" && (
+                <div className="relative">
+                  <Field label="Password" type="password" value={password} onChange={setPassword} required placeholder="••••••••••••" />
+                  {mode === "signin" && (
+                    <button type="button" onClick={() => setMode("reset")} className="absolute right-0 top-0 text-[10px] uppercase tracking-widest text-[#c9a84c] hover:text-white">
+                      Forgot?
+                    </button>
+                  )}
+                </div>
+              )}
 
               {error && <p className="text-xs text-[#e8a87c]">{error}</p>}
 
@@ -111,7 +129,7 @@ function AuthPage() {
                 disabled={loading}
                 className="w-full inline-flex items-center justify-center gap-2 bg-[#c9a84c] hover:bg-[#d4b95c] text-[#1a1a1a] tracking-[0.3em] text-[11px] uppercase font-semibold py-3.5 transition disabled:opacity-60"
               >
-                {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : (mode === "signin" ? "Enter the camp" : "Request access")}
+                {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : mode === "signin" ? "Enter the camp" : mode === "signup" ? "Request access" : "Send reset link"}
               </button>
             </form>
 
@@ -126,11 +144,19 @@ function AuthPage() {
               <GoogleGlyph /> Continue with Google
             </button>
 
-            <div className="mt-6 flex items-center justify-between text-[11px] text-[#a8a8a0]">
-              <button onClick={() => setMode(mode === "signin" ? "signup" : "signin")} className="hover:text-[#c9a84c]">
-                {mode === "signin" ? "Request Observer Pass" : "Have an account? Sign in"}
-              </button>
-              <Link to="/membership-apply" className="hover:text-[#c9a84c]">Apply for membership</Link>
+            <div className="mt-6 flex flex-col gap-3 text-[11px] text-[#a8a8a0] items-center">
+              {mode !== "signin" ? (
+                <button type="button" onClick={() => setMode("signin")} className="hover:text-[#c9a84c]">
+                  Back to Sign In
+                </button>
+              ) : (
+                <div className="w-full flex justify-between">
+                  <button type="button" onClick={() => setMode("signup")} className="hover:text-[#c9a84c]">
+                    Request Observer Pass
+                  </button>
+                  <Link to="/membership-apply" className="hover:text-[#c9a84c]">Apply for membership</Link>
+                </div>
+              )}
             </div>
           </div>
           <p className="mt-6 text-center text-[10px] tracking-[0.3em] uppercase text-[#a8a8a0]">
