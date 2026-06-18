@@ -1,6 +1,6 @@
 import { Link, useRouter } from "@tanstack/react-router";
 import { Trophy, Users, LeafyGreen, UserCog, LogOut, Menu, X, ChevronDown, User, Settings, Image as ImageIcon, Users2, LayoutGrid } from "lucide-react";
-import { useState, type ReactNode } from "react";
+import { useState, useEffect, type ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
@@ -44,6 +44,21 @@ export function PortalShell({ children, title }: { children: ReactNode; title: s
   });
   const isAdmin = data?.roles?.some((r) => r.role === "admin") ?? false;
 
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (user) {
+        setUserEmail(user.email ?? null);
+        console.log("PortalShell: Authenticated user email =", user.email, "id =", user.id);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    console.log("PortalShell: Roles data =", data?.roles);
+  }, [data]);
+
   async function signOut() {
     await supabase.auth.signOut();
     router.navigate({ to: "/auth" });
@@ -64,9 +79,11 @@ export function PortalShell({ children, title }: { children: ReactNode; title: s
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button className="flex items-center gap-3 hover:bg-[#2d2d2d] py-1 px-2 rounded-md transition-colors outline-none focus:ring-1 focus:ring-[#c9a84c]">
-              <span className="text-sm text-[#f5f5f0] hidden md:block">Tracker</span>
+              <span className="text-sm text-[#f5f5f0] hidden md:block">
+                {data?.profile?.display_name || userEmail?.split("@")[0] || "Tracker"}
+              </span>
               <Avatar className="h-8 w-8 border border-[#3d3d3d]">
-                <AvatarImage src="https://i.pravatar.cc/150?u=a042581f4e29026024d" alt="@tracker" />
+                <AvatarImage src={data?.profile?.avatar_url || "https://i.pravatar.cc/150?u=a042581f4e29026024d"} alt="@tracker" />
                 <AvatarFallback>TR</AvatarFallback>
               </Avatar>
               <ChevronDown className="h-4 w-4 text-[#a8a8a0]" />
@@ -75,10 +92,17 @@ export function PortalShell({ children, title }: { children: ReactNode; title: s
           <DropdownMenuContent className="w-56 bg-[#2d2d2d] border-[#3d3d3d] text-[#f5f5f0]" align="end" forceMount>
             <DropdownMenuLabel className="font-normal">
               <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium leading-none text-[#f5f5f0]">Tracker</p>
-                <p className="text-xs leading-none text-[#a8a8a0]">
-                  tracker@toptrackers.com
+                <p className="text-sm font-medium leading-none text-[#f5f5f0]">
+                  {data?.profile?.display_name || "Tracker"}
                 </p>
+                <p className="text-xs leading-none text-[#a8a8a0]">
+                  {userEmail || "loading email..."}
+                </p>
+                {data?.roles && data.roles.length > 0 && (
+                  <p className="text-[10px] text-[#c9a84c] font-mono mt-1">
+                    Role: {data.roles.map((r: any) => r.role).join(", ")}
+                  </p>
+                )}
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator className="bg-[#3d3d3d]" />
