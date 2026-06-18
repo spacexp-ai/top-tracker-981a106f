@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/_authenticated/portal/cms")({
+export const Route = createFileRoute("/_authenticated/cms")({
   head: () => ({ meta: [{ title: "Site CMS — Top Trackers" }] }),
   component: SiteCMS,
 });

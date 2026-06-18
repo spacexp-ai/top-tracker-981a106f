@@ -173,7 +173,7 @@ export function PortalShell({ children, title }: { children: ReactNode; title: s
             ))}
             {isAdmin && (
               <Link
-                to="/portal/cms"
+                to="/cms"
                 onClick={() => setOpen(false)}
                 className="flex items-center gap-3 px-3 py-2.5 text-sm text-[#a8a8a0] hover:text-[#f5f5f0] hover:bg-[#1a1a1a] border-l-2 border-transparent transition"
                 activeProps={{ className: "flex items-center gap-3 px-3 py-2.5 text-sm text-[#c9a84c] bg-[#1a1a1a] border-l-2 border-[#c9a84c]" }}
