@@ -11,7 +11,16 @@ export const getDashboard = createServerFn({ method: "GET" })
       supabase.from("user_roles").select("role").eq("user_id", userId),
       supabase.from("bookings").select("*, species(name,emoji), professional_hunters(name)").eq("user_id", userId).order("updated_at", { ascending: false }).limit(10),
     ]);
-    return { profile, roles: roles ?? [], bookings: bookings ?? [] };
+    return { 
+      profile, 
+      roles: roles ?? [], 
+      bookings: bookings ?? [],
+      debug: {
+        url: process.env.SUPABASE_URL || "not set",
+        userId,
+        projectId: process.env.SUPABASE_PROJECT_ID || "not set"
+      }
+    };
   });
 
 export const getCatalog = createServerFn({ method: "GET" })

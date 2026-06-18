@@ -103,6 +103,13 @@ export function PortalShell({ children, title }: { children: ReactNode; title: s
                     Role: {data.roles.map((r: any) => r.role).join(", ")}
                   </p>
                 )}
+                {data?.debug && (
+                  <div className="mt-2 pt-2 border-t border-[#3d3d3d] text-[9px] text-[#a8a8a0] font-mono space-y-0.5">
+                    <p className="truncate">URL: {data.debug.url}</p>
+                    <p className="truncate">ID: {data.debug.userId}</p>
+                    <p className="truncate">Proj: {data.debug.projectId}</p>
+                  </div>
+                )}
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator className="bg-[#3d3d3d]" />
