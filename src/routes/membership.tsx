@@ -5,107 +5,105 @@ import { Reveal } from "@/components/Reveal";
 import { Eyebrow } from "@/components/Eyebrow";
 import { ArrowRight, Check, Crown } from "lucide-react";
 import { photos } from "@/assets/photos";
-const wildlife = photos.dinner;
+import { useSiteContent, resolveImage } from "@/hooks/useSiteContent";
 
 export const Route = createFileRoute("/membership")({
   head: () => ({
     meta: [
       { title: "Hunting Club — Top Trackers" },
       { name: "description", content: "Three tiers of belonging in Top Trackers' invitation-only African hunting club. Tracker, Professional Hunter, and Legacy." },
-      { property: "og:title", content: "Hunting Club — Top Trackers" },
-      { property: "og:description", content: "An invitation-only African hunting club with three tiers of belonging." },
     ],
   }),
   component: Membership,
 });
 
-type Tier = {
-  name: string;
-  price: string;
-  per: string;
-  tag: string;
-  perks: string[];
-  featured?: boolean;
-  observer?: boolean;
-  cta?: string;
-};
-
-const tiers: Tier[] = [
-  {
-    name: "Observer Pass",
-    price: "Free",
-    per: "guest",
-    tag: "Walk in, no rifle",
-    observer: true,
-    perks: [
-      "For guests, photographers, companions",
-      "Experience camp, bush, and story — no rifle",
-      "Full-board tented accommodation",
-      "Shared camp activities at the long table",
-      "Non-hunting concession access with a guide",
-    ],
-    cta: "Request Observer Pass",
-  },
-  {
-    name: "Tracker",
-    price: "$2,400",
-    per: "annual",
-    tag: "Begin the trail",
-    perks: [
-      "Private members' digital circle",
-      "Quarterly field journal in print",
-      "Early access to dated hunts & camps",
-      "Two annual camp-table invitations",
-      "10% guest rate on standard expeditions",
-    ],
-  },
-  {
-    name: "Professional Hunter",
-    price: "$7,800",
-    per: "annual",
-    tag: "The trackers' tracker",
-    featured: true,
-    perks: [
-      "Everything in Tracker",
-      "Two reserved hunt windows / year",
-      "Personal PH pairing for life",
-      "Trophy concierge & worldwide shipment",
-      "Off-season private camp residency",
-      "Annual members' driven hunt weekend",
-    ],
-  },
-  {
-    name: "Legacy",
-    price: "By invitation",
-    per: "lifetime",
-    tag: "The longest measure",
-    perks: [
-      "Everything in Professional Hunter",
-      "Concession-naming rights",
-      "Lifetime tented residence at Esilalei",
-      "Seat on the conservation board",
-      "Private charter game flights",
-      "Family heir transferability",
-    ],
-  },
-];
-
 function Membership() {
+  const { data: content } = useSiteContent();
+
+  const getContent = (key: string, fallback: string) => {
+    return content?.[key] ?? fallback;
+  };
+
+  const wildlifeImage = resolveImage(getContent("membership.hero.image", "dinner"));
+  const gearKitImage = resolveImage(getContent("membership.portal.image", "gearKit"));
+
+  const tiers = [
+    {
+      name: getContent("membership.tier.1.name", "Observer Pass"),
+      price: getContent("membership.tier.1.price", "Free"),
+      per: getContent("membership.tier.1.per", "guest"),
+      tag: getContent("membership.tier.1.tag", "Walk in, no rifle"),
+      observer: true,
+      perks: [
+        getContent("membership.tier.1.perk_1", "For guests, photographers, companions"),
+        getContent("membership.tier.1.perk_2", "Experience camp, bush, and story — no rifle"),
+        getContent("membership.tier.1.perk_3", "Full-board tented accommodation"),
+        getContent("membership.tier.1.perk_4", "Shared camp activities at the long table"),
+        getContent("membership.tier.1.perk_5", "Non-hunting concession access with a guide"),
+      ],
+      cta: getContent("membership.tier.1.cta", "Request Observer Pass"),
+    },
+    {
+      name: getContent("membership.tier.2.name", "Tracker"),
+      price: getContent("membership.tier.2.price", "$2,400"),
+      per: getContent("membership.tier.2.per", "annual"),
+      tag: getContent("membership.tier.2.tag", "Begin the trail"),
+      perks: [
+        getContent("membership.tier.2.perk_1", "Private members' digital circle"),
+        getContent("membership.tier.2.perk_2", "Quarterly field journal in print"),
+        getContent("membership.tier.2.perk_3", "Early access to dated hunts & camps"),
+        getContent("membership.tier.2.perk_4", "Two annual camp-table invitations"),
+        getContent("membership.tier.2.perk_5", "10% guest rate on standard expeditions"),
+      ],
+    },
+    {
+      name: getContent("membership.tier.3.name", "Professional Hunter"),
+      price: getContent("membership.tier.3.price", "$7,800"),
+      per: getContent("membership.tier.3.per", "annual"),
+      tag: getContent("membership.tier.3.tag", "The trackers' tracker"),
+      featured: true,
+      perks: [
+        getContent("membership.tier.3.perk_1", "Everything in Tracker"),
+        getContent("membership.tier.3.perk_2", "Two reserved hunt windows / year"),
+        getContent("membership.tier.3.perk_3", "Personal PH pairing for life"),
+        getContent("membership.tier.3.perk_4", "Trophy concierge & worldwide shipment"),
+        getContent("membership.tier.3.perk_5", "Off-season private camp residency"),
+        getContent("membership.tier.3.perk_6", "Annual members' driven hunt weekend"),
+      ],
+    },
+    {
+      name: getContent("membership.tier.4.name", "Legacy"),
+      price: getContent("membership.tier.4.price", "By invitation"),
+      per: getContent("membership.tier.4.per", "lifetime"),
+      tag: getContent("membership.tier.4.tag", "The longest measure"),
+      perks: [
+        getContent("membership.tier.4.perk_1", "Everything in Professional Hunter"),
+        getContent("membership.tier.4.perk_2", "Concession-naming rights"),
+        getContent("membership.tier.4.perk_3", "Lifetime tented residence at Esilalei"),
+        getContent("membership.tier.4.perk_4", "Seat on the conservation board"),
+        getContent("membership.tier.4.perk_5", "Private charter game flights"),
+        getContent("membership.tier.4.perk_6", "Family heir transferability"),
+      ],
+    },
+  ];
+
   return (
     <div className="min-h-screen bg-background">
       <SiteNav />
 
       <section className="relative h-[60svh] bg-ink overflow-hidden">
-        <img src={wildlife} alt="" width={1400} height={1600} className="absolute inset-0 w-full h-full object-cover opacity-50" />
+        <img src={wildlifeImage} alt="Membership banner" width={1400} height={1600} className="absolute inset-0 w-full h-full object-cover opacity-50" />
         <div className="absolute inset-0 bg-gradient-to-b from-ink/40 via-ink/40 to-ink" />
         <div className="relative h-full flex flex-col items-center justify-center text-center px-6 text-bone">
-          <Eyebrow light>The Hunting Club</Eyebrow>
-          <h1 className="mt-6 font-display text-5xl md:text-8xl max-w-5xl leading-[0.95]">
-            The Hunting Club.
+          <Eyebrow light>{getContent("membership.hero.eyebrow", "The Hunting Club")}</Eyebrow>
+          <h1 className="mt-6 font-display text-5xl md:text-8xl max-w-5xl leading-[0.95] text-bone">
+            {getContent("membership.hero.title", "The Hunting Club.")}
           </h1>
           <p className="mt-8 font-serif text-xl text-bone/80 max-w-2xl leading-relaxed">
-            Four tiers of belonging. For non-hunting guests, companions, and photographers, we offer the <span className="text-accent italic">Observer Pass</span> — allowing full access to camp life and guided non-hunting activities.
-            For hunters, our tiers range from Tracker to Legacy, each opening doors deeper into the bush, the camp, and the community.
+            {getContent(
+              "membership.hero.body",
+              "Four tiers of belonging. For non-hunting guests, companions, and photographers, we offer the Observer Pass — allowing full access to camp life and guided non-hunting activities. For hunters, our tiers range from Tracker to Legacy, each opening doors deeper into the bush, the camp, and the community."
+            )}
           </p>
         </div>
       </section>
@@ -158,8 +156,10 @@ function Membership() {
         <div className="mx-auto max-w-3xl px-6 text-center mt-24">
           <Reveal>
             <p className="font-serif italic text-2xl text-foreground/70">
-              All memberships are reviewed by the club's founding circle. We keep numbers small on purpose —
-              the camp table is only so long.
+              {getContent(
+                "membership.quote.text",
+                "All memberships are reviewed by the club's founding circle. We keep numbers small on purpose — the camp table is only so long."
+              )}
             </p>
           </Reveal>
         </div>
@@ -171,10 +171,17 @@ function Membership() {
           <div className="border border-accent/20 bg-ink text-bone overflow-hidden flex flex-col md:flex-row">
             <div className="p-8 md:p-16 flex-1 flex flex-col justify-center">
               <Reveal>
-                <p className="text-[10px] tracking-[0.3em] uppercase text-accent mb-4">Digital Access</p>
-                <h2 className="font-display text-4xl text-bone mb-6">The Membership Portal.</h2>
+                <p className="text-[10px] tracking-[0.3em] uppercase text-accent mb-4">
+                  {getContent("membership.portal.eyebrow", "Digital Access")}
+                </p>
+                <h2 className="font-display text-4xl text-bone mb-6">
+                  {getContent("membership.portal.title", "The Membership Portal.")}
+                </h2>
                 <p className="font-serif text-lg text-bone/70 leading-relaxed mb-8">
-                  Your private gateway to the Top Trackers experience. Through the portal, members can review and reserve dates for upcoming expeditions, view their digital field journals, track trophy shipments, and communicate directly with their paired Professional Hunter.
+                  {getContent(
+                    "membership.portal.body",
+                    "Your private gateway to the Top Trackers experience. Through the portal, members can review and reserve dates for upcoming expeditions, view their digital field journals, track trophy shipments, and communicate directly with their paired Professional Hunter."
+                  )}
                 </p>
                 
                 <div className="space-y-6 mb-12">
@@ -183,8 +190,8 @@ function Membership() {
                       <div className="h-2 w-2 rounded-full bg-ember" />
                     </div>
                     <div>
-                      <h4 className="font-display text-xl text-bone">Expedition Management</h4>
-                      <p className="font-serif text-sm text-bone/60 mt-1">Reserve windows, view itineraries, and manage logistics.</p>
+                      <h4 className="font-display text-xl text-bone">{getContent("membership.portal.feature_1.title", "Expedition Management")}</h4>
+                      <p className="font-serif text-sm text-bone/60 mt-1">{getContent("membership.portal.feature_1.body", "Reserve windows, view itineraries, and manage logistics.")}</p>
                     </div>
                   </div>
                   <div className="flex gap-4">
@@ -192,8 +199,8 @@ function Membership() {
                       <div className="h-2 w-2 rounded-full bg-ember" />
                     </div>
                     <div>
-                      <h4 className="font-display text-xl text-bone">Digital Field Journals</h4>
-                      <p className="font-serif text-sm text-bone/60 mt-1">Private logs of your hunts, photographs, and PH notes.</p>
+                      <h4 className="font-display text-xl text-bone">{getContent("membership.portal.feature_2.title", "Digital Field Journals")}</h4>
+                      <p className="font-serif text-sm text-bone/60 mt-1">{getContent("membership.portal.feature_2.body", "Private logs of your hunts, photographs, and PH notes.")}</p>
                     </div>
                   </div>
                   <div className="flex gap-4">
@@ -201,8 +208,8 @@ function Membership() {
                       <div className="h-2 w-2 rounded-full bg-ember" />
                     </div>
                     <div>
-                      <h4 className="font-display text-xl text-bone">Trophy Tracking</h4>
-                      <p className="font-serif text-sm text-bone/60 mt-1">Real-time status of field preparation, CITES, and shipping.</p>
+                      <h4 className="font-display text-xl text-bone">{getContent("membership.portal.feature_3.title", "Trophy Tracking")}</h4>
+                      <p className="font-serif text-sm text-bone/60 mt-1">{getContent("membership.portal.feature_3.body", "Real-time status of field preparation, CITES, and shipping.")}</p>
                     </div>
                   </div>
                 </div>
@@ -218,7 +225,7 @@ function Membership() {
               </Reveal>
             </div>
             <div className="w-full md:w-5/12 bg-card relative min-h-[400px]">
-              <img src={photos.gearKit} alt="Membership Portal" className="absolute inset-0 w-full h-full object-cover opacity-90" />
+              <img src={gearKitImage} alt="Membership Portal" className="absolute inset-0 w-full h-full object-cover opacity-90" />
             </div>
           </div>
         </div>

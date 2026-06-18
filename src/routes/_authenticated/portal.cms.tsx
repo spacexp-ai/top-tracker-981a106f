@@ -8,8 +8,8 @@ import { useSiteContent, useSaveSiteContent, resolveImage } from "@/hooks/useSit
 import { supabase } from "@/integrations/supabase/client";
 import { photos } from "@/assets/photos";
 import { 
-  Loader2, Save, FileText, Image as ImageIcon, Video, Compass, 
-  Quote, HelpCircle, Eye, AlertCircle, UploadCloud
+  Loader2, Save, FileText, Image as ImageIcon, Compass, 
+  Quote, HelpCircle, Eye, AlertCircle, UploadCloud, ChevronRight
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -18,7 +18,7 @@ export const Route = createFileRoute("/_authenticated/portal/cms")({
   component: SiteCMS,
 });
 
-type TabType = "hero" | "intro" | "pillars" | "experience" | "camp" | "quotes";
+type CategoryType = "home" | "core" | "services" | "policies";
 
 function SiteCMS() {
   const fn = useServerFn(getDashboard);
@@ -30,11 +30,20 @@ function SiteCMS() {
   const { data: content, isLoading: isContentLoading } = useSiteContent();
   const saveMutation = useSaveSiteContent();
 
-  const [activeTab, setActiveTab] = useState<TabType>("hero");
+  const [activeCategory, setActiveCategory] = useState<CategoryType>("home");
+  const [activeSubTab, setActiveSubTab] = useState<string>("general");
   const [formData, setFormData] = useState<Record<string, string>>({});
   const [isUploading, setIsUploading] = useState<Record<string, boolean>>({});
 
-  // Populate local form state when database content loads
+  // Reset subtab when category changes
+  useEffect(() => {
+    if (activeCategory === "home") setActiveSubTab("general");
+    else if (activeCategory === "core") setActiveSubTab("ourstory");
+    else if (activeCategory === "services") setActiveSubTab("experience");
+    else if (activeCategory === "policies") setActiveSubTab("faqs");
+  }, [activeCategory]);
+
+  // Hydrate local state when DB content loads
   useEffect(() => {
     if (content) {
       setFormData(content);
@@ -54,7 +63,6 @@ function SiteCMS() {
       const fileName = `${Math.random().toString(36).substring(2, 15)}_${Date.now()}.${fileExt}`;
       const filePath = `cms/${fileName}`;
 
-      // Upload file to Supabase storage bucket 'site-assets'
       const { data, error } = await supabase.storage
         .from("site-assets")
         .upload(filePath, file, {
@@ -64,7 +72,6 @@ function SiteCMS() {
 
       if (error) throw error;
 
-      // Get public URL
       const { data: urlData } = supabase.storage
         .from("site-assets")
         .getPublicUrl(filePath);
@@ -75,7 +82,7 @@ function SiteCMS() {
       toast.success("File uploaded successfully.");
     } catch (err: any) {
       console.error(err);
-      toast.error(err.message || "Upload failed. Verify storage bucket is created and policies are configured.");
+      toast.error(err.message || "Upload failed. Make sure the storage bucket exists.");
     } finally {
       setIsUploading((prev) => ({ ...prev, [key]: false }));
     }
@@ -83,17 +90,16 @@ function SiteCMS() {
 
   const saveChanges = async () => {
     try {
-      // Map formData record back to list of { key, value }
       const items = Object.entries(formData).map(([k, v]) => ({
         key: k,
         value: v,
       }));
 
       await saveMutation.mutateAsync(items);
-      toast.success("Website content saved successfully.");
+      toast.success("All modifications successfully saved to database.");
     } catch (err: any) {
       console.error(err);
-      toast.error("Failed to save site content: " + err.message);
+      toast.error("Failed to save changes: " + err.message);
     }
   };
 
@@ -107,7 +113,6 @@ function SiteCMS() {
     );
   }
 
-  // Access Denied Screen for non-admins
   if (!isAdmin) {
     return (
       <PortalShell title="Access Denied">
@@ -135,456 +140,396 @@ function SiteCMS() {
   const localPhotoOptions = Object.keys(photos);
 
   return (
-    <PortalShell title="Campfire CMS">
+    <PortalShell title="Site Content CMS">
       <div className="max-w-5xl space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
         
-        {/* Intro description */}
-        <div className="bg-[#2d2d2d] border border-[#3d3d3d] p-6 text-sm text-[#a8a8a0] leading-relaxed flex items-center gap-4">
-          <FileText className="h-8 w-8 text-[#c9a84c] shrink-0" />
-          <div>
-            <span className="font-semibold text-[#f5f5f0]">Section Editor</span>: Update website descriptions, titles, backgrounds, and video telemetry. Revert to system defaults by leaving inputs blank, or upload new files to customize the safari experience.
-          </div>
-        </div>
-
-        {/* CMS Tabs switcher */}
+        {/* Navigation Category Header */}
         <div className="flex flex-wrap gap-2 border-b border-[#3d3d3d] pb-px">
           {(
             [
-              { id: "hero", label: "Hero Banner" },
-              { id: "intro", label: "Welcome Intro" },
-              { id: "pillars", label: "Three Pillars" },
-              { id: "experience", label: "The Experience" },
-              { id: "camp", label: "Base Camp" },
-              { id: "quotes", label: "Quotes & CTA" },
+              { id: "home", label: "Home Page" },
+              { id: "core", label: "Core Pages" },
+              { id: "services", label: "Services & Concessions" },
+              { id: "policies", label: "FAQs & Legal Policies" },
             ] as const
-          ).map((tab) => (
+          ).map((cat) => (
             <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
+              key={cat.id}
+              onClick={() => setActiveCategory(cat.id)}
               className={`px-5 py-3 text-xs tracking-[0.2em] uppercase transition border-b-2 font-medium ${
-                activeTab === tab.id
-                  ? "border-[#c9a84c] text-[#c9a84c]"
+                activeCategory === cat.id
+                  ? "border-[#c9a84c] text-[#c9a84c] bg-[#2d2d2d]/30"
                   : "border-transparent text-[#a8a8a0] hover:text-[#f5f5f0]"
               }`}
             >
-              {tab.label}
+              {cat.label}
             </button>
           ))}
         </div>
 
-        {/* Tab contents */}
-        <div className="space-y-6">
-          {activeTab === "hero" && (
-            <div className="bg-[#2d2d2d] border border-[#3d3d3d] p-8 space-y-6">
-              <h3 className="text-[10px] tracking-[0.4em] uppercase text-[#c9a84c] border-b border-[#3d3d3d] pb-3 mb-6">Hero Banner Configuration</h3>
-              
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-[10px] tracking-[0.3em] uppercase text-[#a8a8a0] mb-2">Italic Title Prefix</label>
-                  <input
-                    value={defaultVal("home.hero.title_italic", "Welcome")}
-                    onChange={(e) => handleTextChange("home.hero.title_italic", e.target.value)}
-                    className="w-full bg-[#1a1a1a] border border-[#3d3d3d] focus:border-[#c9a84c] focus:outline-none px-4 py-3 text-sm text-[#f5f5f0] transition-colors"
-                  />
-                </div>
-                <div>
-                  <label className="block text-[10px] tracking-[0.3em] uppercase text-[#a8a8a0] mb-2">Plain Title Suffix</label>
-                  <input
-                    value={defaultVal("home.hero.title_plain", ".")}
-                    onChange={(e) => handleTextChange("home.hero.title_plain", e.target.value)}
-                    className="w-full bg-[#1a1a1a] border border-[#3d3d3d] focus:border-[#c9a84c] focus:outline-none px-4 py-3 text-sm text-[#f5f5f0] transition-colors"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-[10px] tracking-[0.3em] uppercase text-[#a8a8a0] mb-2">Concession Subtitle</label>
-                <input
-                  value={defaultVal("home.hero.subtitle", "In the heart of Tanzania")}
-                  onChange={(e) => handleTextChange("home.hero.subtitle", e.target.value)}
-                  className="w-full bg-[#1a1a1a] border border-[#3d3d3d] focus:border-[#c9a84c] focus:outline-none px-4 py-3 text-sm text-[#f5f5f0] transition-colors"
-                />
-              </div>
-
-              <div>
-                <label className="block text-[10px] tracking-[0.3em] uppercase text-[#a8a8a0] mb-2">Hero Description</label>
-                <textarea
-                  value={defaultVal("home.hero.description", "To Africa's premier hunting club — where the chase is shaped by patience, craft, and respect.")}
-                  onChange={(e) => handleTextChange("home.hero.description", e.target.value)}
-                  rows={3}
-                  className="w-full bg-[#1a1a1a] border border-[#3d3d3d] focus:border-[#c9a84c] focus:outline-none px-4 py-3 text-sm text-[#f5f5f0] resize-none transition-colors"
-                />
-              </div>
-
-              {/* Media Settings */}
-              <div className="border-t border-[#3d3d3d] pt-6 grid md:grid-cols-2 gap-6">
-                <MediaInput
-                  label="Hero Video URL"
-                  value={defaultVal("home.hero.video_url", "/media/hero-intro.mp4")}
-                  onChange={(val) => handleTextChange("home.hero.video_url", val)}
-                  onUpload={(file) => handleFileUpload("home.hero.video_url", file)}
-                  isUploading={isUploading["home.hero.video_url"]}
-                  placeholder="/media/hero-intro.mp4"
-                />
-
-                <MediaInput
-                  label="Hero Video Poster (Image)"
-                  value={defaultVal("home.hero.poster_url", "acaciaSunset")}
-                  onChange={(val) => handleTextChange("home.hero.poster_url", val)}
-                  onUpload={(file) => handleFileUpload("home.hero.poster_url", file)}
-                  isUploading={isUploading["home.hero.poster_url"]}
-                  localPhotos={localPhotoOptions}
-                  placeholder="e.g. acaciaSunset"
-                />
-              </div>
-            </div>
+        {/* Sub-tab selection menu */}
+        <div className="flex flex-wrap gap-2 bg-[#2d2d2d] border border-[#3d3d3d] p-2 text-xs">
+          {activeCategory === "home" && (
+            <>
+              <SubTabBtn id="general" label="General Banner" active={activeSubTab} set={setActiveSubTab} />
+              <SubTabBtn id="basecamp" label="Base Camp" active={activeSubTab} set={setActiveSubTab} />
+              <SubTabBtn id="pillars" label="Pillars" active={activeSubTab} set={setActiveSubTab} />
+            </>
           )}
-
-          {activeTab === "intro" && (
-            <div className="bg-[#2d2d2d] border border-[#3d3d3d] p-8 space-y-6">
-              <h3 className="text-[10px] tracking-[0.4em] uppercase text-[#c9a84c] border-b border-[#3d3d3d] pb-3 mb-6">Welcome Intro Section</h3>
-              
-              <div>
-                <label className="block text-[10px] tracking-[0.3em] uppercase text-[#a8a8a0] mb-2">Eyebrow</label>
-                <input
-                  value={defaultVal("home.intro.eyebrow", "Welcome, Tracker")}
-                  onChange={(e) => handleTextChange("home.intro.eyebrow", e.target.value)}
-                  className="w-full bg-[#1a1a1a] border border-[#3d3d3d] focus:border-[#c9a84c] focus:outline-none px-4 py-3 text-sm text-[#f5f5f0] transition-colors"
-                />
-              </div>
-
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-[10px] tracking-[0.3em] uppercase text-[#a8a8a0] mb-2">Title Line 1</label>
-                  <input
-                    value={defaultVal("home.intro.title_line1", "More than a hunt.")}
-                    onChange={(e) => handleTextChange("home.intro.title_line1", e.target.value)}
-                    className="w-full bg-[#1a1a1a] border border-[#3d3d3d] focus:border-[#c9a84c] focus:outline-none px-4 py-3 text-sm text-[#f5f5f0] transition-colors"
-                  />
-                </div>
-                <div>
-                  <label className="block text-[10px] tracking-[0.3em] uppercase text-[#a8a8a0] mb-2">Title Line 2 (Italic)</label>
-                  <input
-                    value={defaultVal("home.intro.title_line2", "A legacy.")}
-                    onChange={(e) => handleTextChange("home.intro.title_line2", e.target.value)}
-                    className="w-full bg-[#1a1a1a] border border-[#3d3d3d] focus:border-[#c9a84c] focus:outline-none px-4 py-3 text-sm text-[#f5f5f0] transition-colors"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-[10px] tracking-[0.3em] uppercase text-[#a8a8a0] mb-2">Intro Body Copy</label>
-                <textarea
-                  value={defaultVal(
-                    "home.intro.body",
-                    "Top Trackers is more than a hunting club. We are the meeting ground for a community of passionate hunters, conservationists, and wilderness enthusiasts — whether you are a seasoned safari veteran or preparing for your first African expedition."
-                  )}
-                  onChange={(e) => handleTextChange("home.intro.body", e.target.value)}
-                  rows={4}
-                  className="w-full bg-[#1a1a1a] border border-[#3d3d3d] focus:border-[#c9a84c] focus:outline-none px-4 py-3 text-sm text-[#f5f5f0] resize-none transition-colors"
-                />
-              </div>
-            </div>
+          {activeCategory === "core" && (
+            <>
+              <SubTabBtn id="ourstory" label="Our Story" active={activeSubTab} set={setActiveSubTab} />
+              <SubTabBtn id="partners" label="Partners" active={activeSubTab} set={setActiveSubTab} />
+              <SubTabBtn id="gallery" label="Gallery" active={activeSubTab} set={setActiveSubTab} />
+              <SubTabBtn id="contact" label="Contact Office" active={activeSubTab} set={setActiveSubTab} />
+            </>
           )}
-
-          {activeTab === "pillars" && (
-            <div className="bg-[#2d2d2d] border border-[#3d3d3d] p-8 space-y-6">
-              <h3 className="text-[10px] tracking-[0.4em] uppercase text-[#c9a84c] border-b border-[#3d3d3d] pb-3 mb-6">Three Pillars</h3>
-              
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-[10px] tracking-[0.3em] uppercase text-[#a8a8a0] mb-2">Pillar Eyebrow</label>
-                  <input
-                    value={defaultVal("home.pillars.eyebrow", "Three pillars")}
-                    onChange={(e) => handleTextChange("home.pillars.eyebrow", e.target.value)}
-                    className="w-full bg-[#1a1a1a] border border-[#3d3d3d] focus:border-[#c9a84c] focus:outline-none px-4 py-3 text-sm text-[#f5f5f0] transition-colors"
-                  />
-                </div>
-                <div>
-                  <label className="block text-[10px] tracking-[0.3em] uppercase text-[#a8a8a0] mb-2">Pillar Section Title</label>
-                  <input
-                    value={defaultVal("home.pillars.title", "The Top Tracker's way.")}
-                    onChange={(e) => handleTextChange("home.pillars.title", e.target.value)}
-                    className="w-full bg-[#1a1a1a] border border-[#3d3d3d] focus:border-[#c9a84c] focus:outline-none px-4 py-3 text-sm text-[#f5f5f0] transition-colors"
-                  />
-                </div>
-              </div>
-
-              {/* The 3 Columns */}
-              <div className="grid md:grid-cols-3 gap-6 pt-6 border-t border-[#3d3d3d]">
-                {/* Pillar 1 */}
-                <div className="space-y-4">
-                  <div className="text-xs text-[#c9a84c] font-medium uppercase font-mono">Pillar 1</div>
-                  <div>
-                    <label className="block text-[9px] tracking-[0.3em] uppercase text-[#a8a8a0] mb-1">Title</label>
-                    <input
-                      value={defaultVal("home.pillars.1.title", "Patience")}
-                      onChange={(e) => handleTextChange("home.pillars.1.title", e.target.value)}
-                      className="w-full bg-[#1a1a1a] border border-[#3d3d3d] focus:border-[#c9a84c] px-3 py-2 text-xs text-[#f5f5f0]"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-[9px] tracking-[0.3em] uppercase text-[#a8a8a0] mb-1">Body</label>
-                    <textarea
-                      value={defaultVal("home.pillars.1.body", "We hunt slow. Every track is read, every wind weighed. The chase is measured in days, not minutes.")}
-                      onChange={(e) => handleTextChange("home.pillars.1.body", e.target.value)}
-                      rows={4}
-                      className="w-full bg-[#1a1a1a] border border-[#3d3d3d] focus:border-[#c9a84c] px-3 py-2 text-xs text-[#f5f5f0] resize-none"
-                    />
-                  </div>
-                </div>
-
-                {/* Pillar 2 */}
-                <div className="space-y-4">
-                  <div className="text-xs text-[#c9a84c] font-medium uppercase font-mono">Pillar 2</div>
-                  <div>
-                    <label className="block text-[9px] tracking-[0.3em] uppercase text-[#a8a8a0] mb-1">Title</label>
-                    <input
-                      value={defaultVal("home.pillars.2.title", "Craft")}
-                      onChange={(e) => handleTextChange("home.pillars.2.title", e.target.value)}
-                      className="w-full bg-[#1a1a1a] border border-[#3d3d3d] focus:border-[#c9a84c] px-3 py-2 text-xs text-[#f5f5f0]"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-[9px] tracking-[0.3em] uppercase text-[#a8a8a0] mb-1">Body</label>
-                    <textarea
-                      value={defaultVal("home.pillars.2.body", "Professional hunters with decades across Tanzania's most storied concessions. Field-tested, quietly precise.")}
-                      onChange={(e) => handleTextChange("home.pillars.2.body", e.target.value)}
-                      rows={4}
-                      className="w-full bg-[#1a1a1a] border border-[#3d3d3d] focus:border-[#c9a84c] px-3 py-2 text-xs text-[#f5f5f0] resize-none"
-                    />
-                  </div>
-                </div>
-
-                {/* Pillar 3 */}
-                <div className="space-y-4">
-                  <div className="text-xs text-[#c9a84c] font-medium uppercase font-mono">Pillar 3</div>
-                  <div>
-                    <label className="block text-[9px] tracking-[0.3em] uppercase text-[#a8a8a0] mb-1">Title</label>
-                    <input
-                      value={defaultVal("home.pillars.3.title", "Respect")}
-                      onChange={(e) => handleTextChange("home.pillars.3.title", e.target.value)}
-                      className="w-full bg-[#1a1a1a] border border-[#3d3d3d] focus:border-[#c9a84c] px-3 py-2 text-xs text-[#f5f5f0]"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-[9px] tracking-[0.3em] uppercase text-[#a8a8a0] mb-1">Body</label>
-                    <textarea
-                      value={defaultVal("home.pillars.3.body", "For the animal, the land, and the communities who steward it. Conservation is the price of the privilege.")}
-                      onChange={(e) => handleTextChange("home.pillars.3.body", e.target.value)}
-                      rows={4}
-                      className="w-full bg-[#1a1a1a] border border-[#3d3d3d] focus:border-[#c9a84c] px-3 py-2 text-xs text-[#f5f5f0] resize-none"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
+          {activeCategory === "services" && (
+            <>
+              <SubTabBtn id="experience" label="Expeditions" active={activeSubTab} set={setActiveSubTab} />
+              <SubTabBtn id="services" label="Hunting Services" active={activeSubTab} set={setActiveSubTab} />
+              <SubTabBtn id="conservation" label="Conservation Work" active={activeSubTab} set={setActiveSubTab} />
+            </>
           )}
-
-          {activeTab === "experience" && (
-            <div className="bg-[#2d2d2d] border border-[#3d3d3d] p-8 space-y-6">
-              <h3 className="text-[10px] tracking-[0.4em] uppercase text-[#c9a84c] border-b border-[#3d3d3d] pb-3 mb-6">The Experience Section</h3>
-              
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-[10px] tracking-[0.3em] uppercase text-[#a8a8a0] mb-2">Eyebrow</label>
-                  <input
-                    value={defaultVal("home.experience.eyebrow", "The Experience")}
-                    onChange={(e) => handleTextChange("home.experience.eyebrow", e.target.value)}
-                    className="w-full bg-[#1a1a1a] border border-[#3d3d3d] focus:border-[#c9a84c] focus:outline-none px-4 py-3 text-sm text-[#f5f5f0] transition-colors"
-                  />
-                </div>
-                <div>
-                  <label className="block text-[10px] tracking-[0.3em] uppercase text-[#a8a8a0] mb-2">Title</label>
-                  <input
-                    value={defaultVal("home.experience.title", "A safari shaped by patience, craft, and respect.")}
-                    onChange={(e) => handleTextChange("home.experience.title", e.target.value)}
-                    className="w-full bg-[#1a1a1a] border border-[#3d3d3d] focus:border-[#c9a84c] focus:outline-none px-4 py-3 text-sm text-[#f5f5f0] transition-colors"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-[10px] tracking-[0.3em] uppercase text-[#a8a8a0] mb-2">Section Body</label>
-                <textarea
-                  value={defaultVal(
-                    "home.experience.body",
-                    "Each expedition is curated by professional hunters with decades of experience across Tanzania's most storied concessions. From your first inquiry to the final trophy shipment, every detail is attended to with the discretion and precision a serious hunter expects."
-                  )}
-                  onChange={(e) => handleTextChange("home.experience.body", e.target.value)}
-                  rows={4}
-                  className="w-full bg-[#1a1a1a] border border-[#3d3d3d] focus:border-[#c9a84c] focus:outline-none px-4 py-3 text-sm text-[#f5f5f0] resize-none transition-colors"
-                />
-              </div>
-
-              {/* Bullets & Image */}
-              <div className="border-t border-[#3d3d3d] pt-6 grid md:grid-cols-2 gap-6">
-                <div className="space-y-4">
-                  <span className="block text-[10px] tracking-[0.3em] uppercase text-[#a8a8a0]">Bullet Perks</span>
-                  {[
-                    { key: "home.experience.bullet_1", fallback: "Private concessions across the Selous, Maasai Steppe & Iringa" },
-                    { key: "home.experience.bullet_2", fallback: "PH-led tracking with native Wagogo and Maasai scouts" },
-                    { key: "home.experience.bullet_3", fallback: "Full-service tented camps with brass, canvas, and lantern light" },
-                    { key: "home.experience.bullet_4", fallback: "Trophy preparation, documentation, and worldwide shipment" },
-                  ].map((bullet, idx) => (
-                    <div key={bullet.key} className="flex gap-3 items-center">
-                      <span className="text-[#c9a84c] text-sm">◆</span>
-                      <input
-                        value={defaultVal(bullet.key, bullet.fallback)}
-                        onChange={(e) => handleTextChange(bullet.key, e.target.value)}
-                        className="flex-1 bg-[#1a1a1a] border border-[#3d3d3d] focus:border-[#c9a84c] px-3 py-2 text-xs text-[#f5f5f0]"
-                      />
-                    </div>
-                  ))}
-                </div>
-
-                <MediaInput
-                  label="Experience Feature Image"
-                  value={defaultVal("home.experience.image_url", "hunterValley")}
-                  onChange={(val) => handleTextChange("home.experience.image_url", val)}
-                  onUpload={(file) => handleFileUpload("home.experience.image_url", file)}
-                  isUploading={isUploading["home.experience.image_url"]}
-                  localPhotos={localPhotoOptions}
-                  placeholder="e.g. hunterValley"
-                />
-              </div>
-            </div>
-          )}
-
-          {activeTab === "camp" && (
-            <div className="bg-[#2d2d2d] border border-[#3d3d3d] p-8 space-y-6">
-              <h3 className="text-[10px] tracking-[0.4em] uppercase text-[#c9a84c] border-b border-[#3d3d3d] pb-3 mb-6">Base Camp Section</h3>
-              
-              <div>
-                <label className="block text-[10px] tracking-[0.3em] uppercase text-[#a8a8a0] mb-2">Eyebrow</label>
-                <input
-                  value={defaultVal("home.camp.eyebrow", "The Camp")}
-                  onChange={(e) => handleTextChange("home.camp.eyebrow", e.target.value)}
-                  className="w-full bg-[#1a1a1a] border border-[#3d3d3d] focus:border-[#c9a84c] focus:outline-none px-4 py-3 text-sm text-[#f5f5f0] transition-colors"
-                />
-              </div>
-
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-[10px] tracking-[0.3em] uppercase text-[#a8a8a0] mb-2">Title Line 1</label>
-                  <input
-                    value={defaultVal("home.camp.title_line1", "Canvas, brass &")}
-                    onChange={(e) => handleTextChange("home.camp.title_line1", e.target.value)}
-                    className="w-full bg-[#1a1a1a] border border-[#3d3d3d] focus:border-[#c9a84c] focus:outline-none px-4 py-3 text-sm text-[#f5f5f0] transition-colors"
-                  />
-                </div>
-                <div>
-                  <label className="block text-[10px] tracking-[0.3em] uppercase text-[#a8a8a0] mb-2">Title Line 2 (Italic)</label>
-                  <input
-                    value={defaultVal("home.camp.title_line2", "lantern light.")}
-                    onChange={(e) => handleTextChange("home.camp.title_line2", e.target.value)}
-                    className="w-full bg-[#1a1a1a] border border-[#3d3d3d] focus:border-[#c9a84c] focus:outline-none px-4 py-3 text-sm text-[#f5f5f0] transition-colors"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-[10px] tracking-[0.3em] uppercase text-[#a8a8a0] mb-2">Base Camp Description</label>
-                <textarea
-                  value={defaultVal(
-                    "home.camp.body",
-                    "Our base camp sits beneath an acacia grove near Esilalei. Hand-stitched canvas tents, copper basins, an open-fire kitchen, and a long table where stories outlive the embers."
-                  )}
-                  onChange={(e) => handleTextChange("home.camp.body", e.target.value)}
-                  rows={4}
-                  className="w-full bg-[#1a1a1a] border border-[#3d3d3d] focus:border-[#c9a84c] focus:outline-none px-4 py-3 text-sm text-[#f5f5f0] resize-none transition-colors"
-                />
-              </div>
-
-              <div className="border-t border-[#3d3d3d] pt-6">
-                <MediaInput
-                  label="Base Camp Gallery Image"
-                  value={defaultVal("home.camp.image_url", "campNight")}
-                  onChange={(val) => handleTextChange("home.camp.image_url", val)}
-                  onUpload={(file) => handleFileUpload("home.camp.image_url", file)}
-                  isUploading={isUploading["home.camp.image_url"]}
-                  localPhotos={localPhotoOptions}
-                  placeholder="e.g. campNight"
-                />
-              </div>
-            </div>
-          )}
-
-          {activeTab === "quotes" && (
-            <div className="bg-[#2d2d2d] border border-[#3d3d3d] p-8 space-y-6">
-              <h3 className="text-[10px] tracking-[0.4em] uppercase text-[#c9a84c] border-b border-[#3d3d3d] pb-3 mb-6">Quotes & CTA Footer Settings</h3>
-              
-              <div className="space-y-4">
-                <span className="block text-[10px] tracking-[0.3em] uppercase text-[#a8a8a0]">Campfire Quote Block</span>
-                <div>
-                  <label className="block text-[9px] tracking-[0.3em] uppercase text-[#a8a8a0] mb-1">Quote Text</label>
-                  <textarea
-                    value={defaultVal(
-                      "home.quote.text",
-                      "In Africa, the hunt is not what you take from the land — it is what the land slowly teaches you to become."
-                    )}
-                    onChange={(e) => handleTextChange("home.quote.text", e.target.value)}
-                    rows={3}
-                    className="w-full bg-[#1a1a1a] border border-[#3d3d3d] focus:border-[#c9a84c] px-3 py-2 text-xs text-[#f5f5f0] resize-none"
-                  />
-                </div>
-                <div>
-                  <label className="block text-[9px] tracking-[0.3em] uppercase text-[#a8a8a0] mb-1">Author Attribution</label>
-                  <input
-                    value={defaultVal("home.quote.author", "Hemingway, paraphrased — and lived")}
-                    onChange={(e) => handleTextChange("home.quote.author", e.target.value)}
-                    className="w-full bg-[#1a1a1a] border border-[#3d3d3d] focus:border-[#c9a84c] px-3 py-2 text-xs text-[#f5f5f0]"
-                  />
-                </div>
-              </div>
-
-              <div className="border-t border-[#3d3d3d] pt-6 space-y-4">
-                <span className="block text-[10px] tracking-[0.3em] uppercase text-[#a8a8a0]">Call To Action Banner</span>
-                <div className="grid md:grid-cols-3 gap-6">
-                  <div>
-                    <label className="block text-[9px] tracking-[0.3em] uppercase text-[#a8a8a0] mb-1">CTA Eyebrow</label>
-                    <input
-                      value={defaultVal("home.cta.eyebrow", "Begin")}
-                      onChange={(e) => handleTextChange("home.cta.eyebrow", e.target.value)}
-                      className="w-full bg-[#1a1a1a] border border-[#3d3d3d] focus:border-[#c9a84c] px-3 py-2 text-xs text-[#f5f5f0]"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-[9px] tracking-[0.3em] uppercase text-[#a8a8a0] mb-1">CTA Title (Regular)</label>
-                    <input
-                      value={defaultVal("home.cta.title_normal", "Plan your ")}
-                      onChange={(e) => handleTextChange("home.cta.title_normal", e.target.value)}
-                      className="w-full bg-[#1a1a1a] border border-[#3d3d3d] focus:border-[#c9a84c] px-3 py-2 text-xs text-[#f5f5f0]"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-[9px] tracking-[0.3em] uppercase text-[#a8a8a0] mb-1">CTA Title (Italic)</label>
-                    <input
-                      value={defaultVal("home.cta.title_italic", "first chase")}
-                      onChange={(e) => handleTextChange("home.cta.title_italic", e.target.value)}
-                      className="w-full bg-[#1a1a1a] border border-[#3d3d3d] focus:border-[#c9a84c] px-3 py-2 text-xs text-[#f5f5f0]"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-[9px] tracking-[0.3em] uppercase text-[#a8a8a0] mb-1">CTA Body</label>
-                  <textarea
-                    value={defaultVal(
-                      "home.cta.body",
-                      "Tell us what you seek. We'll match you to a concession, a professional hunter, and a window of weather worth the journey."
-                    )}
-                    onChange={(e) => handleTextChange("home.cta.body", e.target.value)}
-                    rows={3}
-                    className="w-full bg-[#1a1a1a] border border-[#3d3d3d] focus:border-[#c9a84c] px-3 py-2 text-xs text-[#f5f5f0] resize-none"
-                  />
-                </div>
-              </div>
-
-            </div>
+          {activeCategory === "policies" && (
+            <>
+              <SubTabBtn id="faqs" label="FAQs" active={activeSubTab} set={setActiveSubTab} />
+              <SubTabBtn id="membership" label="Membership Tiers" active={activeSubTab} set={setActiveSubTab} />
+              <SubTabBtn id="terms" label="Terms of Service" active={activeSubTab} set={setActiveSubTab} />
+              <SubTabBtn id="privacy" label="Privacy Policy" active={activeSubTab} set={setActiveSubTab} />
+            </>
           )}
         </div>
 
-        {/* Sticky footer Save Changes controls */}
+        {/* Edit fields grid */}
+        <div className="space-y-6">
+          
+          {/* CATEGORY: HOME */}
+          {activeCategory === "home" && activeSubTab === "general" && (
+            <div className="bg-[#2d2d2d] border border-[#3d3d3d] p-8 space-y-6">
+              <SectionHeader title="Homepage Hero & Intro Editor" />
+              <TextInput label="Hero Subtitle" keyName="home.hero.subtitle" defaultVal={defaultVal} set={handleTextChange} />
+              <div className="grid md:grid-cols-2 gap-6">
+                <TextInput label="Hero Title (Italic)" keyName="home.hero.title_italic" defaultVal={defaultVal} set={handleTextChange} />
+                <TextInput label="Hero Title (Plain suffix)" keyName="home.hero.title_plain" defaultVal={defaultVal} set={handleTextChange} />
+              </div>
+              <TextAreaInput label="Hero Description" keyName="home.hero.description" defaultVal={defaultVal} set={handleTextChange} />
+              <div className="grid md:grid-cols-2 gap-6">
+                <MediaInput label="Hero Intro Video URL" keyName="home.hero.video_url" defaultVal={defaultVal} set={handleTextChange} onUpload={handleFileUpload} isUploading={isUploading} localPhotos={localPhotoOptions} />
+                <MediaInput label="Hero Video Poster (Image)" keyName="home.hero.poster_url" defaultVal={defaultVal} set={handleTextChange} onUpload={handleFileUpload} isUploading={isUploading} localPhotos={localPhotoOptions} />
+              </div>
+              <div className="border-t border-[#3d3d3d] pt-6 space-y-6">
+                <TextInput label="Intro Eyebrow" keyName="home.intro.eyebrow" defaultVal={defaultVal} set={handleTextChange} />
+                <div className="grid md:grid-cols-2 gap-6">
+                  <TextInput label="Intro Title Line 1" keyName="home.intro.title_line1" defaultVal={defaultVal} set={handleTextChange} />
+                  <TextInput label="Intro Title Line 2 (Italic)" keyName="home.intro.title_line2" defaultVal={defaultVal} set={handleTextChange} />
+                </div>
+                <TextAreaInput label="Intro Body Description" keyName="home.intro.body" defaultVal={defaultVal} set={handleTextChange} />
+              </div>
+            </div>
+          )}
+
+          {activeCategory === "home" && activeSubTab === "basecamp" && (
+            <div className="bg-[#2d2d2d] border border-[#3d3d3d] p-8 space-y-6">
+              <SectionHeader title="Base Camp & Quotes Editor" />
+              <div className="grid md:grid-cols-2 gap-6">
+                <TextInput label="Camp Title Line 1" keyName="home.camp.title_line1" defaultVal={defaultVal} set={handleTextChange} />
+                <TextInput label="Camp Title Line 2 (Italic)" keyName="home.camp.title_line2" defaultVal={defaultVal} set={handleTextChange} />
+              </div>
+              <TextAreaInput label="Camp Details Copy" keyName="home.camp.body" defaultVal={defaultVal} set={handleTextChange} />
+              <MediaInput label="Camp Background Image" keyName="home.camp.image_url" defaultVal={defaultVal} set={handleTextChange} onUpload={handleFileUpload} isUploading={isUploading} localPhotos={localPhotoOptions} />
+              
+              <div className="border-t border-[#3d3d3d] pt-6 space-y-6">
+                <TextAreaInput label="Quotes Block Text" keyName="home.quote.text" defaultVal={defaultVal} set={handleTextChange} />
+                <TextInput label="Quote Author / Title" keyName="home.quote.author" defaultVal={defaultVal} set={handleTextChange} />
+              </div>
+            </div>
+          )}
+
+          {activeCategory === "home" && activeSubTab === "pillars" && (
+            <div className="bg-[#2d2d2d] border border-[#3d3d3d] p-8 space-y-6">
+              <SectionHeader title="Three Pillars Editor" />
+              <TextInput label="Pillars Eyebrow" keyName="home.pillars.eyebrow" defaultVal={defaultVal} set={handleTextChange} />
+              <TextInput label="Pillars Section Title" keyName="home.pillars.title" defaultVal={defaultVal} set={handleTextChange} />
+              <div className="grid md:grid-cols-3 gap-6 pt-6 border-t border-[#3d3d3d]">
+                <PillarFields id="1" defaultVal={defaultVal} set={handleTextChange} />
+                <PillarFields id="2" defaultVal={defaultVal} set={handleTextChange} />
+                <PillarFields id="3" defaultVal={defaultVal} set={handleTextChange} />
+              </div>
+            </div>
+          )}
+
+          {/* CATEGORY: CORE */}
+          {activeCategory === "core" && activeSubTab === "ourstory" && (
+            <div className="bg-[#2d2d2d] border border-[#3d3d3d] p-8 space-y-6">
+              <SectionHeader title="Our Story Page Content" />
+              <MediaInput label="Story Hero Image" keyName="ourstory.hero.image" defaultVal={defaultVal} set={handleTextChange} onUpload={handleFileUpload} isUploading={isUploading} localPhotos={localPhotoOptions} />
+              <TextInput label="Story Eyebrow" keyName="ourstory.hero.eyebrow" defaultVal={defaultVal} set={handleTextChange} />
+              <div className="grid md:grid-cols-2 gap-6">
+                <TextInput label="Story Title Line 1" keyName="ourstory.hero.title_line1" defaultVal={defaultVal} set={handleTextChange} />
+                <TextInput label="Story Title Line 2 (Italic)" keyName="ourstory.hero.title_line2" defaultVal={defaultVal} set={handleTextChange} />
+              </div>
+              <TextInput label="Story Subtitle description" keyName="ourstory.hero.subtitle" defaultVal={defaultVal} set={handleTextChange} />
+              <TextAreaInput label="Intro Section Highlight" keyName="ourstory.intro.highlight" defaultVal={defaultVal} set={handleTextChange} />
+              <TextAreaInput label="Intro Body 1" keyName="ourstory.intro.body1" defaultVal={defaultVal} set={handleTextChange} />
+              <TextAreaInput label="Intro Body 2" keyName="ourstory.intro.body2" defaultVal={defaultVal} set={handleTextChange} />
+              <TextInput label="Intro Callout (Italic)" keyName="ourstory.intro.callout" defaultVal={defaultVal} set={handleTextChange} />
+              
+              <div className="border-t border-[#3d3d3d] pt-6 space-y-6">
+                <h4 className="text-[10px] tracking-[0.35em] uppercase text-[#c9a84c]">Timeline Milestones</h4>
+                <div className="grid md:grid-cols-2 gap-6">
+                  <TimelineFields id="1" defaultVal={defaultVal} set={handleTextChange} localPhotos={localPhotoOptions} onUpload={handleFileUpload} isUploading={isUploading} />
+                  <TimelineFields id="2" defaultVal={defaultVal} set={handleTextChange} localPhotos={localPhotoOptions} onUpload={handleFileUpload} isUploading={isUploading} />
+                  <TimelineFields id="3" defaultVal={defaultVal} set={handleTextChange} localPhotos={localPhotoOptions} onUpload={handleFileUpload} isUploading={isUploading} />
+                  <TimelineFields id="4" defaultVal={defaultVal} set={handleTextChange} localPhotos={localPhotoOptions} onUpload={handleFileUpload} isUploading={isUploading} />
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeCategory === "core" && activeSubTab === "partners" && (
+            <div className="bg-[#2d2d2d] border border-[#3d3d3d] p-8 space-y-6">
+              <SectionHeader title="Partners Page Content" />
+              <MediaInput label="Partners Hero Image" keyName="partners.hero.image" defaultVal={defaultVal} set={handleTextChange} onUpload={handleFileUpload} isUploading={isUploading} localPhotos={localPhotoOptions} />
+              <TextInput label="Partners Eyebrow" keyName="partners.hero.eyebrow" defaultVal={defaultVal} set={handleTextChange} />
+              <div className="grid md:grid-cols-2 gap-6">
+                <TextInput label="Partners Title (Italic)" keyName="partners.hero.title_italic" defaultVal={defaultVal} set={handleTextChange} />
+                <TextInput label="Partners Title (Plain suffix)" keyName="partners.hero.title_plain" defaultVal={defaultVal} set={handleTextChange} />
+              </div>
+              <div className="border-t border-[#3d3d3d] pt-6 space-y-6">
+                <h4 className="text-[10px] tracking-[0.35em] uppercase text-[#c9a84c]">Partners Lanes</h4>
+                <div className="space-y-8">
+                  <PartnerLaneFields id="1" defaultVal={defaultVal} set={handleTextChange} />
+                  <PartnerLaneFields id="2" defaultVal={defaultVal} set={handleTextChange} />
+                  <PartnerLaneFields id="3" defaultVal={defaultVal} set={handleTextChange} />
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeCategory === "core" && activeSubTab === "gallery" && (
+            <div className="bg-[#2d2d2d] border border-[#3d3d3d] p-8 space-y-6">
+              <SectionHeader title="Gallery Header & Descriptions" />
+              <MediaInput label="Gallery Hero Background" keyName="gallery.hero.bg" defaultVal={defaultVal} set={handleTextChange} onUpload={handleFileUpload} isUploading={isUploading} localPhotos={localPhotoOptions} />
+              <TextInput label="Gallery Eyebrow" keyName="gallery.hero.eyebrow" defaultVal={defaultVal} set={handleTextChange} />
+              <div className="grid md:grid-cols-2 gap-6">
+                <TextInput label="Gallery Title (Normal)" keyName="gallery.hero.title_normal" defaultVal={defaultVal} set={handleTextChange} />
+                <TextInput label="Gallery Title (Italic)" keyName="gallery.hero.title_italic" defaultVal={defaultVal} set={handleTextChange} />
+              </div>
+              <TextAreaInput label="Gallery Page Body" keyName="gallery.hero.body" defaultVal={defaultVal} set={handleTextChange} />
+              
+              <div className="border-t border-[#3d3d3d] pt-6 space-y-6">
+                <h4 className="text-[10px] tracking-[0.35em] uppercase text-[#c9a84c]">Gallery Section Headings</h4>
+                {["quarry", "camp", "field", "country"].map((sec) => (
+                  <div key={sec} className="p-4 border border-[#3d3d3d] bg-[#1a1a1a]/50 grid md:grid-cols-3 gap-4">
+                    <TextInput label={`${sec.toUpperCase()} Eyebrow`} keyName={`gallery.sections.${sec}.eyebrow`} defaultVal={defaultVal} set={handleTextChange} />
+                    <TextInput label={`${sec.toUpperCase()} Title`} keyName={`gallery.sections.${sec}.title`} defaultVal={defaultVal} set={handleTextChange} />
+                    <TextInput label={`${sec.toUpperCase()} Description`} keyName={`gallery.sections.${sec}.body`} defaultVal={defaultVal} set={handleTextChange} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {activeCategory === "core" && activeSubTab === "contact" && (
+            <div className="bg-[#2d2d2d] border border-[#3d3d3d] p-8 space-y-6">
+              <SectionHeader title="Contact Page & Office Details" />
+              <MediaInput label="Contact Hero Banner" keyName="contact.hero.image" defaultVal={defaultVal} set={handleTextChange} onUpload={handleFileUpload} isUploading={isUploading} localPhotos={localPhotoOptions} />
+              <TextInput label="Contact Eyebrow" keyName="contact.hero.eyebrow" defaultVal={defaultVal} set={handleTextChange} />
+              <div className="grid md:grid-cols-2 gap-6">
+                <TextInput label="Contact Title Normal" keyName="contact.hero.title_normal" defaultVal={defaultVal} set={handleTextChange} />
+                <TextInput label="Contact Title Italic" keyName="contact.hero.title_italic" defaultVal={defaultVal} set={handleTextChange} />
+              </div>
+              
+              <div className="border-t border-[#3d3d3d] pt-6 grid md:grid-cols-2 gap-6">
+                <div>
+                  <h4 className="text-[10px] tracking-[0.35em] uppercase text-[#c9a84c] mb-4">Office Details</h4>
+                  <div className="space-y-4">
+                    <TextInput label="Office Label" keyName="contact.office.title" defaultVal={defaultVal} set={handleTextChange} />
+                    <TextInput label="Office Address" keyName="contact.office.address" defaultVal={defaultVal} set={handleTextChange} />
+                    <TextInput label="Office Phone" keyName="contact.office.phone" defaultVal={defaultVal} set={handleTextChange} />
+                    <TextInput label="Office Email" keyName="contact.office.email" defaultVal={defaultVal} set={handleTextChange} />
+                  </div>
+                </div>
+                <div>
+                  <h4 className="text-[10px] tracking-[0.35em] uppercase text-[#c9a84c] mb-4">Base Camp Coordinates</h4>
+                  <div className="space-y-4">
+                    <TextInput label="Camp Label" keyName="contact.camp.title" defaultVal={defaultVal} set={handleTextChange} />
+                    <TextInput label="Camp Description" keyName="contact.camp.body" defaultVal={defaultVal} set={handleTextChange} />
+                    <TextInput label="Camp Coordinates" keyName="contact.camp.coordinates" defaultVal={defaultVal} set={handleTextChange} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* CATEGORY: SERVICES */}
+          {activeCategory === "services" && activeSubTab === "experience" && (
+            <div className="bg-[#2d2d2d] border border-[#3d3d3d] p-8 space-y-6">
+              <SectionHeader title="Expeditions & Experience Details" />
+              <MediaInput label="Experience Hero Banner" keyName="experience.hero.image" defaultVal={defaultVal} set={handleTextChange} onUpload={handleFileUpload} isUploading={isUploading} localPhotos={localPhotoOptions} />
+              <div className="grid md:grid-cols-2 gap-6">
+                <TextInput label="Hero Title Normal" keyName="experience.hero.title_line1" defaultVal={defaultVal} set={handleTextChange} />
+                <TextInput label="Hero Title Italic" keyName="experience.hero.title_italic" defaultVal={defaultVal} set={handleTextChange} />
+              </div>
+              
+              <div className="border-t border-[#3d3d3d] pt-6 space-y-6">
+                <h4 className="text-[10px] tracking-[0.35em] uppercase text-[#c9a84c]">Expeditions Carousel (Edit Tiers 1-3)</h4>
+                {[1, 2, 3].map((expNum) => (
+                  <div key={expNum} className="p-4 border border-[#3d3d3d] bg-[#1a1a1a]/50 space-y-4">
+                    <span className="font-mono text-xs text-[#c9a84c] uppercase">Expedition {expNum}</span>
+                    <div className="grid md:grid-cols-3 gap-4">
+                      <TextInput label="Expedition Title" keyName={`experience.expeditions.${expNum}.title`} defaultVal={defaultVal} set={handleTextChange} />
+                      <TextInput label="Duration" keyName={`experience.expeditions.${expNum}.duration`} defaultVal={defaultVal} set={handleTextChange} />
+                      <TextInput label="Season" keyName={`experience.expeditions.${expNum}.season`} defaultVal={defaultVal} set={handleTextChange} />
+                    </div>
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <TextInput label="Party Size" keyName={`experience.expeditions.${expNum}.party`} defaultVal={defaultVal} set={handleTextChange} />
+                      <TextInput label="Target Quarry" keyName={`experience.expeditions.${expNum}.quarry`} defaultVal={defaultVal} set={handleTextChange} />
+                    </div>
+                    <TextAreaInput label="Expedition Description" keyName={`experience.expeditions.${expNum}.desc`} defaultVal={defaultVal} set={handleTextChange} />
+                    <MediaInput label="Expedition Cover Image" keyName={`experience.expeditions.${expNum}.image`} defaultVal={defaultVal} set={handleTextChange} onUpload={handleFileUpload} isUploading={isUploading} localPhotos={localPhotoOptions} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {activeCategory === "services" && activeSubTab === "services" && (
+            <div className="bg-[#2d2d2d] border border-[#3d3d3d] p-8 space-y-6">
+              <SectionHeader title="Hunting Services list" />
+              <MediaInput label="Services Hero Image" keyName="services.hero.image" defaultVal={defaultVal} set={handleTextChange} onUpload={handleFileUpload} isUploading={isUploading} localPhotos={localPhotoOptions} />
+              <div className="grid md:grid-cols-2 gap-6">
+                <TextInput label="Services Title Normal" keyName="services.hero.title_normal" defaultVal={defaultVal} set={handleTextChange} />
+                <TextInput label="Services Title Italic" keyName="services.hero.title_italic" defaultVal={defaultVal} set={handleTextChange} />
+              </div>
+              <div className="border-t border-[#3d3d3d] pt-6 space-y-6">
+                <h4 className="text-[10px] tracking-[0.35em] uppercase text-[#c9a84c]">Services Items</h4>
+                <div className="grid md:grid-cols-2 gap-6">
+                  {[1, 2, 3, 4, 5, 6].map((srvNum) => (
+                    <div key={srvNum} className="p-4 border border-[#3d3d3d] bg-[#1a1a1a]/50 space-y-3">
+                      <TextInput label={`Service ${srvNum} Title`} keyName={`services.list.${srvNum}.title`} defaultVal={defaultVal} set={handleTextChange} />
+                      <TextAreaInput label="Service Body" keyName={`services.list.${srvNum}.body`} defaultVal={defaultVal} set={handleTextChange} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeCategory === "services" && activeSubTab === "conservation" && (
+            <div className="bg-[#2d2d2d] border border-[#3d3d3d] p-8 space-y-6">
+              <SectionHeader title="Conservation Work Page" />
+              <MediaInput label="Conservation Hero Image" keyName="conservation.hero.image" defaultVal={defaultVal} set={handleTextChange} onUpload={handleFileUpload} isUploading={isUploading} localPhotos={localPhotoOptions} />
+              <div className="grid md:grid-cols-2 gap-6">
+                <TextInput label="Conservation Title Normal" keyName="conservation.hero.title_normal" defaultVal={defaultVal} set={handleTextChange} />
+                <TextInput label="Conservation Title Italic" keyName="conservation.hero.title_italic" defaultVal={defaultVal} set={handleTextChange} />
+              </div>
+              <TextAreaInput label="Conservation Body" keyName="conservation.hero.body" defaultVal={defaultVal} set={handleTextChange} />
+              
+              <div className="border-t border-[#3d3d3d] pt-6 grid md:grid-cols-2 gap-6">
+                <div>
+                  <h4 className="text-[10px] tracking-[0.35em] uppercase text-[#c9a84c] mb-4">Ledger Stats</h4>
+                  <div className="space-y-4">
+                    {[1, 2, 3, 4].map((statId) => (
+                      <div key={statId} className="flex gap-2">
+                        <input value={defaultVal(`conservation.stats.${statId}.value`, "")} onChange={(e) => handleTextChange(`conservation.stats.${statId}.value`, e.target.value)} placeholder="Value" className="w-1/3 bg-[#1a1a1a] border border-[#3d3d3d] px-3 py-2 text-xs text-[#f5f5f0]" />
+                        <input value={defaultVal(`conservation.stats.${statId}.label`, "")} onChange={(e) => handleTextChange(`conservation.stats.${statId}.label`, e.target.value)} placeholder="Label" className="w-2/3 bg-[#1a1a1a] border border-[#3d3d3d] px-3 py-2 text-xs text-[#f5f5f0]" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <h4 className="text-[10px] tracking-[0.35em] uppercase text-[#c9a84c] mb-4">Pillars (Sample Edit 1)</h4>
+                  <div className="space-y-4">
+                    <TextInput label="Pillar 1 Title" keyName="conservation.pillars.1.title" defaultVal={defaultVal} set={handleTextChange} />
+                    <TextAreaInput label="Pillar 1 Description" keyName="conservation.pillars.1.body" defaultVal={defaultVal} set={handleTextChange} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* CATEGORY: POLICIES */}
+          {activeCategory === "policies" && activeSubTab === "faqs" && (
+            <div className="bg-[#2d2d2d] border border-[#3d3d3d] p-8 space-y-6">
+              <SectionHeader title="Frequently Asked Questions Editor" />
+              <div className="grid md:grid-cols-2 gap-6">
+                <TextInput label="FAQs Title Normal" keyName="faqs.hero.title_normal" defaultVal={defaultVal} set={handleTextChange} />
+                <TextInput label="FAQs Title Italic" keyName="faqs.hero.title_italic" defaultVal={defaultVal} set={handleTextChange} />
+              </div>
+              <div className="border-t border-[#3d3d3d] pt-6 space-y-6">
+                <h4 className="text-[10px] tracking-[0.35em] uppercase text-[#c9a84c]">Accordion Questions & Answers</h4>
+                {[1, 2, 3, 4, 5, 6, 7].map((faqNum) => (
+                  <div key={faqNum} className="p-4 border border-[#3d3d3d] bg-[#1a1a1a]/50 space-y-3">
+                    <TextInput label={`Question ${faqNum}`} keyName={`faqs.${faqNum}.q`} defaultVal={defaultVal} set={handleTextChange} />
+                    <TextAreaInput label={`Answer ${faqNum}`} keyName={`faqs.${faqNum}.a`} defaultVal={defaultVal} set={handleTextChange} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {activeCategory === "policies" && activeSubTab === "membership" && (
+            <div className="bg-[#2d2d2d] border border-[#3d3d3d] p-8 space-y-6">
+              <SectionHeader title="Membership Tiers Content" />
+              <MediaInput label="Membership Hero Image" keyName="membership.hero.image" defaultVal={defaultVal} set={handleTextChange} onUpload={handleFileUpload} isUploading={isUploading} localPhotos={localPhotoOptions} />
+              <TextInput label="Membership Hero Title" keyName="membership.hero.title" defaultVal={defaultVal} set={handleTextChange} />
+              <TextAreaInput label="Membership Description" keyName="membership.hero.body" defaultVal={defaultVal} set={handleTextChange} />
+              
+              <div className="border-t border-[#3d3d3d] pt-6 space-y-6">
+                <h4 className="text-[10px] tracking-[0.35em] uppercase text-[#c9a84c]">Tiers Custom Perks (Sample Tier 2 Tracker)</h4>
+                <TextInput label="Tier 2 Name" keyName="membership.tier.2.name" defaultVal={defaultVal} set={handleTextChange} />
+                <TextInput label="Tier 2 Price" keyName="membership.tier.2.price" defaultVal={defaultVal} set={handleTextChange} />
+                <div className="grid md:grid-cols-2 gap-4">
+                  <TextInput label="Perk 1" keyName="membership.tier.2.perk_1" defaultVal={defaultVal} set={handleTextChange} />
+                  <TextInput label="Perk 2" keyName="membership.tier.2.perk_2" defaultVal={defaultVal} set={handleTextChange} />
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeCategory === "policies" && activeSubTab === "terms" && (
+            <div className="bg-[#2d2d2d] border border-[#3d3d3d] p-8 space-y-6">
+              <SectionHeader title="Terms of Service Sections" />
+              <TextInput label="Terms Title" keyName="terms.hero.title" defaultVal={defaultVal} set={handleTextChange} />
+              <TextInput label="Last Updated Date" keyName="terms.hero.date" defaultVal={defaultVal} set={handleTextChange} />
+              <TextAreaInput label="Terms Introduction" keyName="terms.intro" defaultVal={defaultVal} set={handleTextChange} />
+              
+              <div className="border-t border-[#3d3d3d] pt-6 space-y-4">
+                <h4 className="text-[10px] tracking-[0.35em] uppercase text-[#c9a84c]">Sections</h4>
+                {[1, 2, 3, 4, 5, 6].map((idx) => (
+                  <div key={idx} className="p-4 border border-[#3d3d3d] bg-[#1a1a1a]/50 space-y-3">
+                    <TextInput label={`Section ${idx} Heading`} keyName={`terms.section.${idx}.title`} defaultVal={defaultVal} set={handleTextChange} />
+                    <TextAreaInput label={`Section ${idx} Description`} keyName={`terms.section.${idx}.body`} defaultVal={defaultVal} set={handleTextChange} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {activeCategory === "policies" && activeSubTab === "privacy" && (
+            <div className="bg-[#2d2d2d] border border-[#3d3d3d] p-8 space-y-6">
+              <SectionHeader title="Privacy Policy Sections" />
+              <TextInput label="Privacy Title" keyName="privacy.hero.title" defaultVal={defaultVal} set={handleTextChange} />
+              <TextInput label="Last Updated Date" keyName="privacy.hero.date" defaultVal={defaultVal} set={handleTextChange} />
+              <TextAreaInput label="Privacy Introduction" keyName="privacy.intro" defaultVal={defaultVal} set={handleTextChange} />
+              
+              <div className="border-t border-[#3d3d3d] pt-6 space-y-4">
+                <h4 className="text-[10px] tracking-[0.35em] uppercase text-[#c9a84c]">Sections</h4>
+                {[1, 2, 3, 4, 5].map((idx) => (
+                  <div key={idx} className="p-4 border border-[#3d3d3d] bg-[#1a1a1a]/50 space-y-3">
+                    <TextInput label={`Section ${idx} Heading`} keyName={`privacy.section.${idx}.title`} defaultVal={defaultVal} set={handleTextChange} />
+                    <TextAreaInput label={`Section ${idx} Description`} keyName={`privacy.section.${idx}.body`} defaultVal={defaultVal} set={handleTextChange} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+        </div>
+
+        {/* Action Controls */}
         <div className="sticky bottom-4 flex items-center justify-between bg-[#1a1a1a]/95 backdrop-blur-md border border-[#3d3d3d] p-4 shadow-2xl z-30">
           <div className="text-[10px] tracking-[0.15em] uppercase text-[#a8a8a0] flex items-center gap-2">
             <HelpCircle className="h-4 w-4" /> Save updates to apply instantly
@@ -618,38 +563,129 @@ function SiteCMS() {
   );
 }
 
-// Reusable Media Selection / Upload component
+// Reusable Components inside CMS to keep portal code clean and legible
+
+function SubTabBtn({ id, label, active, set }: { id: string; label: string; active: string; set: (id: string) => void }) {
+  const isActive = active === id;
+  return (
+    <button
+      onClick={() => set(id)}
+      className={`px-3 py-2 transition flex items-center gap-1 border-r border-[#3d3d3d] ${
+        isActive ? "text-[#c9a84c] font-medium" : "text-[#a8a8a0] hover:text-[#f5f5f0]"
+      }`}
+    >
+      {label} {isActive && <ChevronRight className="h-3 w-3 text-[#c9a84c]" />}
+    </button>
+  );
+}
+
+function SectionHeader({ title }: { title: string }) {
+  return (
+    <h3 className="text-[10px] tracking-[0.4em] uppercase text-[#c9a84c] border-b border-[#3d3d3d] pb-3 mb-6">
+      {title}
+    </h3>
+  );
+}
+
+function TextInput({ label, keyName, defaultVal, set }: { label: string; keyName: string; defaultVal: (k: string, f: string) => string; set: (k: string, v: string) => void }) {
+  return (
+    <div>
+      <label className="block text-[10px] tracking-[0.3em] uppercase text-[#a8a8a0] mb-2">{label}</label>
+      <input
+        value={defaultVal(keyName, "")}
+        onChange={(e) => set(keyName, e.target.value)}
+        className="w-full bg-[#1a1a1a] border border-[#3d3d3d] focus:border-[#c9a84c] focus:outline-none px-4 py-3 text-sm text-[#f5f5f0] transition-colors"
+      />
+    </div>
+  );
+}
+
+function TextAreaInput({ label, keyName, defaultVal, set }: { label: string; keyName: string; defaultVal: (k: string, f: string) => string; set: (k: string, v: string) => void }) {
+  return (
+    <div>
+      <label className="block text-[10px] tracking-[0.3em] uppercase text-[#a8a8a0] mb-2">{label}</label>
+      <textarea
+        value={defaultVal(keyName, "")}
+        onChange={(e) => set(keyName, e.target.value)}
+        rows={3}
+        className="w-full bg-[#1a1a1a] border border-[#3d3d3d] focus:border-[#c9a84c] focus:outline-none px-4 py-3 text-sm text-[#f5f5f0] resize-none transition-colors font-serif"
+      />
+    </div>
+  );
+}
+
+function PillarFields({ id, defaultVal, set }: { id: string; defaultVal: (k: string, f: string) => string; set: (k: string, v: string) => void }) {
+  return (
+    <div className="space-y-4">
+      <div className="text-xs text-[#c9a84c] font-medium uppercase font-mono">Pillar {id}</div>
+      <TextInput label="Title" keyName={`home.pillars.${id}.title`} defaultVal={defaultVal} set={set} />
+      <TextAreaInput label="Body Text" keyName={`home.pillars.${id}.body`} defaultVal={defaultVal} set={set} />
+    </div>
+  );
+}
+
+function TimelineFields({ id, defaultVal, set, localPhotos, onUpload, isUploading }: { id: string; defaultVal: (k: string, f: string) => string; set: (k: string, v: string) => void; localPhotos: string[]; onUpload: (k: string, f: File) => void; isUploading: Record<string, boolean> }) {
+  return (
+    <div className="p-4 border border-[#3d3d3d] bg-[#1a1a1a]/50 space-y-4">
+      <div className="text-xs text-[#c9a84c] font-medium uppercase font-mono">Milestone {id}</div>
+      <div className="grid grid-cols-2 gap-4">
+        <TextInput label="Year" keyName={`ourstory.timeline.${id}.year`} defaultVal={defaultVal} set={set} />
+        <TextInput label="Title" keyName={`ourstory.timeline.${id}.title`} defaultVal={defaultVal} set={set} />
+      </div>
+      <TextAreaInput label="Description" keyName={`ourstory.timeline.${id}.body`} defaultVal={defaultVal} set={set} />
+      <MediaInput label="Hover Photo" keyName={`ourstory.timeline.${id}.image`} defaultVal={defaultVal} set={set} onUpload={onUpload} isUploading={isUploading} localPhotos={localPhotos} />
+    </div>
+  );
+}
+
+function PartnerLaneFields({ id, defaultVal, set }: { id: string; defaultVal: (k: string, f: string) => string; set: (k: string, v: string) => void }) {
+  return (
+    <div className="p-4 border border-[#3d3d3d] bg-[#1a1a1a]/50 space-y-4">
+      <div className="text-xs text-[#c9a84c] font-medium uppercase font-mono">Partner Lane {id}</div>
+      <TextInput label="Lane Title" keyName={`partners.lane.${id}.title`} defaultVal={defaultVal} set={set} />
+      <TextAreaInput label="Description" keyName={`partners.lane.${id}.body`} defaultVal={defaultVal} set={set} />
+      <div className="grid md:grid-cols-4 gap-4">
+        <TextInput label="Perk 1" keyName={`partners.lane.${id}.perk_1`} defaultVal={defaultVal} set={set} />
+        <TextInput label="Perk 2" keyName={`partners.lane.${id}.perk_2`} defaultVal={defaultVal} set={set} />
+        <TextInput label="Perk 3" keyName={`partners.lane.${id}.perk_3`} defaultVal={defaultVal} set={set} />
+        <TextInput label="Perk 4" keyName={`partners.lane.${id}.perk_4`} defaultVal={defaultVal} set={set} />
+      </div>
+    </div>
+  );
+}
+
 function MediaInput({
   label,
-  value,
-  onChange,
+  keyName,
+  defaultVal,
+  set,
   onUpload,
   isUploading,
   localPhotos = [],
-  placeholder = "",
 }: {
   label: string;
-  value: string;
-  onChange: (val: string) => void;
-  onUpload: (file: File) => void;
-  isUploading?: boolean;
+  keyName: string;
+  defaultVal: (k: string, f: string) => string;
+  set: (k: string, v: string) => void;
+  onUpload: (k: string, f: File) => void;
+  isUploading: Record<string, boolean>;
   localPhotos?: string[];
-  placeholder?: string;
 }) {
+  const value = defaultVal(keyName, "");
   const isLocalKey = localPhotos.includes(value);
   const isVideo = value.endsWith(".mp4") || value.includes("/media/");
   const previewSrc = isLocalKey ? resolveImage(value) : value;
 
   const selectLocal = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (e.target.value) {
-      onChange(e.target.value);
+      set(keyName, e.target.value);
     }
   };
 
   const selectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      onUpload(file);
+      onUpload(keyName, file);
     }
   };
 
@@ -661,8 +697,7 @@ function MediaInput({
       </div>
 
       <div className="grid grid-cols-5 gap-4">
-        {/* Media Preview Box */}
-        <div className="col-span-2 border border-[#3d3d3d] aspect-video bg-[#1a1a1a] flex items-center justify-center relative overflow-hidden group">
+        <div className="col-span-2 border border-[#3d3d3d] aspect-video bg-[#1a1a1a] flex items-center justify-center relative overflow-hidden">
           {previewSrc ? (
             isVideo ? (
               <video src={previewSrc} className="w-full h-full object-cover" muted loop autoPlay playsInline />
@@ -672,36 +707,30 @@ function MediaInput({
           ) : (
             <span className="text-xs text-[#5a5a55] font-mono">No Media</span>
           )}
-          {isUploading && (
+          {isUploading[keyName] && (
             <div className="absolute inset-0 bg-[#1a1a1a]/80 flex items-center justify-center">
               <Loader2 className="h-5 w-5 animate-spin text-[#c9a84c]" />
             </div>
           )}
         </div>
 
-        {/* Inputs */}
-        <div className="col-span-3 space-y-3">
-          {/* Custom URL Input */}
-          <div>
-            <label className="block text-[9px] tracking-[0.2em] uppercase text-[#a8a8a0]/70 mb-1">Media URL or Key</label>
-            <input
-              value={value}
-              onChange={(e) => onChange(e.target.value)}
-              placeholder={placeholder}
-              className="w-full bg-[#1a1a1a] border border-[#3d3d3d] focus:border-[#c9a84c] px-3 py-2 text-xs text-[#f5f5f0] outline-none"
-            />
-          </div>
+        <div className="col-span-3 space-y-2">
+          <input
+            value={value}
+            onChange={(e) => set(keyName, e.target.value)}
+            placeholder="URL or key"
+            className="w-full bg-[#1a1a1a] border border-[#3d3d3d] px-3 py-1.5 text-xs text-[#f5f5f0] outline-none"
+          />
 
           <div className="flex gap-2">
-            {/* Local photos selector (only if options are provided) */}
             {localPhotos.length > 0 && (
               <div className="flex-1">
                 <select
                   onChange={selectLocal}
                   value={isLocalKey ? value : ""}
-                  className="w-full bg-[#1a1a1a] border border-[#3d3d3d] focus:border-[#c9a84c] px-3 py-2 text-xs text-[#f5f5f0] outline-none appearance-none"
+                  className="w-full bg-[#1a1a1a] border border-[#3d3d3d] px-2 py-1.5 text-xs text-[#f5f5f0] outline-none appearance-none"
                 >
-                  <option value="">-- Choose local photo --</option>
+                  <option value="">-- Choose local --</option>
                   {localPhotos.map((k) => (
                     <option key={k} value={k}>
                       {k}
@@ -711,22 +740,21 @@ function MediaInput({
               </div>
             )}
 
-            {/* File Upload Button */}
             <div className="relative">
               <input
                 type="file"
                 accept="image/*,video/*"
                 onChange={selectFile}
                 className="hidden"
-                id={`file-upload-${label.replace(/\s+/g, "-")}`}
-                disabled={isUploading}
+                id={`file-upload-${keyName.replace(/\./g, "-")}`}
+                disabled={isUploading[keyName]}
               />
               <label
-                htmlFor={`file-upload-${label.replace(/\s+/g, "-")}`}
-                className="inline-flex items-center gap-1.5 px-3 py-2 border border-[#3d3d3d] hover:border-[#c9a84c] hover:text-[#c9a84c] text-xs text-[#a8a8a0] transition cursor-pointer select-none"
+                htmlFor={`file-upload-${keyName.replace(/\./g, "-")}`}
+                className="inline-flex items-center gap-1 px-2.5 py-1.5 border border-[#3d3d3d] hover:border-[#c9a84c] hover:text-[#c9a84c] text-xs text-[#a8a8a0] transition cursor-pointer select-none"
               >
-                {isUploading ? (
-                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                {isUploading[keyName] ? (
+                  <Loader2 className="h-3 w-3 animate-spin" />
                 ) : (
                   <>
                     <UploadCloud className="h-3.5 w-3.5" /> Upload

@@ -8,8 +8,7 @@ import { ArrowRight, ArrowLeft, Calendar, MapPin, Users, X } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion";
 import { photos } from "@/assets/photos";
 import { EstimatorEmbed } from "@/components/EstimatorEmbed";
-
-const heroImg = photos.hunterValley;
+import { useSiteContent, resolveImage } from "@/hooks/useSiteContent";
 
 export const Route = createFileRoute("/experience")({
   head: () => ({
@@ -18,121 +17,135 @@ export const Route = createFileRoute("/experience")({
       { name: "description", content: "Curated safari hunting expeditions across Tanzania's most storied concessions — PH-led, ethical, and unforgettable." },
       { property: "og:title", content: "The Experience — Top Trackers" },
       { property: "og:description", content: "Curated safari hunting expeditions across Tanzania." },
-      { property: "og:image", content: heroImg },
+      { property: "og:image", content: photos.hunterValley },
     ],
   }),
   component: Experience,
 });
 
-type Expedition = {
-  num: string;
-  title: string;
-  desc: string;
-  duration: string;
-  season: string;
-  party: string;
-  quarry: string;
-  cta: string;
-  image: string;
-  concession: string;
-};
-
-const expeditions: Expedition[] = [
-  {
-    num: "Expedition 01",
-    title: "The Selous Classic",
-    desc: "Riverine forest, hippo pools, and the slow patient art of dangerous-game tracking in Africa's largest game reserve.",
-    duration: "14 days",
-    season: "Jun – Oct",
-    party: "1–2 hunters",
-    quarry: "Buffalo · Leopard · Sable · Kudu",
-    cta: "Inquire",
-    image: photos.buffalo,
-    concession: "selous",
-  },
-  {
-    num: "Expedition 02",
-    title: "Maasai Steppe Plains",
-    desc: "Open thornveld, Maasai trackers, and dawn drives through the richest plains-game country in East Africa.",
-    duration: "10 days",
-    season: "May – Sep",
-    party: "1–3 hunters",
-    quarry: "Plains game · Gerenuk · Lesser Kudu",
-    cta: "Inquire",
-    image: photos.acaciaSunset,
-    concession: "maasai",
-  },
-  {
-    num: "Expedition 03",
-    title: "Iringa Highlands",
-    desc: "Cool miombo woodland and high ridgelines. A connoisseur's hunt — quieter, slower, and rare in feel.",
-    duration: "7 days",
-    season: "Jul – Nov",
-    party: "1–2 hunters",
-    quarry: "Eland · Sable · Roan · Mountain Reedbuck",
-    cta: "Inquire",
-    image: photos.hunterValley,
-    concession: "iringa",
-  },
-  {
-    num: "Expedition 04",
-    title: "Design your expedition.",
-    desc: "Tell us your quarry, your timeline, your party. Our professional hunters build the chase entirely around you — concession, season, and method.",
-    duration: "Your call",
-    season: "Year-round",
-    party: "Any size",
-    quarry: "Discuss with your PH",
-    cta: "Speak to a PH",
-    image: photos.phWalking,
-    concession: "bespoke",
-  },
-];
-
-const timeline = [
-  { num: "01 — Plan", title: "Plan", image: photos.guideJeep, desc: "Speak with a PH. We match you to a concession, season, and party size. Permits and logistics follow." },
-  { num: "02 — Arrive", title: "Arrive", image: photos.bushPlane, desc: "Charter flight to the bush strip. Camp is ready. Tracking begins at first light the next morning." },
-  { num: "03 — Track", title: "Track", image: photos.phWalking, desc: "Days in the field with your PH and Maasai scouts. Patience, craft, and the land doing the teaching." },
-  { num: "04 — Return", title: "Return", image: photos.vintageZebra, desc: "Trophies documented and shipped. CITES handled. You leave with the story; we handle everything else." },
-];
-
-const services = [
-  {
-    title: "Before you arrive",
-    items: [
-      "CITES & firearms import permits",
-      "Tanzania hunting licence procurement",
-      "Specialist travel insurance brokerage",
-      "Visa & entry documentation",
-      "Pre-hunt briefing with your PH",
-    ],
-  },
-  {
-    title: "In the field",
-    items: [
-      "PH-led dangerous & plains game hunts",
-      "Native Maasai & Wagogo scout teams",
-      "Bird hunting — sandgrouse & francolin",
-      "Bow hunting expeditions",
-      "Photography safaris, no rifle required",
-      "Charter flights between concessions",
-    ],
-  },
-  {
-    title: "After the hunt",
-    items: [
-      "Trophy field preparation & skinning",
-      "Taxidermy referral network",
-      "CITES export documentation",
-      "Worldwide trophy shipping concierge",
-      "Trophy room design consulting",
-      "Conservation levy reporting",
-    ],
-  },
-];
-
 function Experience() {
   const [cur, setCur] = useState(0);
   const [open, setOpen] = useState<string | null>(null);
+  const { data: content } = useSiteContent();
+
+  const getContent = (key: string, fallback: string) => {
+    return content?.[key] ?? fallback;
+  };
+
+  const heroImg = resolveImage(getContent("experience.hero.image", "hunterValley"));
+
+  const expeditions = [
+    {
+      num: "Expedition 01",
+      title: getContent("experience.expeditions.1.title", "The Selous Classic"),
+      desc: getContent("experience.expeditions.1.desc", "Riverine forest, hippo pools, and the slow patient art of dangerous-game tracking in Africa's largest game reserve."),
+      duration: getContent("experience.expeditions.1.duration", "14 days"),
+      season: getContent("experience.expeditions.1.season", "Jun – Oct"),
+      party: getContent("experience.expeditions.1.party", "1–2 hunters"),
+      quarry: getContent("experience.expeditions.1.quarry", "Buffalo · Leopard · Sable · Kudu"),
+      cta: getContent("experience.expeditions.1.cta", "Inquire"),
+      image: resolveImage(getContent("experience.expeditions.1.image", "buffalo")),
+      concession: "selous",
+    },
+    {
+      num: "Expedition 02",
+      title: getContent("experience.expeditions.2.title", "Maasai Steppe Plains"),
+      desc: getContent("experience.expeditions.2.desc", "Open thornveld, Maasai trackers, and dawn drives through the richest plains-game country in East Africa."),
+      duration: getContent("experience.expeditions.2.duration", "10 days"),
+      season: getContent("experience.expeditions.2.season", "May – Sep"),
+      party: getContent("experience.expeditions.2.party", "1–3 hunters"),
+      quarry: getContent("experience.expeditions.2.quarry", "Plains game · Gerenuk · Lesser Kudu"),
+      cta: getContent("experience.expeditions.2.cta", "Inquire"),
+      image: resolveImage(getContent("experience.expeditions.2.image", "acaciaSunset")),
+      concession: "maasai",
+    },
+    {
+      num: "Expedition 03",
+      title: getContent("experience.expeditions.3.title", "Iringa Highlands"),
+      desc: getContent("experience.expeditions.3.desc", "Cool miombo woodland and high ridgelines. A connoisseur's hunt — quieter, slower, and rare in feel."),
+      duration: getContent("experience.expeditions.3.duration", "7 days"),
+      season: getContent("experience.expeditions.3.season", "Jul – Nov"),
+      party: getContent("experience.expeditions.3.party", "1–2 hunters"),
+      quarry: getContent("experience.expeditions.3.quarry", "Eland · Sable · Roan · Mountain Reedbuck"),
+      cta: getContent("experience.expeditions.3.cta", "Inquire"),
+      image: resolveImage(getContent("experience.expeditions.3.image", "hunterValley")),
+      concession: "iringa",
+    },
+    {
+      num: "Expedition 04",
+      title: getContent("experience.expeditions.4.title", "Design your expedition."),
+      desc: getContent("experience.expeditions.4.desc", "Tell us your quarry, your timeline, your party. Our professional hunters build the chase entirely around you — concession, season, and method."),
+      duration: getContent("experience.expeditions.4.duration", "Your call"),
+      season: getContent("experience.expeditions.4.season", "Year-round"),
+      party: getContent("experience.expeditions.4.party", "Any size"),
+      quarry: getContent("experience.expeditions.4.quarry", "Discuss with your PH"),
+      cta: getContent("experience.expeditions.4.cta", "Speak to a PH"),
+      image: resolveImage(getContent("experience.expeditions.4.image", "phWalking")),
+      concession: "bespoke",
+    },
+  ];
+
+  const timeline = [
+    {
+      num: "01 — Plan",
+      title: getContent("experience.timeline.1.title", "Plan"),
+      image: resolveImage(getContent("experience.timeline.1.image", "guideJeep")),
+      desc: getContent("experience.timeline.1.desc", "Speak with a PH. We match you to a concession, season, and party size. Permits and logistics follow."),
+    },
+    {
+      num: "02 — Arrive",
+      title: getContent("experience.timeline.2.title", "Arrive"),
+      image: resolveImage(getContent("experience.timeline.2.image", "bushPlane")),
+      desc: getContent("experience.timeline.2.desc", "Charter flight to the bush strip. Camp is ready. Tracking begins at first light the next morning."),
+    },
+    {
+      num: "03 — Track",
+      title: getContent("experience.timeline.3.title", "Track"),
+      image: resolveImage(getContent("experience.timeline.3.image", "phWalking")),
+      desc: getContent("experience.timeline.3.desc", "Days in the field with your PH and Maasai scouts. Patience, craft, and the land doing the teaching."),
+    },
+    {
+      num: "04 — Return",
+      title: getContent("experience.timeline.4.title", "Return"),
+      image: resolveImage(getContent("experience.timeline.4.image", "vintageZebra")),
+      desc: getContent("experience.timeline.4.desc", "Trophies documented and shipped. CITES handled. You leave with the story; we handle everything else."),
+    },
+  ];
+
+  const services = [
+    {
+      title: getContent("experience.services.1.title", "Before you arrive"),
+      items: [
+        getContent("experience.services.1.item_1", "CITES & firearms import permits"),
+        getContent("experience.services.1.item_2", "Tanzania hunting licence procurement"),
+        getContent("experience.services.1.item_3", "Specialist travel insurance brokerage"),
+        getContent("experience.services.1.item_4", "Visa & entry documentation"),
+        getContent("experience.services.1.item_5", "Pre-hunt briefing with your PH"),
+      ],
+    },
+    {
+      title: getContent("experience.services.2.title", "In the field"),
+      items: [
+        getContent("experience.services.2.item_1", "PH-led dangerous & plains game hunts"),
+        getContent("experience.services.2.item_2", "Native Maasai & Wagogo scout teams"),
+        getContent("experience.services.2.item_3", "Bird hunting — sandgrouse & francolin"),
+        getContent("experience.services.2.item_4", "Bow hunting expeditions"),
+        getContent("experience.services.2.item_5", "Photography safaris, no rifle required"),
+        getContent("experience.services.2.item_6", "Charter flights between concessions"),
+      ],
+    },
+    {
+      title: getContent("experience.services.3.title", "After the hunt"),
+      items: [
+        getContent("experience.services.3.item_1", "Trophy field preparation & skinning"),
+        getContent("experience.services.3.item_2", "Taxidermy referral network"),
+        getContent("experience.services.3.item_3", "CITES export documentation"),
+        getContent("experience.services.3.item_4", "Worldwide trophy shipping concierge"),
+        getContent("experience.services.3.item_5", "Trophy room design consulting"),
+        getContent("experience.services.3.item_6", "Conservation levy reporting"),
+      ],
+    },
+  ];
 
   const go = (n: number) => setCur((n + expeditions.length) % expeditions.length);
 
@@ -141,7 +154,7 @@ function Experience() {
       setCur((c) => (c + 1) % expeditions.length);
     }, 5000);
     return () => clearInterval(timer);
-  }, []);
+  }, [expeditions.length]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -149,12 +162,13 @@ function Experience() {
 
       {/* HERO */}
       <section className="relative h-[60svh] bg-ink overflow-hidden">
-        <img src={heroImg} alt="" className="absolute inset-0 w-full h-full object-cover opacity-65" />
+        <img src={heroImg} alt="Experience hero" className="absolute inset-0 w-full h-full object-cover opacity-65" />
         <div className="absolute inset-0 bg-gradient-to-b from-ink/40 via-ink/25 to-ink" />
         <div className="relative h-full flex flex-col items-center justify-center text-center px-6 text-bone">
-          <Eyebrow light>The Experience</Eyebrow>
+          <Eyebrow light>{getContent("experience.hero.eyebrow", "The Experience")}</Eyebrow>
           <h1 className="mt-6 font-display italic text-5xl md:text-7xl max-w-5xl leading-[0.95]">
-            Shaped by <span className="text-accent">patience.</span>
+            {getContent("experience.hero.title_line1", "Shaped by ")}
+            <span className="text-accent">{getContent("experience.hero.title_italic", "patience.")}</span>
           </h1>
           <div className="mt-8 h-px w-12 bg-accent/50" />
         </div>
@@ -164,7 +178,9 @@ function Experience() {
       <section className="paper-bg py-20">
         <div className="mx-auto max-w-7xl px-6">
           <Reveal>
-            <p className="text-[10px] tracking-[0.3em] uppercase text-accent mb-8">Expeditions</p>
+            <p className="text-[10px] tracking-[0.3em] uppercase text-accent mb-8">
+              {getContent("experience.carousel.eyebrow", "Expeditions")}
+            </p>
           </Reveal>
 
           <div className="relative overflow-hidden border border-accent/25">
@@ -230,7 +246,9 @@ function Experience() {
       <section className="paper-bg pb-20">
         <div className="mx-auto max-w-7xl px-6">
           <Reveal>
-            <p className="text-[10px] tracking-[0.3em] uppercase text-accent mb-8">How the hunt works</p>
+            <p className="text-[10px] tracking-[0.3em] uppercase text-accent mb-8">
+              {getContent("experience.timeline.eyebrow", "How the hunt works")}
+            </p>
           </Reveal>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 border border-accent/20">
             {timeline.map((t, i) => (
@@ -256,8 +274,12 @@ function Experience() {
       <section className="paper-bg pb-20">
         <div className="mx-auto max-w-7xl px-6">
           <div className="flex items-baseline justify-between mb-8 flex-wrap gap-3">
-            <h2 className="font-display text-3xl md:text-4xl text-forest">What we arrange for you</h2>
-            <span className="font-serif italic text-sm text-muted-foreground">From first enquiry to final shipment</span>
+            <h2 className="font-display text-3xl md:text-4xl text-forest">
+              {getContent("experience.services.section_title", "What we arrange for you")}
+            </h2>
+            <span className="font-serif italic text-sm text-muted-foreground">
+              {getContent("experience.services.section_subtitle", "From first enquiry to final shipment")}
+            </span>
           </div>
           <div className="grid md:grid-cols-3 border border-accent/25">
             {services.map((s, i) => (
@@ -284,24 +306,42 @@ function Experience() {
             <div className="border border-accent/20 bg-card overflow-hidden">
               <div className="grid md:grid-cols-[1fr_1fr]">
                 <div className="p-8 md:p-12 lg:p-16 flex flex-col justify-center">
-                  <p className="text-[10px] tracking-[0.3em] uppercase text-accent mb-4">Equipment & Gear</p>
+                  <p className="text-[10px] tracking-[0.3em] uppercase text-accent mb-4">
+                    {getContent("experience.rifle.eyebrow", "Equipment & Gear")}
+                  </p>
                   <h2 className="font-display italic text-3xl md:text-4xl text-forest leading-tight mb-6">
-                    Rifle Rental.
+                    {getContent("experience.rifle.title", "Rifle Rental.")}
                   </h2>
                   <p className="font-serif text-base text-foreground/75 leading-relaxed mb-6">
-                    Travelling with firearms is increasingly complex. We maintain an immaculate armory in camp for our clients to use. Our collection includes scoped large-calibre rifles specifically suited to African dangerous and plains game.
+                    {getContent(
+                      "experience.rifle.body",
+                      "Travelling with firearms is increasingly complex. We maintain an immaculate armory in camp for our clients to use. Our collection includes scoped large-calibre rifles specifically suited to African dangerous and plains game."
+                    )}
                   </p>
                   <ul className="space-y-3 font-serif text-sm text-foreground/70 mb-8">
-                    <li className="flex gap-3"><span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-ember shrink-0" />.375 H&H Magnum for general dangerous game</li>
-                    <li className="flex gap-3"><span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-ember shrink-0" />.416 Rigby for heavy cover buffalo and elephant</li>
-                    <li className="flex gap-3"><span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-ember shrink-0" />.300 Win Mag for longer plains game shots</li>
+                    <li className="flex gap-3">
+                      <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-ember shrink-0" />
+                      {getContent("experience.rifle.detail_1", ".375 H&H Magnum for general dangerous game")}
+                    </li>
+                    <li className="flex gap-3">
+                      <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-ember shrink-0" />
+                      {getContent("experience.rifle.detail_2", ".416 Rigby for heavy cover buffalo and elephant")}
+                    </li>
+                    <li className="flex gap-3">
+                      <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-ember shrink-0" />
+                      {getContent("experience.rifle.detail_3", ".300 Win Mag for longer plains game shots")}
+                    </li>
                   </ul>
                   <p className="font-serif italic text-sm text-muted-foreground border-l border-accent/50 pl-4">
-                    All rental rifles are sighted-in upon your arrival at camp. Premium ammunition is supplied per round.
+                    {getContent("experience.rifle.footnote", "All rental rifles are sighted-in upon your arrival at camp. Premium ammunition is supplied per round.")}
                   </p>
                 </div>
                 <div className="bg-ink relative min-h-[300px]">
-                  <img src={photos.gearAmmo} alt="Rifles and Ammunition" className="absolute inset-0 w-full h-full object-cover opacity-80" />
+                  <img
+                    src={resolveImage(getContent("experience.rifle.image", "gearAmmo"))}
+                    alt="Rifles and Ammunition"
+                    className="absolute inset-0 w-full h-full object-cover opacity-80"
+                  />
                   <div className="absolute inset-0 bg-gradient-to-r from-card to-transparent w-1/4 hidden md:block" />
                 </div>
               </div>
@@ -316,20 +356,41 @@ function Experience() {
           <Reveal>
             <div className="bg-card border border-accent/20 overflow-hidden h-full flex flex-col">
               <div className="aspect-[16/9] bg-ink relative">
-                <img src={photos.campAerial} alt="Camp at Esilalei" loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
+                <img
+                  src={resolveImage(getContent("experience.camp.image", "campAerial"))}
+                  alt="Camp at Esilalei"
+                  loading="lazy"
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
               </div>
               <div className="p-8 flex-1 flex flex-col">
-                <p className="text-[10px] tracking-[0.22em] uppercase text-accent mb-2">The Camp</p>
+                <p className="text-[10px] tracking-[0.22em] uppercase text-accent mb-2">
+                  {getContent("experience.camp.eyebrow", "The Camp")}
+                </p>
                 <h3 className="font-display italic text-2xl md:text-3xl text-forest leading-tight">
-                  Bring a partner.<br />The camp is half the experience.
+                  {getContent("experience.camp.title_line1", "Bring a partner.")}
+                  <br />
+                  {getContent("experience.camp.title_line2", "The camp is half the experience.")}
                 </h3>
                 <p className="mt-4 font-serif text-base text-foreground/70 leading-relaxed">
-                  Partners, photographers, and non-hunting guests are welcome. Canvas tents, copper basins, open-fire kitchen, and a long table where stories outlive the embers.
+                  {getContent(
+                    "experience.camp.body",
+                    "Partners, photographers, and non-hunting guests are welcome. Canvas tents, copper basins, open-fire kitchen, and a long table where stories outlive the embers."
+                  )}
                 </p>
                 <ul className="mt-5 space-y-2 text-sm text-foreground/75 font-serif">
-                  <li className="flex gap-3"><span className="mt-2 h-1 w-1 rounded-full bg-accent/60 shrink-0" />Full-board tented accommodation</li>
-                  <li className="flex gap-3"><span className="mt-2 h-1 w-1 rounded-full bg-accent/60 shrink-0" />Private camp buyout available</li>
-                  <li className="flex gap-3"><span className="mt-2 h-1 w-1 rounded-full bg-accent/60 shrink-0" />Non-hunting guest packages</li>
+                  <li className="flex gap-3">
+                    <span className="mt-2 h-1 w-1 rounded-full bg-accent/60 shrink-0" />
+                    {getContent("experience.camp.bullet_1", "Full-board tented accommodation")}
+                  </li>
+                  <li className="flex gap-3">
+                    <span className="mt-2 h-1 w-1 rounded-full bg-accent/60 shrink-0" />
+                    {getContent("experience.camp.bullet_2", "Private camp buyout available")}
+                  </li>
+                  <li className="flex gap-3">
+                    <span className="mt-2 h-1 w-1 rounded-full bg-accent/60 shrink-0" />
+                    {getContent("experience.camp.bullet_3", "Non-hunting guest packages")}
+                  </li>
                 </ul>
                 <Link to="/contact" className="mt-6 self-start inline-flex items-center gap-2 px-5 py-3 border border-accent/40 text-accent tracking-[0.18em] text-[11px] uppercase hover:bg-[rgba(210,185,140,0.06)] transition">
                   Enquire about camp <ArrowRight className="h-3.5 w-3.5" />
@@ -341,20 +402,39 @@ function Experience() {
           <Reveal delay={0.1}>
             <div className="bg-card border border-accent/20 overflow-hidden h-full flex flex-col">
               <div className="aspect-[16/9] bg-ink relative">
-                <img src={photos.elephant} alt="Private concession near Ruaha" loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
+                <img
+                  src={resolveImage(getContent("experience.concession.image", "elephant"))}
+                  alt="Private concession near Ruaha"
+                  loading="lazy"
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
               </div>
               <div className="p-8 flex-1 flex flex-col">
-                <p className="text-[10px] tracking-[0.22em] uppercase text-accent mb-2">The Concession</p>
+                <p className="text-[10px] tracking-[0.22em] uppercase text-accent mb-2">
+                  {getContent("experience.concession.eyebrow", "The Concession")}
+                </p>
                 <h3 className="font-display italic text-2xl md:text-3xl text-forest leading-tight">
-                  Near Ruaha National Park.
+                  {getContent("experience.concession.title", "Near Ruaha National Park.")}
                 </h3>
                 <p className="mt-4 font-serif text-base text-foreground/70 leading-relaxed">
-                  A hunting block near Ruaha, renowned for big and dangerous game — Elephant, Cape Buffalo, Lion, Leopard. Ethical hunts, sustainable practices, tailored to your goals.
+                  {getContent(
+                    "experience.concession.body",
+                    "A hunting block near Ruaha, renowned for big and dangerous game — Elephant, Cape Buffalo, Lion, Leopard. Ethical hunts, sustainable practices, tailored to your goals."
+                  )}
                 </p>
                 <ul className="mt-5 space-y-2 text-sm text-foreground/75 font-serif">
-                  <li className="flex gap-3"><span className="mt-2 h-1 w-1 rounded-full bg-accent/60 shrink-0" />Elephant, Cape Buffalo, Lion, Leopard</li>
-                  <li className="flex gap-3"><span className="mt-2 h-1 w-1 rounded-full bg-accent/60 shrink-0" />Kudu, plains game, iconic predators</li>
-                  <li className="flex gap-3"><span className="mt-2 h-1 w-1 rounded-full bg-accent/60 shrink-0" />Expertly guided, conservation-focused</li>
+                  <li className="flex gap-3">
+                    <span className="mt-2 h-1 w-1 rounded-full bg-accent/60 shrink-0" />
+                    {getContent("experience.concession.bullet_1", "Elephant, Cape Buffalo, Lion, Leopard")}
+                  </li>
+                  <li className="flex gap-3">
+                    <span className="mt-2 h-1 w-1 rounded-full bg-accent/60 shrink-0" />
+                    {getContent("experience.concession.bullet_2", "Kudu, plains game, iconic predators")}
+                  </li>
+                  <li className="flex gap-3">
+                    <span className="mt-2 h-1 w-1 rounded-full bg-accent/60 shrink-0" />
+                    {getContent("experience.concession.bullet_3", "Expertly guided, conservation-focused")}
+                  </li>
                 </ul>
                 <Link to="/conservation" className="mt-6 self-start inline-flex items-center gap-2 px-5 py-3 border border-accent/40 text-accent tracking-[0.18em] text-[11px] uppercase hover:bg-[rgba(210,185,140,0.06)] transition">
                   Explore concession <ArrowRight className="h-3.5 w-3.5" />
@@ -370,7 +450,10 @@ function Experience() {
         <div className="mx-auto max-w-7xl px-6">
           <div className="flex items-center justify-between gap-6 flex-wrap py-6 border-t border-b border-accent/15">
             <p className="font-serif italic text-base md:text-lg text-foreground/65 max-w-2xl leading-relaxed">
-              "We handle the permits, CITES paperwork, charter flights, and trophy shipment. You carry the rifle. We carry everything else."
+              {getContent(
+                "experience.logistics.text",
+                '"We handle the permits, CITES paperwork, charter flights, and trophy shipment. You carry the rifle. We carry everything else."'
+              )}
             </p>
             <Link
               to="/hunting-services"
