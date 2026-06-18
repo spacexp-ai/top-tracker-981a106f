@@ -1,7 +1,10 @@
 import { Link, useRouter } from "@tanstack/react-router";
-import { Trophy, Users, LeafyGreen, UserCog, LogOut, Menu, X, ChevronDown, User, Settings, Image as ImageIcon, Users2 } from "lucide-react";
+import { Trophy, Users, LeafyGreen, UserCog, LogOut, Menu, X, ChevronDown, User, Settings, Image as ImageIcon, Users2, LayoutGrid } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
+import { getDashboard } from "@/lib/portal.functions";
 import { BinocularIcon } from "@/components/icons/BinocularIcon";
 import { WaterproofMapIcon } from "@/components/icons/WaterproofMapIcon";
 import { HuntingBackpackIcon } from "@/components/icons/HuntingBackpackIcon";
@@ -33,6 +36,13 @@ const soon = [
 export function PortalShell({ children, title }: { children: ReactNode; title: string }) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
+
+  const fn = useServerFn(getDashboard);
+  const { data } = useQuery({
+    queryKey: ["dashboard"],
+    queryFn: () => fn(),
+  });
+  const isAdmin = data?.roles?.some((r) => r.role === "admin") ?? false;
 
   async function signOut() {
     await supabase.auth.signOut();
@@ -130,6 +140,16 @@ export function PortalShell({ children, title }: { children: ReactNode; title: s
                 <n.icon className="h-4 w-4" /> {n.label}
               </Link>
             ))}
+            {isAdmin && (
+              <Link
+                to="/portal/cms"
+                onClick={() => setOpen(false)}
+                className="flex items-center gap-3 px-3 py-2.5 text-sm text-[#a8a8a0] hover:text-[#f5f5f0] hover:bg-[#1a1a1a] border-l-2 border-transparent transition"
+                activeProps={{ className: "flex items-center gap-3 px-3 py-2.5 text-sm text-[#c9a84c] bg-[#1a1a1a] border-l-2 border-[#c9a84c]" }}
+              >
+                <LayoutGrid className="h-4 w-4" /> Site CMS
+              </Link>
+            )}
             <div className="pt-6 pb-2 px-3 text-[10px] tracking-[0.3em] uppercase text-[#5a5a55]">Coming soon</div>
             {soon.map((s) => (
               <div key={s.label} className="flex items-center justify-between gap-3 px-3 py-2.5 text-sm text-[#5a5a55]">

@@ -21,9 +21,11 @@ import {
 } from "@/components/WildlifeIcons";
 import { photos } from "@/assets/photos";
 import map from "@/assets/map-texture.jpg";
-const hero = photos.acaciaSunset;
-const camp = photos.campNight;
-const experience = photos.hunterValley;
+import { useSiteContent, resolveImage } from "@/hooks/useSiteContent";
+
+const heroFallback = photos.acaciaSunset;
+const campFallback = photos.campNight;
+const experienceFallback = photos.hunterValley;
 const wildlife = photos.lioness;
 
 export const Route = createFileRoute("/")({
@@ -39,6 +41,12 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
+  const { data: content } = useSiteContent();
+  
+  const getContent = (key: string, fallback: string) => {
+    return content?.[key] ?? fallback;
+  };
+
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
@@ -53,8 +61,8 @@ function Home() {
       <section ref={heroRef} className="relative h-[100svh] overflow-hidden bg-ink">
         <motion.div style={{ y }} className="absolute inset-0 bg-ink">
           <video
-            src="/media/hero-intro.mp4"
-            poster={hero}
+            src={getContent("home.hero.video_url", "/media/hero-intro.mp4")}
+            poster={resolveImage(getContent("home.hero.poster_url", "acaciaSunset"))}
             autoPlay
             muted
             loop
@@ -72,7 +80,7 @@ function Home() {
             className="mb-6"
           >
             <div className="vintage-divider text-[10px] tracking-[0.5em] uppercase text-accent">
-              <span>In the heart of Tanzania</span>
+              <span>{getContent("home.hero.subtitle", "In the heart of Tanzania")}</span>
             </div>
           </motion.div>
 
@@ -82,7 +90,10 @@ function Home() {
             transition={{ duration: 0.7, delay: 0.1 }}
             className="font-display text-bone text-[18vw] md:text-[10vw] leading-[0.95] max-w-6xl"
           >
-            <span className="italic font-serif text-accent">Welcome</span>.
+            <span className="italic font-serif text-accent">
+              {getContent("home.hero.title_italic", "Welcome")}
+            </span>
+            {getContent("home.hero.title_plain", ".")}
           </motion.h1>
 
           <motion.p
@@ -91,8 +102,10 @@ function Home() {
             transition={{ duration: 0.8, delay: 0.3 }}
             className="mt-8 max-w-2xl text-bone/80 font-serif text-xl md:text-2xl tracking-wide"
           >
-            To Africa's premier hunting club — where the chase is shaped by
-            patience, craft, and respect.
+            {getContent(
+              "home.hero.description",
+              "To Africa's premier hunting club — where the chase is shaped by patience, craft, and respect."
+            )}
           </motion.p>
 
           <motion.div
@@ -132,19 +145,20 @@ function Home() {
         <div className="absolute inset-0 opacity-[0.08]" style={{ backgroundImage: `url(${map})`, backgroundSize: "cover", backgroundPosition: "center" }} />
         <div className="relative mx-auto max-w-4xl px-6 text-center">
           <Reveal>
-            <Eyebrow>Welcome, Tracker</Eyebrow>
+            <Eyebrow>{getContent("home.intro.eyebrow", "Welcome, Tracker")}</Eyebrow>
           </Reveal>
           <Reveal delay={0.1}>
             <h2 className="mt-8 font-display text-4xl md:text-6xl text-forest leading-tight">
-              More than a hunt.<br />
-              <span className="font-serif italic text-ember">A legacy.</span>
+              {getContent("home.intro.title_line1", "More than a hunt.")}<br />
+              <span className="font-serif italic text-ember">{getContent("home.intro.title_line2", "A legacy.")}</span>
             </h2>
           </Reveal>
           <Reveal delay={0.2}>
             <p className="mt-10 font-serif text-2xl leading-relaxed text-foreground/80">
-              Top Trackers is more than a hunting club. We are the meeting ground for a community of
-              passionate hunters, conservationists, and wilderness enthusiasts — whether you are a
-              seasoned safari veteran or preparing for your first African expedition.
+              {getContent(
+                "home.intro.body",
+                "Top Trackers is more than a hunting club. We are the meeting ground for a community of passionate hunters, conservationists, and wilderness enthusiasts — whether you are a seasoned safari veteran or preparing for your first African expedition."
+              )}
             </p>
           </Reveal>
           <Reveal delay={0.3}>
@@ -160,19 +174,31 @@ function Home() {
         <FloatingTracks count={8} />
         <div className="relative mx-auto max-w-7xl px-6">
           <Reveal>
-            <Eyebrow light>Three pillars</Eyebrow>
+            <Eyebrow light>{getContent("home.pillars.eyebrow", "Three pillars")}</Eyebrow>
           </Reveal>
           <Reveal delay={0.1}>
             <h2 className="mt-6 font-display text-4xl md:text-5xl max-w-2xl">
-              The Top Tracker's way.
+              {getContent("home.pillars.title", "The Top Tracker's way.")}
             </h2>
           </Reveal>
 
           <div className="mt-20 grid md:grid-cols-3 gap-px bg-bone/10">
             {[
-              { Icon: Footprints, title: "Patience", body: "We hunt slow. Every track is read, every wind weighed. The chase is measured in days, not minutes." },
-              { Icon: Compass, title: "Craft", body: "Professional hunters with decades across Tanzania's most storied concessions. Field-tested, quietly precise." },
-              { Icon: Mountain, title: "Respect", body: "For the animal, the land, and the communities who steward it. Conservation is the price of the privilege." },
+              {
+                Icon: Footprints,
+                title: getContent("home.pillars.1.title", "Patience"),
+                body: getContent("home.pillars.1.body", "We hunt slow. Every track is read, every wind weighed. The chase is measured in days, not minutes."),
+              },
+              {
+                Icon: Compass,
+                title: getContent("home.pillars.2.title", "Craft"),
+                body: getContent("home.pillars.2.body", "Professional hunters with decades across Tanzania's most storied concessions. Field-tested, quietly precise."),
+              },
+              {
+                Icon: Mountain,
+                title: getContent("home.pillars.3.title", "Respect"),
+                body: getContent("home.pillars.3.body", "For the animal, the land, and the communities who steward it. Conservation is the price of the privilege."),
+              },
             ].map(({ Icon, title, body }, i) => (
               <Reveal key={title} delay={i * 0.1}>
                 <div className="bg-ink p-10 h-full hover:bg-forest/30 transition-colors duration-300 group">
@@ -240,7 +266,15 @@ function Home() {
         <div className="mx-auto max-w-7xl px-6 grid md:grid-cols-2 gap-16 items-center">
           <Reveal>
             <div className="relative">
-              <img src={experience} alt="Hunter scanning savanna at sunrise" loading="lazy" width={1600} height={1100} className="w-full aspect-[4/5] object-cover" style={{ boxShadow: "var(--shadow-vintage)" }} />
+              <img
+                src={resolveImage(getContent("home.experience.image_url", "hunterValley"))}
+                alt="Hunter scanning savanna at sunrise"
+                loading="lazy"
+                width={1600}
+                height={1100}
+                className="w-full aspect-[4/5] object-cover"
+                style={{ boxShadow: "var(--shadow-vintage)" }}
+              />
               <div className="absolute -bottom-6 -right-6 bg-accent text-accent-foreground px-6 py-4 font-display tracking-[0.2em] text-sm hidden md:block">
                 EST. 2023
               </div>
@@ -248,19 +282,19 @@ function Home() {
           </Reveal>
           <div>
             <Reveal>
-              <Eyebrow>The Experience</Eyebrow>
+              <Eyebrow>{getContent("home.experience.eyebrow", "The Experience")}</Eyebrow>
             </Reveal>
             <Reveal delay={0.1}>
               <h2 className="mt-6 font-display text-4xl md:text-5xl text-forest leading-[1.1]">
-                A safari shaped by patience, craft, and respect.
+                {getContent("home.experience.title", "A safari shaped by patience, craft, and respect.")}
               </h2>
             </Reveal>
             <Reveal delay={0.2}>
               <p className="mt-8 font-serif text-xl text-foreground/75 leading-relaxed">
-                Each expedition is curated by professional hunters with decades of experience
-                across Tanzania's most storied concessions. From your first inquiry to the final
-                trophy shipment, every detail is attended to with the discretion and precision a
-                serious hunter expects.
+                {getContent(
+                  "home.experience.body",
+                  "Each expedition is curated by professional hunters with decades of experience across Tanzania's most storied concessions. From your first inquiry to the final trophy shipment, every detail is attended to with the discretion and precision a serious hunter expects."
+                )}
               </p>
             </Reveal>
             <Reveal delay={0.3}>
@@ -270,8 +304,11 @@ function Home() {
                   "PH-led tracking with native Wagogo and Maasai scouts",
                   "Full-service tented camps with brass, canvas, and lantern light",
                   "Trophy preparation, documentation, and worldwide shipment",
-                ].map((line) => (
-                  <li key={line} className="flex gap-3"><span className="text-ember mt-1">◆</span>{line}</li>
+                ].map((line, i) => (
+                  <li key={line} className="flex gap-3">
+                    <span className="text-ember mt-1">◆</span>
+                    {getContent(`home.experience.bullet_${i + 1}`, line)}
+                  </li>
                 ))}
               </ul>
             </Reveal>
@@ -353,22 +390,33 @@ function Home() {
       <section className="relative paper-bg py-32 overflow-hidden">
         <div className="mx-auto max-w-7xl px-6 grid md:grid-cols-5 gap-12 items-center">
           <div className="md:col-span-2">
-            <Reveal><Eyebrow>The Camp</Eyebrow></Reveal>
+            <Reveal><Eyebrow>{getContent("home.camp.eyebrow", "The Camp")}</Eyebrow></Reveal>
             <Reveal delay={0.1}>
               <h2 className="mt-6 font-display text-4xl md:text-5xl text-forest leading-[1.1]">
-                Canvas, brass &<br /><span className="font-serif italic text-ember">lantern light.</span>
+                {getContent("home.camp.title_line1", "Canvas, brass &")}<br />
+                <span className="font-serif italic text-ember">{getContent("home.camp.title_line2", "lantern light.")}</span>
               </h2>
             </Reveal>
             <Reveal delay={0.2}>
               <p className="mt-6 font-serif text-xl text-foreground/75">
-                Our base camp sits beneath an acacia grove near Esilalei. Hand-stitched canvas tents,
-                copper basins, an open-fire kitchen, and a long table where stories outlive the embers.
+                {getContent(
+                  "home.camp.body",
+                  "Our base camp sits beneath an acacia grove near Esilalei. Hand-stitched canvas tents, copper basins, an open-fire kitchen, and a long table where stories outlive the embers."
+                )}
               </p>
             </Reveal>
           </div>
           <Reveal delay={0.2} className="md:col-span-3">
             <div className="relative">
-              <img src={camp} alt="Safari tented camp at dusk" loading="lazy" width={1600} height={1100} className="w-full aspect-[16/10] object-cover" style={{ boxShadow: "var(--shadow-vintage)" }} />
+              <img
+                src={resolveImage(getContent("home.camp.image_url", "campNight"))}
+                alt="Safari tented camp at dusk"
+                loading="lazy"
+                width={1600}
+                height={1100}
+                className="w-full aspect-[16/10] object-cover"
+                style={{ boxShadow: "var(--shadow-vintage)" }}
+              />
             </div>
           </Reveal>
         </div>
@@ -383,12 +431,15 @@ function Home() {
           </Reveal>
           <Reveal delay={0.1}>
             <p className="mt-4 font-serif italic text-2xl md:text-4xl leading-snug">
-              In Africa, the hunt is not what you take from the land — it is what the land slowly teaches you to become.
+              {getContent(
+                "home.quote.text",
+                "In Africa, the hunt is not what you take from the land — it is what the land slowly teaches you to become."
+              )}
             </p>
           </Reveal>
           <Reveal delay={0.2}>
             <div className="mt-10 vintage-divider text-[10px] tracking-[0.5em] uppercase text-accent">
-              <span>Hemingway, paraphrased — and lived</span>
+              <span>{getContent("home.quote.author", "Hemingway, paraphrased — and lived")}</span>
             </div>
           </Reveal>
         </div>
@@ -398,16 +449,20 @@ function Home() {
       <section className="relative paper-bg py-28">
         <div className="mx-auto max-w-4xl px-6 text-center">
           <Reveal>
-            <Eyebrow>Begin</Eyebrow>
+            <Eyebrow>{getContent("home.cta.eyebrow", "Begin")}</Eyebrow>
           </Reveal>
           <Reveal delay={0.1}>
             <h2 className="mt-6 font-display text-4xl md:text-6xl text-forest">
-              Plan your <span className="italic font-serif text-ember">first chase</span>.
+              {getContent("home.cta.title_normal", "Plan your ")}
+              <span className="italic font-serif text-ember">{getContent("home.cta.title_italic", "first chase")}</span>.
             </h2>
           </Reveal>
           <Reveal delay={0.2}>
             <p className="mt-6 font-serif text-xl text-foreground/75 max-w-2xl mx-auto">
-              Tell us what you seek. We'll match you to a concession, a professional hunter, and a window of weather worth the journey.
+              {getContent(
+                "home.cta.body",
+                "Tell us what you seek. We'll match you to a concession, a professional hunter, and a window of weather worth the journey."
+              )}
             </p>
           </Reveal>
           <Reveal delay={0.3}>
