@@ -16,6 +16,7 @@ import { WildlifePopup } from "@/components/WildlifePopup";
 import { CookieConsent } from "@/components/CookieConsent";
 import { CompassGate } from "@/components/CompassGate";
 import { CustomCursor } from "@/components/CustomCursor";
+import { InstallBanner } from "@/components/InstallBanner";
 import { useTranslation } from "react-i18next";
 
 function NotFoundComponent() {
@@ -117,6 +118,7 @@ function RootComponent() {
       <CompassGate />
       <CookieConsent />
       <CustomCursor />
+      <InstallBanner />
     </QueryClientProvider>
   );
 }
