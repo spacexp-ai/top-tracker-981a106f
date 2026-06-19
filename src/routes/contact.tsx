@@ -5,6 +5,7 @@ import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Reveal } from "@/components/Reveal";
 import { Eyebrow } from "@/components/Eyebrow";
+import { useTranslation } from "react-i18next";
 import { ArrowRight, Mail, Phone, MapPin, CalendarIcon, CreditCard, Loader2 } from "lucide-react";
 import { photos } from "@/assets/photos";
 import { WeatherWidget } from "@/components/WeatherWidget";
@@ -27,6 +28,7 @@ export const Route = createFileRoute("/contact")({
 const DEPOSIT_USD = 1500;
 
 function Contact() {
+  const { t } = useTranslation();
   const [sent, setSent] = useState(false);
   const [date, setDate] = useState<Date | undefined>();
   const [payState, setPayState] = useState<"idle" | "loading" | "error">("idle");
@@ -74,10 +76,10 @@ function Contact() {
         <img src={campImage} alt="Contact banner" className="absolute inset-0 w-full h-full object-cover opacity-55" />
         <div className="absolute inset-0 bg-gradient-to-b from-ink/40 via-ink/30 to-ink" />
         <div className="relative h-full flex flex-col items-center justify-center text-center px-6 text-bone">
-          <Eyebrow light>{getContent("contact.hero.eyebrow", "Plan your expedition")}</Eyebrow>
+          <Eyebrow light>{getContent("contact.hero.eyebrow", t("contact.hero.eyebrow", "Plan your expedition"))}</Eyebrow>
           <h1 className="mt-6 font-display text-5xl md:text-7xl max-w-4xl leading-[0.95] text-bone">
-            {getContent("contact.hero.title_normal", "Book your ")}
-            <span className="italic font-serif text-accent">{getContent("contact.hero.title_italic", "safari.")}</span>
+            {getContent("contact.hero.title_normal", t("contact.hero.title_normal", "Book your "))}
+            <span className="italic font-serif text-accent">{getContent("contact.hero.title_italic", t("contact.hero.title_italic", "safari."))}</span>
           </h1>
         </div>
       </section>
@@ -90,25 +92,25 @@ function Contact() {
               onSubmit={(e) => { e.preventDefault(); setSent(true); }}
               className="bg-card border border-border p-8 md:p-10 shadow-[var(--shadow-vintage)]"
             >
-              <div className="text-[10px] tracking-[0.4em] uppercase text-accent mb-2">{getContent("contact.form.eyebrow", "Inquiry")}</div>
-              <h3 className="font-display text-2xl text-forest mb-8">{getContent("contact.form.title", "Tell us what you seek.")}</h3>
+              <div className="text-[10px] tracking-[0.4em] uppercase text-accent mb-2">{getContent("contact.form.eyebrow", t("contact.form.eyebrow", "Inquiry"))}</div>
+              <h3 className="font-display text-2xl text-forest mb-8">{getContent("contact.form.title", t("contact.form.title", "Tell us what you seek."))}</h3>
 
               {sent ? (
                 <div className="py-16 text-center">
-                  <div className="font-display text-3xl text-ember">{getContent("contact.form.success_title", "Karibu.")}</div>
-                  <p className="mt-3 font-serif text-lg text-foreground/75">{getContent("contact.form.success_body", "Your message is on its way to camp. We'll be in touch shortly.")}</p>
+                  <div className="font-display text-3xl text-ember">{getContent("contact.form.success_title", t("contact.form.success_title", "Karibu."))}</div>
+                  <p className="mt-3 font-serif text-lg text-foreground/75">{getContent("contact.form.success_body", t("contact.form.success_body", "Your message is on its way to camp. We'll be in touch shortly."))}</p>
                 </div>
               ) : (
                 <div className="space-y-5">
                   <div className="grid md:grid-cols-2 gap-5">
-                    <Field label="Name" name="name" required />
-                    <Field label="Email" name="email" type="email" required value={email} onChange={setEmail} />
+                    <Field label={t("contact.form.name", "Name")} name="name" required />
+                    <Field label={t("contact.form.email", "Email")} name="email" type="email" required value={email} onChange={setEmail} />
                   </div>
-                  <Field label="Country" name="country" />
+                  <Field label={t("contact.form.country", "Country")} name="country" />
 
                   <div className="grid md:grid-cols-2 gap-5">
                     <div>
-                      <label className="block text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-2">Preferred start date</label>
+                      <label className="block text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-2">{t("contact.form.date", "Preferred start date")}</label>
                       <Popover>
                         <PopoverTrigger asChild>
                           <button
@@ -118,7 +120,7 @@ function Contact() {
                               !date && "text-muted-foreground",
                             )}
                           >
-                            {date ? format(date, "PPP") : "Pick a date"}
+                            {date ? format(date, "PPP") : t("contact.form.pickDate", "Pick a date")}
                             <CalendarIcon className="h-4 w-4 text-ember" />
                           </button>
                         </PopoverTrigger>
@@ -135,25 +137,25 @@ function Contact() {
                       </Popover>
                     </div>
                     <div>
-                      <label className="block text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-2">Interest</label>
+                      <label className="block text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-2">{t("contact.form.interest", "Interest")}</label>
                       <select className="w-full bg-transparent border border-input px-4 py-3 font-serif text-lg focus:outline-none focus:border-ember">
-                        <option>The Selous Classic</option>
-                        <option>Maasai Steppe Plains</option>
-                        <option>Iringa Highlands</option>
-                        <option>Club Membership</option>
-                        <option>Other</option>
+                        <option>{t("contact.form.interest_option1", "The Selous Classic")}</option>
+                        <option>{t("contact.form.interest_option2", "Maasai Steppe Plains")}</option>
+                        <option>{t("contact.form.interest_option3", "Iringa Highlands")}</option>
+                        <option>{t("contact.form.interest_option4", "Club Membership")}</option>
+                        <option>{t("contact.form.interest_option5", "Other")}</option>
                       </select>
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-2">Tell us more</label>
-                    <textarea rows={5} maxLength={2000} className="w-full bg-transparent border border-input px-4 py-3 font-serif text-lg focus:outline-none focus:border-ember" placeholder="Quarry, party size, anything we should know…" />
+                    <label className="block text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-2">{t("contact.form.more", "Tell us more")}</label>
+                    <textarea rows={5} maxLength={2000} className="w-full bg-transparent border border-input px-4 py-3 font-serif text-lg focus:outline-none focus:border-ember" placeholder={t("contact.form.placeholder", "Quarry, party size, anything we should know…")} />
                   </div>
 
                   <div className="flex flex-wrap gap-3 pt-2">
                     <button type="submit" className="inline-flex items-center gap-2 px-8 py-4 bg-forest text-bone tracking-[0.3em] text-[11px] uppercase hover:bg-ember transition">
-                      Send inquiry <ArrowRight className="h-4 w-4" />
+                      {t("contact.form.send", "Send inquiry")} <ArrowRight className="h-4 w-4" />
                     </button>
                     <button
                       type="button"
@@ -162,15 +164,15 @@ function Contact() {
                       className="inline-flex items-center gap-2 px-8 py-4 bg-accent text-accent-foreground tracking-[0.3em] text-[11px] uppercase hover:bg-ember hover:text-bone transition disabled:opacity-60"
                     >
                       {payState === "loading"
-                        ? <><Loader2 className="h-4 w-4 animate-spin" /> Preparing…</>
-                        : <><CreditCard className="h-4 w-4" /> Reserve with ${DEPOSIT_USD} deposit</>}
+                        ? <><Loader2 className="h-4 w-4 animate-spin" /> {t("contact.form.preparing", "Preparing…")}</>
+                        : <><CreditCard className="h-4 w-4" /> {t("contact.form.reserve", "Reserve with $1500 deposit")}</>}
                     </button>
                   </div>
                   {payState === "error" && (
                     <p className="text-sm text-ember font-serif italic">{payMsg}</p>
                   )}
                   <p className="text-[11px] text-muted-foreground font-serif italic">
-                    Deposit is fully credited against your safari balance. Refundable until 120 days before departure.
+                    {t("contact.form.footnote", "Deposit is fully credited against your safari balance. Refundable until 120 days before departure.")}
                   </p>
                 </div>
               )}
@@ -187,16 +189,16 @@ function Contact() {
             </Reveal>
             <Reveal delay={0.3}>
               <div className="bg-card border border-border p-6">
-                <div className="text-[10px] tracking-[0.4em] uppercase text-accent mb-3">{getContent("contact.office.title", "Office")}</div>
+                <div className="text-[10px] tracking-[0.4em] uppercase text-accent mb-3">{getContent("contact.office.title", t("contact.office.title", "Office"))}</div>
                 <ul className="space-y-3 font-serif text-base">
-                  <li className="flex gap-3"><MapPin className="h-4 w-4 text-ember mt-1 shrink-0" /> {getContent("contact.office.address", "Losirva, Esilalei, Monduli — Tanzania")}</li>
-                  <li className="flex gap-3"><Phone className="h-4 w-4 text-ember mt-1 shrink-0" /> {getContent("contact.office.phone", "+255 763 075 130")}</li>
-                  <li className="flex gap-3"><Mail className="h-4 w-4 text-ember mt-1 shrink-0" /> {getContent("contact.office.email", "info@top-trackers.com")}</li>
+                  <li className="flex gap-3"><MapPin className="h-4 w-4 text-ember mt-1 shrink-0" /> {getContent("contact.office.address", t("contact.office.address", "Losirva, Esilalei, Monduli — Tanzania"))}</li>
+                  <li className="flex gap-3"><Phone className="h-4 w-4 text-ember mt-1 shrink-0" /> {getContent("contact.office.phone", t("contact.office.phone", "+255 763 075 130"))}</li>
+                  <li className="flex gap-3"><Mail className="h-4 w-4 text-ember mt-1 shrink-0" /> {getContent("contact.office.email", t("contact.office.email", "info@top-trackers.com"))}</li>
                 </ul>
                 <div className="mt-5 pt-4 border-t border-border">
-                  <div className="text-[10px] tracking-[0.4em] uppercase text-accent mb-2">{getContent("contact.camp.title", "Base Camp")}</div>
-                  <div className="font-serif text-sm text-foreground/75">{getContent("contact.camp.body", "on the bank of Njombe River")}</div>
-                  <div className="mt-1 text-[11px] tracking-[0.18em] text-muted-foreground">{getContent("contact.camp.coordinates", "6°54′21.0″S · 34°59′14.8″E")}</div>
+                  <div className="text-[10px] tracking-[0.4em] uppercase text-accent mb-2">{getContent("contact.camp.title", t("contact.camp.title", "Base Camp"))}</div>
+                  <div className="font-serif text-sm text-foreground/75">{getContent("contact.camp.body", t("contact.camp.body", "on the bank of Njombe River"))}</div>
+                  <div className="mt-1 text-[11px] tracking-[0.18em] text-muted-foreground">{getContent("contact.camp.coordinates", t("contact.camp.coordinates", "6°54′21.0″S · 34°59′14.8″E"))}</div>
                 </div>
               </div>
             </Reveal>
