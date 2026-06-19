@@ -823,6 +823,27 @@ const resources = {
         dispatch: "Field Dispatch",
         rights: "All rights reserved.",
         slogan: "Ethical Hunting · Conservation Heritage"
+      },
+      map: {
+        open_in_maps: "Open in maps",
+        near_park: "Near Ruaha National Park",
+        title: "Top Trackers base camp — Njombe River"
+      },
+      weather: {
+        offline: "Weather offline",
+        reading: "Reading the sky over Ruaha…",
+        today: "Today",
+        precip: "precip",
+        wind: "wind",
+        horizon: "Forecast horizon is ~16 days — showing today's reading. Your hunt dates will be confirmed at booking.",
+        clear: "Clear",
+        mostly_sunny: "Mostly sunny",
+        overcast: "Overcast",
+        rain: "Rain",
+        snow: "Snow",
+        showers: "Showers",
+        thunderstorms: "Thunderstorms",
+        mild: "Mild"
       }
 
     }
@@ -1648,6 +1669,27 @@ const resources = {
         dispatch: "Terepi Hírlevél",
         rights: "Minden jog fenntartva.",
         slogan: "Etikus Vadászat · Természetvédelmi Örökség"
+      },
+      map: {
+        open_in_maps: "Megnyitás térképen",
+        near_park: "A Ruaha Nemzeti Park közelében",
+        title: "Top Trackers bázistábor — Njombe folyó"
+      },
+      weather: {
+        offline: "Időjárás offline",
+        reading: "Az égbolt vizsgálata Ruaha felett…",
+        today: "Ma",
+        precip: "csapadék",
+        wind: "szél",
+        horizon: "Az előrejelzési időtáv kb. 16 nap — a mai adatokat mutatjuk. A vadászat dátumait a foglaláskor igazoljuk vissza.",
+        clear: "Tiszta",
+        mostly_sunny: "Túlnyomóan napos",
+        overcast: "Borult",
+        rain: "Eső",
+        snow: "Havazás",
+        showers: "Záporok",
+        thunderstorms: "Zivatarok",
+        mild: "Enyhe"
       }
 
     }

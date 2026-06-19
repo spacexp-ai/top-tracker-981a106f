@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Cloud, CloudRain, CloudSnow, Sun, CloudSun, Loader2, Wind } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 // Ruaha, Tanzania (Njombe River concession)
 const LAT = -6.9058;
@@ -25,15 +26,15 @@ function icon(code: number) {
   return Cloud;
 }
 
-function describe(code: number) {
-  if (code === 0) return "Clear";
-  if ([1, 2].includes(code)) return "Mostly sunny";
-  if (code === 3) return "Overcast";
-  if (code >= 51 && code <= 67) return "Rain";
-  if (code >= 71 && code <= 77) return "Snow";
-  if (code >= 80 && code <= 82) return "Showers";
-  if (code >= 95) return "Thunderstorms";
-  return "Mild";
+function describe(code: number, t: any) {
+  if (code === 0) return t("weather.clear", "Clear");
+  if ([1, 2].includes(code)) return t("weather.mostly_sunny", "Mostly sunny");
+  if (code === 3) return t("weather.overcast", "Overcast");
+  if (code >= 51 && code <= 67) return t("weather.rain", "Rain");
+  if (code >= 71 && code <= 77) return t("weather.snow", "Snow");
+  if (code >= 80 && code <= 82) return t("weather.showers", "Showers");
+  if (code >= 95) return t("weather.thunderstorms", "Thunderstorms");
+  return t("weather.mild", "Mild");
 }
 
 export function useForecast() {
@@ -56,7 +57,7 @@ export function useForecast() {
         }));
         setData(arr);
       })
-      .catch(() => setError("Weather offline"));
+      .catch(() => setError("offline"));
   }, []);
 
   return { data, error };
@@ -64,18 +65,19 @@ export function useForecast() {
 
 export function WeatherWidget({ selectedDate }: { selectedDate?: Date }) {
   const { data, error } = useForecast();
+  const { t, i18n } = useTranslation();
 
   if (error) {
     return (
       <div className="bg-card border border-border p-5 text-sm text-muted-foreground">
-        {error}
+        {error === "offline" ? t("weather.offline", "Weather offline") : error}
       </div>
     );
   }
   if (!data) {
     return (
       <div className="bg-card border border-border p-5 flex items-center gap-3 text-sm text-muted-foreground">
-        <Loader2 className="h-4 w-4 animate-spin" /> Reading the sky over Ruaha…
+        <Loader2 className="h-4 w-4 animate-spin" /> {t("weather.reading", "Reading the sky over Ruaha…")}
       </div>
     );
   }
@@ -93,7 +95,7 @@ export function WeatherWidget({ selectedDate }: { selectedDate?: Date }) {
       <div className="flex items-center justify-between">
         <div className="text-[10px] tracking-[0.4em] uppercase text-accent">Ruaha · Tanzania</div>
         <div className="text-[10px] tracking-[0.3em] uppercase text-bone/50">
-          {selectedDate ? selectedDate.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }) : "Today"}
+          {selectedDate ? selectedDate.toLocaleDateString(i18n.language === "hu" ? "hu-HU" : "en-GB", { day: "numeric", month: "short", year: "numeric" }) : t("weather.today", "Today")}
         </div>
       </div>
 
@@ -110,23 +112,23 @@ export function WeatherWidget({ selectedDate }: { selectedDate?: Date }) {
             <div className="font-display text-4xl">
               {target.tmax}° <span className="text-bone/50 text-2xl">/ {target.tmin}°</span>
             </div>
-            <div className="text-sm font-serif italic text-bone/70">{describe(target.code)}</div>
+            <div className="text-sm font-serif italic text-bone/70">{describe(target.code, t)}</div>
           </div>
         </motion.div>
       </AnimatePresence>
 
       <div className="mt-4 grid grid-cols-2 gap-3 text-xs">
         <div className="flex items-center gap-2 text-bone/70">
-          <CloudRain className="h-3.5 w-3.5 text-accent" /> {target.precip} mm precip
+          <CloudRain className="h-3.5 w-3.5 text-accent" /> {target.precip} mm {t("weather.precip", "precip")}
         </div>
         <div className="flex items-center gap-2 text-bone/70">
-          <Wind className="h-3.5 w-3.5 text-accent" /> {target.wind} km/h wind
+          <Wind className="h-3.5 w-3.5 text-accent" /> {target.wind} km/h {t("weather.wind", "wind")}
         </div>
       </div>
 
       {selectedDate && !inRange && (
         <div className="mt-4 text-[11px] text-bone/50 italic">
-          Forecast horizon is ~16 days — showing today's reading. Your hunt dates will be confirmed at booking.
+          {t("weather.horizon", "Forecast horizon is ~16 days — showing today's reading. Your hunt dates will be confirmed at booking.")}
         </div>
       )}
     </div>
