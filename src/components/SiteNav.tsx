@@ -1,7 +1,8 @@
 import { Link } from "@tanstack/react-router";
 import { useState, useEffect, useRef } from "react";
-import { Menu, X, Globe, ChevronDown } from "lucide-react";
+import { Menu, X, Globe, ChevronDown, Download } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { usePWAInstall } from "@/hooks/usePWAInstall";
 import logoEn from "@/assets/logo_en.webp";
 import logoHu from "@/assets/logo_hu.webp";
 
@@ -14,6 +15,7 @@ const exploreLinks = [
 
 export function SiteNav() {
   const { t, i18n } = useTranslation();
+  const { isInstallable, isIOS, triggerInstall } = usePWAInstall();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
@@ -206,6 +208,20 @@ export function SiteNav() {
               </div>
             )}
           </div>
+
+          {/* PWA Install button — only shown when browser deems site installable */}
+          {isInstallable && (
+            <button
+              id="nav-install-app-btn"
+              onClick={triggerInstall}
+              title={isIOS ? "Add to Home Screen" : "Install Top Trackers"}
+              aria-label="Install Top Trackers app"
+              className="ml-1 flex items-center gap-1.5 px-2.5 py-1.5 text-[10px] tracking-[0.2em] uppercase text-bone/75 border border-bone/20 hover:border-accent hover:text-accent bg-ink/30 transition-all rounded-sm cursor-pointer"
+            >
+              <Download className="h-3 w-3" />
+              <span className="hidden xl:inline">Install</span>
+            </button>
+          )}
         </div>
 
         {/* Mobile Language Selector (right-side to balance grid) */}
