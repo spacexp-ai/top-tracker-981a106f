@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { format } from "date-fns";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -28,13 +28,75 @@ export const Route = createFileRoute("/contact")({
 const DEPOSIT_USD = 1500;
 
 function Contact() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [sent, setSent] = useState(false);
   const [date, setDate] = useState<Date | undefined>();
   const [payState, setPayState] = useState<"idle" | "loading" | "error">("idle");
   const [payMsg, setPayMsg] = useState<string>("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [country, setCountry] = useState("");
+  const [interest, setInterest] = useState("The Selous Classic");
+  const [more, setMore] = useState("");
   const { data: content } = useSiteContent();
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    const concession = params.get("concession");
+    const days = params.get("days");
+    const hunters = params.get("hunters");
+    const picked = params.get("picked");
+    const tier = params.get("tier");
+    const charter = params.get("charter");
+    const total = params.get("total");
+
+    if (concession) {
+      if (concession === "selous") setInterest("The Selous Classic");
+      else if (concession === "maasai") setInterest("Maasai Steppe Plains");
+      else if (concession === "iringa") setInterest("Iringa Highlands");
+    }
+
+    if (days || hunters || picked || tier || charter || total) {
+      const speciesLabels = picked
+        ? picked
+            .split(",")
+            .map((s) => {
+              const labelMap: Record<string, string> = {
+                buffalo: "Cape Buffalo",
+                leopard: "Leopard",
+                kudu: "Greater Kudu",
+                sable: "Sable Antelope",
+                eland: "Eland",
+                warthog: "Warthog",
+              };
+              return labelMap[s] || s;
+            })
+            .join(", ")
+        : "";
+
+      const tierLabels: Record<string, string> = {
+        none: "Non-member",
+        tracker: "Tracker",
+        ph: "Professional Hunter",
+        legacy: "Legacy",
+      };
+      const tierLabel = tier ? tierLabels[tier] || tier : "";
+
+      const summaryParts = [
+        "Estimate Details:",
+        concession ? `- Concession: ${concession.charAt(0).toUpperCase() + concession.slice(1)}` : "",
+        days ? `- Duration: ${days} days` : "",
+        hunters ? `- Party size: ${hunters} hunter(s)` : "",
+        speciesLabels ? `- Selected species: ${speciesLabels}` : "",
+        tierLabel ? `- Membership tier: ${tierLabel}` : "",
+        charter ? `- Private bush charter: ${charter === "true" ? "Yes" : "No"}` : "",
+        total ? `- Estimated Total: $${parseInt(total).toLocaleString("en-US")}` : "",
+      ].filter(Boolean);
+
+      setMore(summaryParts.join("\n"));
+    }
+  }, []);
 
   const getContent = (key: string, fallback: string) => {
     return content?.[key] ?? fallback;
@@ -103,10 +165,10 @@ function Contact() {
               ) : (
                 <div className="space-y-5">
                   <div className="grid md:grid-cols-2 gap-5">
-                    <Field label={t("contact.form.name", "Name")} name="name" required />
+                    <Field label={t("contact.form.name", "Name")} name="name" required value={name} onChange={setName} />
                     <Field label={t("contact.form.email", "Email")} name="email" type="email" required value={email} onChange={setEmail} />
                   </div>
-                  <Field label={t("contact.form.country", "Country")} name="country" />
+                  <Field label={t("contact.form.country", "Country")} name="country" value={country} onChange={setCountry} />
 
                   <div className="grid md:grid-cols-2 gap-5">
                     <div>
@@ -138,19 +200,30 @@ function Contact() {
                     </div>
                     <div>
                       <label className="block text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-2">{t("contact.form.interest", "Interest")}</label>
-                      <select className="w-full bg-transparent border border-input px-4 py-3 font-serif text-lg focus:outline-none focus:border-ember">
-                        <option>{t("contact.form.interest_option1", "The Selous Classic")}</option>
-                        <option>{t("contact.form.interest_option2", "Maasai Steppe Plains")}</option>
-                        <option>{t("contact.form.interest_option3", "Iringa Highlands")}</option>
-                        <option>{t("contact.form.interest_option4", "Club Membership")}</option>
-                        <option>{t("contact.form.interest_option5", "Other")}</option>
+                      <select
+                        value={interest}
+                        onChange={(e) => setInterest(e.target.value)}
+                        className="w-full bg-transparent border border-input px-4 py-3 font-serif text-lg focus:outline-none focus:border-ember"
+                      >
+                        <option value="The Selous Classic">{t("contact.form.interest_option1", "The Selous Classic")}</option>
+                        <option value="Maasai Steppe Plains">{t("contact.form.interest_option2", "Maasai Steppe Plains")}</option>
+                        <option value="Iringa Highlands">{t("contact.form.interest_option3", "Iringa Highlands")}</option>
+                        <option value="Club Membership">{t("contact.form.interest_option4", "Club Membership")}</option>
+                        <option value="Other">{t("contact.form.interest_option5", "Other")}</option>
                       </select>
                     </div>
                   </div>
 
                   <div>
                     <label className="block text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-2">{t("contact.form.more", "Tell us more")}</label>
-                    <textarea rows={5} maxLength={2000} className="w-full bg-transparent border border-input px-4 py-3 font-serif text-lg focus:outline-none focus:border-ember" placeholder={t("contact.form.placeholder", "Quarry, party size, anything we should know…")} />
+                    <textarea
+                      rows={5}
+                      maxLength={2000}
+                      value={more}
+                      onChange={(e) => setMore(e.target.value)}
+                      className="w-full bg-transparent border border-input px-4 py-3 font-serif text-lg focus:outline-none focus:border-ember"
+                      placeholder={t("contact.form.placeholder", "Quarry, party size, anything we should know…")}
+                    />
                   </div>
 
                   <div className="flex flex-wrap gap-3 pt-2">

@@ -270,7 +270,7 @@ function Estimator() {
                 </div>
 
                 <Link
-                  to="/contact"
+                  to={`/contact?concession=${concession}&days=${days}&hunters=${hunters}&picked=${picked.join(",")}&tier=${tier}&charter=${charter}&total=${breakdown.total}`}
                   className="mt-8 inline-flex w-full justify-center items-center gap-2 px-6 py-4 bg-accent text-accent-foreground tracking-[0.3em] text-[11px] uppercase hover:bg-ember hover:text-bone transition"
                 >
                   {t("estimator_embed.reserve_btn", "Reserve this estimate")} <ArrowRight className="h-4 w-4" />
