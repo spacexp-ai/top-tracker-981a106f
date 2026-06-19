@@ -6,10 +6,10 @@ import logoEn from "@/assets/logo_en.webp";
 import logoHu from "@/assets/logo_hu.webp";
 
 const exploreLinks = [
-  { to: "/experience", label: "The Experience" },
-  { to: "/concessions", label: "Our Concessions" },
-  { to: "/camp", label: "Camp Life" },
-  { to: "/beyond-the-hunt", label: "Beyond the Hunt" },
+  { to: "/experience",    labelKey: "nav.experience",   fallback: "The Experience" },
+  { to: "/concessions",  labelKey: "nav.concessions",  fallback: "Our Concessions" },
+  { to: "/camp",         labelKey: "nav.camp",          fallback: "Camp Life" },
+  { to: "/beyond-the-hunt", labelKey: "nav.beyond",    fallback: "Beyond the Hunt" },
 ];
 
 export function SiteNav() {
@@ -124,7 +124,7 @@ export function SiteNav() {
                       className="block px-5 py-3 text-[10px] tracking-[0.2em] uppercase text-bone/75 hover:text-accent hover:bg-accent/5 transition-colors"
                       activeProps={{ className: "text-accent bg-accent/5" }}
                     >
-                      {l.label}
+                      {t(l.labelKey, l.fallback)}
                     </Link>
                   ))}
                 </div>

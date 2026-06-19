@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Reveal } from "@/components/Reveal";
@@ -79,6 +80,17 @@ const activities = [
 ];
 
 function BeyondTheHunt() {
+  const { t } = useTranslation();
+
+  const activities = [
+    { id: "game-drives",       title: t("beyond_hunt.activities.1.title", "Game Drives"),           subtitle: t("beyond_hunt.activities.1.subtitle", "Sunrise & Sunset"),          desc: t("beyond_hunt.activities.1.desc", "Open-vehicle game drives with a dedicated scout through the concession."),       image: photos.gameDrive,    tag: t("beyond_hunt.activities.1.tag", "Daily") },
+    { id: "walking-trails",    title: t("beyond_hunt.activities.2.title", "Walking Trails"),         subtitle: t("beyond_hunt.activities.2.subtitle", "With a Scout"),             desc: t("beyond_hunt.activities.2.desc", "Walk the bush on foot with one of our Maasai or Wagogo scouts."),                  image: photos.walkingTrail, tag: t("beyond_hunt.activities.2.tag", "On request") },
+    { id: "bird-photography",  title: t("beyond_hunt.activities.3.title", "Bird Photography"),       subtitle: t("beyond_hunt.activities.3.subtitle", "500+ Species"),             desc: t("beyond_hunt.activities.3.desc", "Tanzania holds some of the most extraordinary birdlife on earth."),                image: photos.owl,          tag: t("beyond_hunt.activities.3.tag", "Year-round") },
+    { id: "maasai-village",    title: t("beyond_hunt.activities.4.title", "Maasai Village Visits"),  subtitle: t("beyond_hunt.activities.4.subtitle", "Cultural Immersion"),      desc: t("beyond_hunt.activities.4.desc", "Visit the Maasai communities who live alongside our concession."),                  image: photos.maasaiVillage,tag: t("beyond_hunt.activities.4.tag", "Arranged") },
+    { id: "stargazing",        title: t("beyond_hunt.activities.5.title", "Milky Way Stargazing"),   subtitle: t("beyond_hunt.activities.5.subtitle", "Zero Light Pollution"),    desc: t("beyond_hunt.activities.5.desc", "No town within 200 kilometres. The Southern Cross, the Milky Way core, and the full sweep of the southern sky."), image: photos.milkyway, tag: t("beyond_hunt.activities.5.tag", "Every night") },
+    { id: "helicopter-charter",title: t("beyond_hunt.activities.6.title", "Helicopter Charter"),    subtitle: t("beyond_hunt.activities.6.subtitle", "Wild Coast Scenic Flights"),desc: t("beyond_hunt.activities.6.desc", "See Tanzania from above — sweeping over the Rift Valley, the great concession blocks, and the remote floodplains."), image: photos.helicopter, tag: t("beyond_hunt.activities.6.tag", "On request") },
+  ];
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <SiteNav />

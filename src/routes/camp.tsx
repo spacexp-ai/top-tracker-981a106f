@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Reveal } from "@/components/Reveal";
@@ -70,6 +71,17 @@ const galleryImages = [
 ];
 
 function Camp() {
+  const { t } = useTranslation();
+
+  const amenities = [
+    { Icon: Tent,             title: t("camp_page.amenities.1.title", "Canvas Tented Suites"),  body: t("camp_page.amenities.1.body", "Hand-stitched canvas with brass fittings, proper beds with linen, and en-suite bucket shower."), image: photos.campDeck },
+    { Icon: Flame,            title: t("camp_page.amenities.2.title", "Open-Fire Kitchen"),      body: t("camp_page.amenities.2.body", "Our camp chef cooks over hardwood coals."),                                                           image: photos.breakfast },
+    { Icon: UtensilsCrossed,  title: t("camp_page.amenities.3.title", "The Long Table"),         body: t("camp_page.amenities.3.body", "Every evening the camp gathers at a single long table beneath the stars."),                           image: photos.dinner },
+    { Icon: Star,             title: t("camp_page.amenities.4.title", "Milky Way Nights"),       body: t("camp_page.amenities.4.body", "No light pollution within 200 kilometres. The Southern Cross rises above camp every night."),          image: photos.milkyway },
+    { Icon: Wind,             title: t("camp_page.amenities.5.title", "Camp Deck & Bush Bar"),   body: t("camp_page.amenities.5.body", "A raised teak deck faces the water pan. Sundowner hour is non-negotiable."),                         image: photos.campAerial },
+    { Icon: Users,            title: t("camp_page.amenities.6.title", "Staff & Valet"),          body: t("camp_page.amenities.6.body", "A dedicated camp manager, tracker team, and valet service."),                                         image: photos.guideJeep },
+  ];
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <SiteNav />

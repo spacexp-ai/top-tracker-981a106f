@@ -7,6 +7,10 @@ const resources = {
       nav: {
         story: "Our Story",
         experience: "The Experience",
+        explore: "Explore",
+        concessions: "Our Concessions",
+        camp: "Camp Life",
+        beyond: "Beyond the Hunt",
         membership: "Hunting Club",
         gallery: "Gallery",
         journal: "Journal",
@@ -844,6 +848,153 @@ const resources = {
         showers: "Showers",
         thunderstorms: "Thunderstorms",
         mild: "Mild"
+      },
+
+      concessions_page: {
+        hero: {
+          eyebrow: "Tanzania · Three Licensed Blocks",
+          title_plain: "OUR ",
+          title_italic: "Concessions."
+        },
+        intro: {
+          eyebrow: "What is a Concession?",
+          title_plain: "Private land. ",
+          title_italic: "Exclusive access.",
+          body1: "A hunting concession is a legally designated wilderness block, licenced under Tanzania Wildlife Authority (TAWA) and managed exclusively by Top Trackers. No other operator hunts our land. No tourist camps. No shared tracks. Just you, your professional hunter, and the wilderness — precisely as it should be.",
+          body2: "All three blocks are managed with annual game census, active anti-poaching patrols, and strict quota adherence — ensuring the land remains viable for generations of hunters to come."
+        },
+        concessions: {
+          1: {
+            label: "Block I",
+            title: "The Selous Classic",
+            subtitle: "Selous Game Reserve, Southern Tanzania",
+            desc: "Africa's largest game reserve. Riverine forest, hippo pools, and the slow patient art of dangerous-game tracking. This is the original frontier — vast, wild, and unchanged since the days of Frederick Selous himself.",
+            highlight: "Dangerous game specialist block",
+            season: "Jun – Oct",
+            size: "~120,000 acres"
+          },
+          2: {
+            label: "Block II",
+            title: "Maasai Steppe Plains",
+            subtitle: "Maasai Steppe, Northern Tanzania",
+            desc: "Open thornveld stretching to the horizon, cut by seasonal riverbeds and acacia groves. Hunt with Maasai trackers on some of the richest plains-game country in East Africa, where gerenuk and lesser kudu emerge at first light.",
+            highlight: "Plains game & specialist species",
+            season: "May – Sep",
+            size: "~80,000 acres"
+          },
+          3: {
+            label: "Block III",
+            title: "Iringa Highlands",
+            subtitle: "Iringa Region, Southern Highlands",
+            desc: "Cool miombo woodland and high ridgelines seldom visited by anyone but the most discerning hunters. A connoisseur's concession — quieter, slower, and rare in character. Roan and sable in their stronghold.",
+            highlight: "Premier sable & roan block",
+            season: "Jul – Nov",
+            size: "~55,000 acres"
+          }
+        },
+        labels: {
+          season: "Season",
+          size: "Block Size",
+          quarry: "Quarry"
+        },
+        cta_enquire: "Enquire about this block",
+        conservation: {
+          eyebrow: "Conservation First",
+          title_plain: "Every quota hunted. ",
+          title_italic: "Every animal counted.",
+          body: "Our concession management programme funds anti-poaching patrols, annual wildlife census, and direct revenue to the communities who live alongside these blocks. The hunt is the engine of conservation.",
+          cta_conservation: "Our conservation work",
+          cta_book: "Book an expedition"
+        }
+      },
+
+      camp_page: {
+        hero: {
+          eyebrow: "Esilalei, Northern Tanzania",
+          title_plain: "CAMP ",
+          title_italic: "Life.",
+          subtitle: "Canvas, brass, and lantern light. The chase is the reason — but the camp is the memory."
+        },
+        intro: {
+          eyebrow: "The Base Camp",
+          title_plain: "Home for the hunt. ",
+          title_italic: "Worth returning to.",
+          body1: "Our base camp sits beneath an acacia grove near Esilalei, in the heart of the northern Tanzanian wilderness. Hand-stitched canvas tents, copper basins, and a long dining table — the full-service tented camp that serious hunters remember for decades.",
+          body2: "This is not a lodge. It is a camp — built for the hunt, run with precision, and alive with the sounds of the bush from the moment you arrive to the moment you leave.",
+          cta_book: "Book your stay",
+          cta_beyond: "Non-hunting activities"
+        },
+        amenities: {
+          eyebrow: "Camp Amenities",
+          title_plain: "Everything you need. ",
+          title_italic: "Nothing you don't.",
+          1: { title: "Canvas Tented Suites", body: "Hand-stitched canvas with brass fittings, proper beds with linen, and en-suite bucket shower. Hot water at dawn and dusk. Quiet enough to hear the nightjars." },
+          2: { title: "Open-Fire Kitchen", body: "Our camp chef cooks over hardwood coals. Three-course dinners in the bush, bush breakfasts before the track, and a tea tray delivered to your tent at first light." },
+          3: { title: "The Long Table", body: "Every evening the camp gathers at a single long table beneath the stars. Stories, single malt, and the low call of hyenas across the floodplain." },
+          4: { title: "Milky Way Nights", body: "No light pollution within 200 kilometres. The Southern Cross rises above camp every night. We keep a telescope on the deck — use it." },
+          5: { title: "Camp Deck & Bush Bar", body: "A raised teak deck faces the water pan. Sundowner hour is non-negotiable. Cold Kilimanjaro lagers and the day's stories while the game comes to drink." },
+          6: { title: "Staff & Valet", body: "A dedicated camp manager, tracker team, and valet service. Your gear is cleaned, dried, and ready each morning. Nothing is too much to arrange." }
+        },
+        gallery: {
+          eyebrow: "From the Camp",
+          title: "Seen through the lens."
+        },
+        partners: {
+          eyebrow: "Bring Someone",
+          title_plain: "Camp is half ",
+          title_italic: "the experience.",
+          body: "Partners, photographers, and non-hunting guests are genuinely welcome. The camp is built for company. While hunters are in the field, guests take game drives, walk the trails, visit Maasai villages, or simply read by the water pan.",
+          bullet_1: "Dedicated non-hunting itinerary prepared on request",
+          bullet_2: "Game drives and walking trails with a scout",
+          bullet_3: "Photography and birding guides available",
+          bullet_4: "Full camp privileges — meals, bar, deck",
+          cta: "Beyond-the-Hunt activities"
+        },
+        rates: {
+          title_plain: "Ready to see it ",
+          title_italic: "for yourself?",
+          body: "Use our cost estimator to build your expedition, then reach out. We'll put a cup of coffee in your hand and walk you through the details.",
+          cta_estimate: "Estimate your trip cost",
+          cta_contact: "Contact a PH"
+        }
+      },
+
+      beyond_hunt: {
+        hero: {
+          eyebrow: "For Hunters, Partners & Solo Travellers",
+          title_plain: "BEYOND ",
+          title_italic: "the Hunt.",
+          subtitle: "There are so many incredible experiences waiting in Africa. We urge you to make the most of your time."
+        },
+        intro: {
+          eyebrow: "The Adventure Doesn't Stop There",
+          title_plain: "While you're here — ",
+          title_italic: "explore more.",
+          body: "There are so many incredible experiences just waiting for you in Tanzania. Whether you've hung up the rifle for the afternoon, brought a partner who doesn't hunt, or planned a standalone non-hunting safari — we arrange custom experiences to complement your time in the bush.",
+          note: "Contact us for any activity you'd like us to arrange. Nothing is too much trouble."
+        },
+        activities: {
+          1: { title: "Game Drives", subtitle: "Sunrise & Sunset", desc: "Open-vehicle game drives with a dedicated scout through the concession. The Selous and Maasai Steppe blocks carry exceptional general game — elephant, giraffe, zebra, and predators in the early hours.", tag: "Daily" },
+          2: { title: "Walking Trails", subtitle: "With a Scout", desc: "Walk the bush on foot with one of our Maasai or Wagogo scouts. Read tracks, identify trees, watch the land breathe. The most intimate way to experience the African wilderness without a rifle.", tag: "On request" },
+          3: { title: "Bird Photography", subtitle: "500+ Species", desc: "Tanzania holds some of the most extraordinary birdlife on earth. Our concession blocks host hornbills, rollers, fish eagles, secretary birds, and the elusive pel's fishing owl. Guides provided.", tag: "Year-round" },
+          4: { title: "Maasai Village Visits", subtitle: "Cultural Immersion", desc: "Visit the Maasai communities who live alongside our concession and help steward the land. Guided by a community liaison, these visits offer genuine cultural exchange and direct community benefit.", tag: "Arranged" },
+          5: { title: "Milky Way Stargazing", subtitle: "Zero Light Pollution", desc: "No town within 200 kilometres. The Southern Cross, the Milky Way core, and the full sweep of the southern sky. We keep a telescope on the camp deck — and the bush is absolutely quiet at midnight.", tag: "Every night" },
+          6: { title: "Helicopter Charter", subtitle: "Wild Coast Scenic Flights", desc: "See Tanzania from above — sweeping over the Rift Valley, the great concession blocks, and the remote floodplains. Charter available for scenic flights, photography, and inter-camp transfers.", tag: "On request" }
+        },
+        enquire: "Enquire",
+        partners_banner: {
+          tag: "For Partners & Guests",
+          title_plain: "Your partner comes ",
+          title_italic: "at no extra cost.",
+          body: "Non-hunting partners and companions stay in camp with full access to meals, the bar, and the camp deck — included in the hunt package rate. A non-hunting itinerary is prepared on request.",
+          cta_plan: "Plan your trip",
+          cta_camp: "See the camp"
+        },
+        wildlife: {
+          eyebrow: "Wildlife Highlights",
+          title: "What you might see.",
+          gallery_link: "Full gallery"
+        }
       }
 
     }
@@ -853,6 +1004,10 @@ const resources = {
       nav: {
         story: "Történetünk",
         experience: "Az Élmény",
+        explore: "Felfedezés",
+        concessions: "Vadászterületeink",
+        camp: "Táborélet",
+        beyond: "A Vadászaton Túl",
         membership: "Vadászkör",
         gallery: "Galéria",
         journal: "Napló",
@@ -1690,6 +1845,153 @@ const resources = {
         showers: "Záporok",
         thunderstorms: "Zivatarok",
         mild: "Enyhe"
+      },
+
+      concessions_page: {
+        hero: {
+          eyebrow: "Tanzánia · Három Engedélyezett Terület",
+          title_plain: "VADÁSZTERÜLETEINK",
+          title_italic: "."
+        },
+        intro: {
+          eyebrow: "Mi az a Vadászterület?",
+          title_plain: "Saját terület. ",
+          title_italic: "Kizárólagos hozzáférés.",
+          body1: "A vadászterület egy jogilag kijelölt természetes terület, amelyet a Tanzániai Vadvilági Hatóság (TAWA) engedélyez, és amelyet kizárólag a Top Trackers kezel. Más üzemeltető nem vadászik a mi területünkön. Nincs turista tábor. Nincs megosztott nyom. Csak Ön, a profi vadásza és a vadon — pontosan úgy, ahogy kell.",
+          body2: "Mindhárom területet éves vadszámlálással, aktív orvvadászat elleni járőrözéssel és szigorú kvótabetartással kezeljük — biztosítva, hogy a terület a jövő vadászgenerációi számára is életképes maradjon."
+        },
+        concessions: {
+          1: {
+            label: "I. Terület",
+            title: "A Selous Klasszikus",
+            subtitle: "Selous Vadrezervátum, Dél-Tanzánia",
+            desc: "Afrika legnagyobb vadrezervátuma. Folyómenti erdők, víziló medencék és a veszélyes vadat nyomkövető türelmes mesterség. Ez az eredeti határvidék — hatalmas, vad és változatlan Frederick Selous napjai óta.",
+            highlight: "Veszélyes vad specialista terület",
+            season: "Jún. – Okt.",
+            size: "~120 000 hektár"
+          },
+          2: {
+            label: "II. Terület",
+            title: "Maasai Sztyepp Síkság",
+            subtitle: "Maasai Sztyepp, Észak-Tanzánia",
+            desc: "Nyílt tüskés szavanna a horizontig, szezonális folyómedrekkel és akácia berkekkel. Maasai nyomkövetőkkel vadásszon Kelet-Afrika leggazdagabb síkságivad területein, ahol gerenuk és kis kudu jelenik meg az első fénynél.",
+            highlight: "Síkságivad & specialista fajok",
+            season: "Máj. – Szept.",
+            size: "~80 000 hektár"
+          },
+          3: {
+            label: "III. Terület",
+            title: "Iringa Felföld",
+            subtitle: "Iringa Régió, Déli Felföld",
+            desc: "Hűvös miombo erdő és magas gerincek, amelyeket csak a leghozzáértőbb vadászok keresnek fel. Egy ínyenc vadászterület — csendesebb, lassabb és ritka karakterű. Roan és sable az erősségükben.",
+            highlight: "Premier sable & roan terület",
+            season: "Júl. – Nov.",
+            size: "~55 000 hektár"
+          }
+        },
+        labels: {
+          season: "Szezon",
+          size: "Terület Mérete",
+          quarry: "Vadfajok"
+        },
+        cta_enquire: "Érdeklődjön erről a területről",
+        conservation: {
+          eyebrow: "Természetvédelem Először",
+          title_plain: "Minden kvóta levadászva. ",
+          title_italic: "Minden állat megszámlálva.",
+          body: "Vadászterület-kezelési programunk finanszírozza az orvvadászat elleni járőrözést, az éves vadszámlálást és közvetlen bevételt biztosít a területeink mellett élő közösségeknek. A vadászat a természetvédelem motorja.",
+          cta_conservation: "Természetvédelmi munkánk",
+          cta_book: "Expedíció foglalása"
+        }
+      },
+
+      camp_page: {
+        hero: {
+          eyebrow: "Esilalei, Észak-Tanzánia",
+          title_plain: "TÁBORÉLET",
+          title_italic: ".",
+          subtitle: "Vászon, réz és lámpafény. A vadászat az ok — de a tábor az emlék."
+        },
+        intro: {
+          eyebrow: "A Bázistábor",
+          title_plain: "Otthon a vadászathoz. ",
+          title_italic: "Érdemes visszatérni.",
+          body1: "Bázistáborunk egy akácia berkenyés alatt található Esilalei közelében, Észak-Tanzánia vadonjának szívében. Kézzel varrt vászonsátrak, rézmedencék és egy hosszú étkezőasztal — a komoly vadászok által évtizedekig emlékezett teljes körű sátortábor.",
+          body2: "Ez nem szálloda. Ez egy tábor — a vadászathoz épített, pontossággal működtetett és az érkezéstől a távozásig a vadon hangjaitól élő hely.",
+          cta_book: "Foglaljon szállást",
+          cta_beyond: "Nem vadász tevékenységek"
+        },
+        amenities: {
+          eyebrow: "Tábori Felszereltség",
+          title_plain: "Minden, amire szüksége van. ",
+          title_italic: "Semmi felesleges.",
+          1: { title: "Vászon Sátor Svitek", body: "Kézzel varrt vászon rézszerelvényekkel, rendes ágyak fehérneművel és privát vedervizes zuhany. Meleg víz hajnalban és alkonyatkor. Elég csendes ahhoz, hogy hallja a lappantyúkat." },
+          2: { title: "Tűzhelyes Konyha", body: "Táborunk szakácsa keményfaparázs felett főz. Háromfogásos vacsorák a vadonban, tábori reggelik a nyomkövetés előtt és teáskészlet szállítva a sátorba az első fénynél." },
+          3: { title: "A Hosszú Asztal", body: "Minden este a tábor egy hosszú asztalnál gyűlik össze a csillagok alatt. Történetek, single malt és a hiénák halk hívása az ártérről." },
+          4: { title: "Tejút Éjszakák", body: "200 kilométeren belül nincs fényszennyezés. A Déli Kereszt minden este felemelkedik a tábor felett. A teraszon tartunk egy távcsövet — használja." },
+          5: { title: "Tábori Terasz & Bush Bár", body: "Egy emelt teakfa terasz néz a vízlelőhelyre. A naplemente óra kötelező. Hideg Kilimanjaro sörök és a nap történetei miközben a vadon jön inni." },
+          6: { title: "Személyzet & Inas", body: "Dedikált tábor menedzser, nyomkövető csapat és inas szolgálat. Felszerelése minden reggel tisztítva, szárítva és készen áll. Semmi sem túl sok megszervezni." }
+        },
+        gallery: {
+          eyebrow: "A Táborból",
+          title: "A lencse szemével."
+        },
+        partners: {
+          eyebrow: "Hozzon Valakit",
+          title_plain: "A tábor a fele ",
+          title_italic: "az élménynek.",
+          body: "Partnerek, fotósok és nem vadászó vendégek valóban szívesen látottak. A tábor társaságra épül. Amíg a vadászok terepen vannak, a vendégek vadonjáratokat tesznek, ösvényeken sétálnak, Maasai falvakat látogatnak, vagy egyszerűen olvasnak a vízlelőhely mellett.",
+          bullet_1: "Dedikált nem vadász itinerárium kérésre elkészítve",
+          bullet_2: "Vadonjáratok és ösvényes séták vezető kíséretével",
+          bullet_3: "Fotó és madármegfigyelő vezető elérhető",
+          bullet_4: "Teljes tábori kiváltságok — étkezések, bár, terasz",
+          cta: "Vadászaton Túli tevékenységek"
+        },
+        rates: {
+          title_plain: "Készen áll megtapasztalni ",
+          title_italic: "személyesen?",
+          body: "Használja a költségbecslőt az expedíció megtervezéséhez, majd lépjen kapcsolatba velünk. Kezébe adunk egy kávét és végigvezetjük a részleteken.",
+          cta_estimate: "Becsülje meg az utazás költségét",
+          cta_contact: "Kapcsolatba lépés egy PH-val"
+        }
+      },
+
+      beyond_hunt: {
+        hero: {
+          eyebrow: "Vadászok, Partnerek & Egyéni Utazók Számára",
+          title_plain: "A VADÁSZATON ",
+          title_italic: "Túl.",
+          subtitle: "Rengeteg csodálatos élmény vár Afrikában. Arra biztatjuk, hogy hozza ki a legtöbbet az idejéből."
+        },
+        intro: {
+          eyebrow: "A Kaland Nem Áll Meg Ott",
+          title_plain: "Amíg itt van — ",
+          title_italic: "fedezzen fel többet.",
+          body: "Rengeteg csodálatos élmény vár Tanzániában. Akár letette a puskát egy délutánra, akár olyan partnert hozott, aki nem vadászik, akár önálló nem vadász szafarit tervezett — egyedi élményeket szervezünk, amelyek kiegészítik a vadonban töltött idejét.",
+          note: "Lépjen kapcsolatba velünk bármilyen tevékenység megszervezéséhez. Semmi sem túl nagy fáradság."
+        },
+        activities: {
+          1: { title: "Vadonjáratok", subtitle: "Napkelte & Napnyugta", desc: "Nyitott járműves vadonjáratok dedikált kísérővel a területen keresztül. A Selous és Maasai Sztyepp blokkok kivételes általános vadat hordoznak — elefánt, zsiráf, zebra és ragadozók a korai órákban.", tag: "Naponta" },
+          2: { title: "Gyalogos Ösvények", subtitle: "Kísérővel", desc: "Gyalogoljon a vadonban az egyik Maasai vagy Wagogo kísérőnkkel. Nyomokat olvasson, fákat azonosítson, nézze ahogy a föld lélegzik. A leghiteleseebb módja az afrikai vadon megtapasztalásának puska nélkül.", tag: "Kérésre" },
+          3: { title: "Madárfotózás", subtitle: "500+ Faj", desc: "Tanzánia a föld legrendkívülibb madárvilágát rejti. Területünk blokkjai szarvascsőrű madarakat, vonókákat, halászsasokat, titkármadarakat és a megfoghatatlan pelkari halászbaglyot fogadnak. Kísérők biztosítottak.", tag: "Egész évben" },
+          4: { title: "Maasai Falulátogatások", subtitle: "Kulturális Elmélyülés", desc: "Látogassa meg a területeink mellett élő Maasai közösségeket, akik a föld gondnokai. Közösségi összekötő által vezetve ezek a látogatások valódi kulturális cserét és közvetlen közösségi hasznot kínálnak.", tag: "Szervezett" },
+          5: { title: "Tejút Csillagvizsgálás", subtitle: "Zéró Fényszennyezés", desc: "200 kilométeren belül nincs város. A Déli Kereszt, a Tejút magja és a déli égbolt teljes íve. Tartunk egy távcsövet a tábori teraszon — és a vadon éjfélkor teljesen csendes.", tag: "Minden este" },
+          6: { title: "Helikopter Charter", subtitle: "Vad Partvonal Látványrepülések", desc: "Nézze meg Tanzániát fentről — átrepülve a Hasadék Völgye, a nagy területblokkok és a távoli árterek felett. Charter elérhető látványrepülésekhez, fotózáshoz és táborok közötti átszállításhoz.", tag: "Kérésre" }
+        },
+        enquire: "Érdeklődjön",
+        partners_banner: {
+          tag: "Partnerek & Vendégek Számára",
+          title_plain: "A partnere ",
+          title_italic: "ingyen jön.",
+          body: "A nem vadászó partnerek és társak a táborban maradnak teljes hozzáféréssel az étkezésekhez, a bárhoz és a tábori teraszhoz — belefoglalva a vadászcsomag díjába. Kérésre nem vadász itinerárium kerül összeállításra.",
+          cta_plan: "Tervezze meg útját",
+          cta_camp: "Lássa a tábort"
+        },
+        wildlife: {
+          eyebrow: "Vadon Kiemelkedők",
+          title: "Amit láthat.",
+          gallery_link: "Teljes galéria"
+        }
       }
 
     }
