@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { ArrowRight, Compass, Crown, Footprints, Mountain } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Reveal } from "@/components/Reveal";
@@ -41,6 +42,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
+  const { t } = useTranslation();
   const { data: content } = useSiteContent();
   
   const getContent = (key: string, fallback: string) => {
@@ -80,7 +82,7 @@ function Home() {
             className="mb-6"
           >
             <div className="vintage-divider text-[10px] tracking-[0.5em] uppercase text-accent">
-              <span>{getContent("home.hero.subtitle", "In the heart of Tanzania")}</span>
+              <span>{getContent("home.hero.subtitle", t("home.hero.subtitle", "In the heart of Tanzania"))}</span>
             </div>
           </motion.div>
 
@@ -91,9 +93,9 @@ function Home() {
             className="font-display text-bone text-[18vw] md:text-[10vw] leading-[0.95] max-w-6xl"
           >
             <span className="italic font-serif text-accent">
-              {getContent("home.hero.title_italic", "Welcome")}
+              {getContent("home.hero.title_italic", t("home.hero.titleItalic", "Welcome"))}
             </span>
-            {getContent("home.hero.title_plain", ".")}
+            {getContent("home.hero.title_plain", t("home.hero.titlePlain", "."))}
           </motion.h1>
 
           <motion.p
@@ -104,7 +106,7 @@ function Home() {
           >
             {getContent(
               "home.hero.description",
-              "To Africa's premier hunting club — where the chase is shaped by patience, craft, and respect."
+              t("home.hero.description", "To Africa's premier hunting club — where the chase is shaped by patience, craft, and respect.")
             )}
           </motion.p>
 
@@ -118,13 +120,13 @@ function Home() {
               to="/contact"
               className="group inline-flex items-center gap-3 px-8 py-4 bg-accent text-accent-foreground tracking-[0.3em] text-[11px] uppercase font-medium hover:bg-ember hover:text-bone transition-all"
             >
-              Book your safari <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              {t("home.hero.bookSafari", "Book your safari")} <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
             <Link
               to="/membership"
               className="inline-flex items-center gap-3 px-8 py-4 border border-bone/40 text-bone tracking-[0.3em] text-[11px] uppercase hover:border-accent hover:text-accent transition-all"
             >
-              Join the Club
+              {t("home.hero.joinClub", "Join the Club")}
             </Link>
           </motion.div>
         </motion.div>
@@ -136,7 +138,7 @@ function Home() {
           transition={{ delay: 0.7 }}
           className="absolute bottom-8 left-1/2 -translate-x-1/2 text-bone/70 text-[10px] tracking-[0.5em] uppercase z-10"
         >
-          <span className="inline-block animate-pulse">↓ Scroll</span>
+          <span className="inline-block animate-pulse">↓ {t("home.hero.scroll", "Scroll")}</span>
         </motion.div>
       </section>
 
@@ -145,25 +147,25 @@ function Home() {
         <div className="absolute inset-0 opacity-[0.08]" style={{ backgroundImage: `url(${map})`, backgroundSize: "cover", backgroundPosition: "center" }} />
         <div className="relative mx-auto max-w-4xl px-6 text-center">
           <Reveal>
-            <Eyebrow>{getContent("home.intro.eyebrow", "Welcome, Tracker")}</Eyebrow>
+            <Eyebrow>{getContent("home.intro.eyebrow", t("home.intro.eyebrow", "Welcome, Tracker"))}</Eyebrow>
           </Reveal>
           <Reveal delay={0.1}>
             <h2 className="mt-8 font-display text-4xl md:text-6xl text-forest leading-tight">
-              {getContent("home.intro.title_line1", "More than a hunt.")}<br />
-              <span className="font-serif italic text-ember">{getContent("home.intro.title_line2", "A legacy.")}</span>
+              {getContent("home.intro.title_line1", t("home.intro.titleLine1", "More than a hunt."))}<br />
+              <span className="font-serif italic text-ember">{getContent("home.intro.title_line2", t("home.intro.titleLine2", "A legacy."))}</span>
             </h2>
           </Reveal>
           <Reveal delay={0.2}>
             <p className="mt-10 font-serif text-2xl leading-relaxed text-foreground/80">
               {getContent(
                 "home.intro.body",
-                "Top Trackers is more than a hunting club. We are the meeting ground for a community of passionate hunters, conservationists, and wilderness enthusiasts — whether you are a seasoned safari veteran or preparing for your first African expedition."
+                t("home.intro.body", "Top Trackers is more than a hunting club. We are the meeting ground for a community of passionate hunters, conservationists, and wilderness enthusiasts — whether you are a seasoned safari veteran or preparing for your first African expedition.")
               )}
             </p>
           </Reveal>
           <Reveal delay={0.3}>
             <Link to="/our-story" className="inline-flex items-center gap-2 mt-10 text-forest font-serif italic text-lg border-b border-forest/40 hover:border-ember hover:text-ember transition">
-              Discover our story <ArrowRight className="h-4 w-4" />
+              {t("home.intro.discoverStory", "Discover our story")} <ArrowRight className="h-4 w-4" />
             </Link>
           </Reveal>
         </div>
@@ -174,11 +176,11 @@ function Home() {
         <FloatingTracks count={8} />
         <div className="relative mx-auto max-w-7xl px-6">
           <Reveal>
-            <Eyebrow light>{getContent("home.pillars.eyebrow", "Three pillars")}</Eyebrow>
+            <Eyebrow light>{getContent("home.pillars.eyebrow", t("home.pillars.eyebrow", "Three pillars"))}</Eyebrow>
           </Reveal>
           <Reveal delay={0.1}>
             <h2 className="mt-6 font-display text-4xl md:text-5xl max-w-2xl">
-              {getContent("home.pillars.title", "The Top Tracker's way.")}
+              {getContent("home.pillars.title", t("home.pillars.title", "The Top Tracker's way."))}
             </h2>
           </Reveal>
 
@@ -186,18 +188,18 @@ function Home() {
             {[
               {
                 Icon: Footprints,
-                title: getContent("home.pillars.1.title", "Patience"),
-                body: getContent("home.pillars.1.body", "We hunt slow. Every track is read, every wind weighed. The chase is measured in days, not minutes."),
+                title: getContent("home.pillars.1.title", t("home.pillars.patience.title", "Patience")),
+                body: getContent("home.pillars.1.body", t("home.pillars.patience.body", "We hunt slow. Every track is read, every wind weighed. The chase is measured in days, not minutes.")),
               },
               {
                 Icon: Compass,
-                title: getContent("home.pillars.2.title", "Craft"),
-                body: getContent("home.pillars.2.body", "Professional hunters with decades across Tanzania's most storied concessions. Field-tested, quietly precise."),
+                title: getContent("home.pillars.2.title", t("home.pillars.craft.title", "Craft")),
+                body: getContent("home.pillars.2.body", t("home.pillars.craft.body", "Professional hunters with decades across Tanzania's most storied concessions. Field-tested, quietly precise.")),
               },
               {
                 Icon: Mountain,
-                title: getContent("home.pillars.3.title", "Respect"),
-                body: getContent("home.pillars.3.body", "For the animal, the land, and the communities who steward it. Conservation is the price of the privilege."),
+                title: getContent("home.pillars.3.title", t("home.pillars.respect.title", "Respect")),
+                body: getContent("home.pillars.3.body", t("home.pillars.respect.body", "For the animal, the land, and the communities who steward it. Conservation is the price of the privilege.")),
               },
             ].map(({ Icon, title, body }, i) => (
               <Reveal key={title} delay={i * 0.1}>
@@ -217,31 +219,30 @@ function Home() {
         <FloatingTracks count={5} />
         <div className="relative mx-auto max-w-7xl px-6">
           <div className="text-center max-w-2xl mx-auto">
-            <Reveal><Eyebrow>The Field Bestiary</Eyebrow></Reveal>
+            <Reveal><Eyebrow>{t("home.bestiary.eyebrow", "The Field Bestiary")}</Eyebrow></Reveal>
             <Reveal delay={0.1}>
               <h2 className="mt-6 font-display text-4xl md:text-5xl text-forest leading-tight">
-                Hover the quarry.<br />
-                <span className="font-serif italic text-ember">Read the trail.</span>
+                {t("home.bestiary.titleLine1", "Hover the quarry.")}<br />
+                <span className="font-serif italic text-ember">{t("home.bestiary.titleLine2", "Read the trail.")}</span>
               </h2>
             </Reveal>
             <Reveal delay={0.2}>
               <p className="mt-6 font-serif text-lg text-foreground/70">
-                Eight icons drawn from camp ledgers — wildlife, weather, tools of the chase.
-                Touch one to read its line.
+                {t("home.bestiary.description", "Eight icons drawn from camp ledgers — wildlife, weather, tools of the chase. Touch one to read its line.")}
               </p>
             </Reveal>
           </div>
 
           <div className="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-px bg-forest/15">
             {[
-              { Icon: LionIcon, label: "Lion", note: "Tracked at dawn — never alone." },
-              { Icon: ElephantIcon, label: "Elephant", note: "Respect the matriarch's wind." },
-              { Icon: BuffaloIcon, label: "Buffalo", note: "Black death of the Selous." },
-              { Icon: LeopardIcon, label: "Leopard", note: "Patience baited under acacia." },
-              { Icon: AntelopeIcon, label: "Kudu", note: "Spiral horns through the thornveld." },
-              { Icon: RifleIcon, label: "The Rifle", note: ".375 H&H — the old reliable." },
-              { Icon: CompassRoseIcon, label: "Bearing", note: "True north, by sun and stars." },
-              { Icon: AcaciaIcon, label: "Acacia", note: "Camp shade. Lantern post." },
+              { Icon: LionIcon, label: t("home.bestiary.lion", "Lion"), note: t("home.bestiary.lionNote", "Tracked at dawn — never alone.") },
+              { Icon: ElephantIcon, label: t("home.bestiary.elephant", "Elephant"), note: t("home.bestiary.elephantNote", "Respect the matriarch's wind.") },
+              { Icon: BuffaloIcon, label: t("home.bestiary.buffalo", "Buffalo"), note: t("home.bestiary.buffaloNote", "Black death of the Selous.") },
+              { Icon: LeopardIcon, label: t("home.bestiary.leopard", "Leopard"), note: t("home.bestiary.leopardNote", "Patience baited under acacia.") },
+              { Icon: AntelopeIcon, label: t("home.bestiary.kudu", "Kudu"), note: t("home.bestiary.kuduNote", "Spiral horns through the thornveld.") },
+              { Icon: RifleIcon, label: t("home.bestiary.rifle", "The Rifle"), note: t("home.bestiary.rifleNote", ".375 H&H — the old reliable.") },
+              { Icon: CompassRoseIcon, label: t("home.bestiary.bearing", "Bearing"), note: t("home.bestiary.bearingNote", "True north, by sun and stars.") },
+              { Icon: AcaciaIcon, label: t("home.bestiary.acacia", "Acacia"), note: t("home.bestiary.acaciaNote", "Camp shade. Lantern post.") },
             ].map(({ Icon, label, note }, i) => (
               <AnimatedIcon key={label} delay={i * 0.06}>
                 <div className="group bg-bone hover:bg-forest transition-colors duration-300 p-8 h-44 flex flex-col items-center justify-center text-center relative overflow-hidden">
@@ -282,28 +283,28 @@ function Home() {
           </Reveal>
           <div>
             <Reveal>
-              <Eyebrow>{getContent("home.experience.eyebrow", "The Experience")}</Eyebrow>
+              <Eyebrow>{getContent("home.experience.eyebrow", t("home.experience.eyebrow", "The Experience"))}</Eyebrow>
             </Reveal>
             <Reveal delay={0.1}>
               <h2 className="mt-6 font-display text-4xl md:text-5xl text-forest leading-[1.1]">
-                {getContent("home.experience.title", "A safari shaped by patience, craft, and respect.")}
+                {getContent("home.experience.title", t("home.experience.title", "A safari shaped by patience, craft, and respect."))}
               </h2>
             </Reveal>
             <Reveal delay={0.2}>
               <p className="mt-8 font-serif text-xl text-foreground/75 leading-relaxed">
                 {getContent(
                   "home.experience.body",
-                  "Each expedition is curated by professional hunters with decades of experience across Tanzania's most storied concessions. From your first inquiry to the final trophy shipment, every detail is attended to with the discretion and precision a serious hunter expects."
+                  t("home.experience.body", "Each expedition is curated by professional hunters with decades of experience across Tanzania's most storied concessions. From your first inquiry to the final trophy shipment, every detail is attended to with the discretion and precision a serious hunter expects.")
                 )}
               </p>
             </Reveal>
             <Reveal delay={0.3}>
               <ul className="mt-8 space-y-3 font-serif text-lg text-foreground/80">
                 {[
-                  "Private concessions across the Selous, Maasai Steppe & Iringa",
-                  "PH-led tracking with native Wagogo and Maasai scouts",
-                  "Full-service tented camps with brass, canvas, and lantern light",
-                  "Trophy preparation, documentation, and worldwide shipment",
+                  t("home.experience.bullet1", "Private concessions across the Selous, Maasai Steppe & Iringa"),
+                  t("home.experience.bullet2", "PH-led tracking with native Wagogo and Maasai scouts"),
+                  t("home.experience.bullet3", "Full-service tented camps with brass, canvas, and lantern light"),
+                  t("home.experience.bullet4", "Trophy preparation, documentation, and worldwide shipment"),
                 ].map((line, i) => (
                   <li key={line} className="flex gap-3">
                     <span className="text-ember mt-1">◆</span>
@@ -314,7 +315,7 @@ function Home() {
             </Reveal>
             <Reveal delay={0.4}>
               <Link to="/experience" className="inline-flex items-center gap-2 mt-10 px-7 py-3.5 bg-forest text-bone tracking-[0.3em] text-[11px] uppercase hover:bg-ember transition">
-                Explore expeditions <ArrowRight className="h-4 w-4" />
+                {t("home.experience.explore", "Explore expeditions")} <ArrowRight className="h-4 w-4" />
               </Link>
             </Reveal>
           </div>
@@ -333,33 +334,33 @@ function Home() {
       >
         <div className="mx-auto max-w-7xl px-6">
           <div className="text-center max-w-3xl mx-auto">
-            <Reveal><Eyebrow light>The Hunting Club</Eyebrow></Reveal>
+            <Reveal><Eyebrow light>{t("home.membership.eyebrow", "The Hunting Club")}</Eyebrow></Reveal>
             <Reveal delay={0.1}>
               <h2 className="mt-6 font-display text-4xl md:text-6xl">
-                Membership, by <span className="font-serif italic text-accent">invitation</span>.
+                {t("home.membership.title", "Membership, by invitation.")}
               </h2>
             </Reveal>
             <Reveal delay={0.2}>
               <p className="mt-6 font-serif text-xl text-bone/75">
-                Three tiers of belonging. Each opens doors deeper into the bush, the camp, and the community.
+                {t("home.membership.description", "Three tiers of belonging. Each opens doors deeper into the bush, the camp, and the community.")}
               </p>
             </Reveal>
           </div>
 
           <div className="mt-16 grid md:grid-cols-3 gap-6">
             {[
-              { tier: "Tracker", price: "$2,400", per: "/ year", color: "border-bone/30",
-                perks: ["Private member's circle", "Quarterly field journal", "Early access to dated hunts", "Camp invitations"] },
-              { tier: "Professional Hunter", price: "$7,800", per: "/ year", color: "border-accent", featured: true,
-                perks: ["All Tracker benefits", "Two reserved hunt windows", "Personal PH pairing", "Trophy concierge & shipping", "Off-season private camp stays"] },
-              { tier: "Legacy", price: "By invitation", per: "", color: "border-ember",
-                perks: ["All PH benefits", "Concession-naming rights", "Lifetime camp residency", "Conservation board seat", "Private game flights"] },
+              { tier: t("home.membership.tiers.tracker", "Tracker"), price: "$2,400", per: "/ year", color: "border-bone/30",
+                perks: t("home.membership.perks.tracker", ["Private member's circle", "Quarterly field journal", "Early access to dated hunts", "Camp invitations"], { returnObjects: true }) as string[] },
+              { tier: t("home.membership.tiers.ph", "Professional Hunter"), price: "$7,800", per: "/ year", color: "border-accent", featured: true,
+                perks: t("home.membership.perks.ph", ["All Tracker benefits", "Two reserved hunt windows", "Personal PH pairing", "Trophy concierge & shipping", "Off-season private camp stays"], { returnObjects: true }) as string[] },
+              { tier: t("home.membership.tiers.legacy", "Legacy"), price: "By invitation", per: "", color: "border-ember",
+                perks: t("home.membership.perks.legacy", ["All PH benefits", "Concession-naming rights", "Lifetime camp residency", "Conservation board seat", "Private game flights"], { returnObjects: true }) as string[] },
             ].map(({ tier, price, per, color, perks, featured }, i) => (
               <Reveal key={tier} delay={i * 0.1}>
                 <div className={`relative h-full p-8 border ${color} bg-ink/40 backdrop-blur-sm hover:bg-ink/70 transition-all duration-500 ${featured ? "md:-translate-y-4" : ""}`}>
                   {featured && (
                     <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-accent text-accent-foreground px-4 py-1 text-[10px] tracking-[0.3em] uppercase">
-                      Most chosen
+                      {t("home.membership.featured", "Most chosen")}
                     </div>
                   )}
                   {featured && <Crown className="absolute top-6 right-6 h-5 w-5 text-accent" />}
@@ -379,7 +380,7 @@ function Home() {
           <Reveal delay={0.4}>
             <div className="mt-14 text-center">
               <Link to="/membership" className="inline-flex items-center gap-2 px-8 py-4 bg-accent text-accent-foreground tracking-[0.3em] text-[11px] uppercase hover:bg-ember hover:text-bone transition">
-                Request Membership <ArrowRight className="h-4 w-4" />
+                {t("home.membership.request", "Request Membership")} <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
           </Reveal>
@@ -390,18 +391,18 @@ function Home() {
       <section className="relative paper-bg py-32 overflow-hidden">
         <div className="mx-auto max-w-7xl px-6 grid md:grid-cols-5 gap-12 items-center">
           <div className="md:col-span-2">
-            <Reveal><Eyebrow>{getContent("home.camp.eyebrow", "The Camp")}</Eyebrow></Reveal>
+            <Reveal><Eyebrow>{getContent("home.camp.eyebrow", t("home.camp.eyebrow", "The Camp"))}</Eyebrow></Reveal>
             <Reveal delay={0.1}>
               <h2 className="mt-6 font-display text-4xl md:text-5xl text-forest leading-[1.1]">
-                {getContent("home.camp.title_line1", "Canvas, brass &")}<br />
-                <span className="font-serif italic text-ember">{getContent("home.camp.title_line2", "lantern light.")}</span>
+                {getContent("home.camp.title_line1", t("home.camp.titleLine1", "Canvas, brass &"))}<br />
+                <span className="font-serif italic text-ember">{getContent("home.camp.title_line2", t("home.camp.titleLine2", "lantern light."))}</span>
               </h2>
             </Reveal>
             <Reveal delay={0.2}>
               <p className="mt-6 font-serif text-xl text-foreground/75">
                 {getContent(
                   "home.camp.body",
-                  "Our base camp sits beneath an acacia grove near Esilalei. Hand-stitched canvas tents, copper basins, an open-fire kitchen, and a long table where stories outlive the embers."
+                  t("home.camp.body", "Our base camp sits beneath an acacia grove near Esilalei. Hand-stitched canvas tents, copper basins, an open-fire kitchen, and a long table where stories outlive the embers.")
                 )}
               </p>
             </Reveal>
@@ -433,13 +434,13 @@ function Home() {
             <p className="mt-4 font-serif italic text-2xl md:text-4xl leading-snug">
               {getContent(
                 "home.quote.text",
-                "In Africa, the hunt is not what you take from the land — it is what the land slowly teaches you to become."
+                t("home.quote.text", "In Africa, the hunt is not what you take from the land — it is what the land slowly teaches you to become.")
               )}
             </p>
           </Reveal>
           <Reveal delay={0.2}>
             <div className="mt-10 vintage-divider text-[10px] tracking-[0.5em] uppercase text-accent">
-              <span>{getContent("home.quote.author", "Hemingway, paraphrased — and lived")}</span>
+              <span>{getContent("home.quote.author", t("home.quote.author", "Hemingway, paraphrased — and lived"))}</span>
             </div>
           </Reveal>
         </div>
@@ -449,25 +450,25 @@ function Home() {
       <section className="relative paper-bg py-28">
         <div className="mx-auto max-w-4xl px-6 text-center">
           <Reveal>
-            <Eyebrow>{getContent("home.cta.eyebrow", "Begin")}</Eyebrow>
+            <Eyebrow>{getContent("home.cta.eyebrow", t("home.cta.eyebrow", "Begin"))}</Eyebrow>
           </Reveal>
           <Reveal delay={0.1}>
             <h2 className="mt-6 font-display text-4xl md:text-6xl text-forest">
-              {getContent("home.cta.title_normal", "Plan your ")}
-              <span className="italic font-serif text-ember">{getContent("home.cta.title_italic", "first chase")}</span>.
+              {getContent("home.cta.title_normal", t("home.cta.titleNormal", "Plan your "))}
+              <span className="italic font-serif text-ember">{getContent("home.cta.title_italic", t("home.cta.titleItalic", "first chase"))}</span>.
             </h2>
           </Reveal>
           <Reveal delay={0.2}>
             <p className="mt-6 font-serif text-xl text-foreground/75 max-w-2xl mx-auto">
               {getContent(
                 "home.cta.body",
-                "Tell us what you seek. We'll match you to a concession, a professional hunter, and a window of weather worth the journey."
+                t("home.cta.body", "Tell us what you seek. We'll match you to a concession, a professional hunter, and a window of weather worth the journey.")
               )}
             </p>
           </Reveal>
           <Reveal delay={0.3}>
             <Link to="/contact" className="inline-flex items-center gap-2 mt-10 px-8 py-4 bg-forest text-bone tracking-[0.3em] text-[11px] uppercase hover:bg-ember transition">
-              Book your safari <ArrowRight className="h-4 w-4" />
+              {t("home.cta.bookSafari", "Book your safari")} <ArrowRight className="h-4 w-4" />
             </Link>
           </Reveal>
         </div>

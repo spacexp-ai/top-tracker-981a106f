@@ -30,10 +30,10 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiCheckoutRouteImport } from './routes/api/checkout'
 import { Route as AuthenticatedPortalRouteImport } from './routes/_authenticated/portal'
+import { Route as AuthenticatedCmsRouteImport } from './routes/_authenticated/cms'
 import { Route as AuthenticatedPortalTrophyRoomRouteImport } from './routes/_authenticated/portal.trophy-room'
 import { Route as AuthenticatedPortalHuntsRouteImport } from './routes/_authenticated/portal.hunts'
 import { Route as AuthenticatedPortalCommunityRouteImport } from './routes/_authenticated/portal.community'
-import { Route as AuthenticatedPortalCmsRouteImport } from './routes/_authenticated/portal.cms'
 import { Route as AuthenticatedPortalBookRouteImport } from './routes/_authenticated/portal.book'
 import { Route as AuthenticatedPortalAccountRouteImport } from './routes/_authenticated/portal.account'
 import { Route as AuthenticatedPortalCommunityProfileIdRouteImport } from './routes/_authenticated/portal.community.$profileId'
@@ -142,6 +142,11 @@ const AuthenticatedPortalRoute = AuthenticatedPortalRouteImport.update({
   path: '/portal',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedCmsRoute = AuthenticatedCmsRouteImport.update({
+  id: '/cms',
+  path: '/cms',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedPortalTrophyRoomRoute =
   AuthenticatedPortalTrophyRoomRouteImport.update({
     id: '/trophy-room',
@@ -160,11 +165,6 @@ const AuthenticatedPortalCommunityRoute =
     path: '/community',
     getParentRoute: () => AuthenticatedPortalRoute,
   } as any)
-const AuthenticatedPortalCmsRoute = AuthenticatedPortalCmsRouteImport.update({
-  id: '/cms',
-  path: '/cms',
-  getParentRoute: () => AuthenticatedPortalRoute,
-} as any)
 const AuthenticatedPortalBookRoute = AuthenticatedPortalBookRouteImport.update({
   id: '/book',
   path: '/book',
@@ -202,11 +202,11 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/cms': typeof AuthenticatedCmsRoute
   '/portal': typeof AuthenticatedPortalRouteWithChildren
   '/api/checkout': typeof ApiCheckoutRoute
   '/portal/account': typeof AuthenticatedPortalAccountRoute
   '/portal/book': typeof AuthenticatedPortalBookRoute
-  '/portal/cms': typeof AuthenticatedPortalCmsRoute
   '/portal/community': typeof AuthenticatedPortalCommunityRouteWithChildren
   '/portal/hunts': typeof AuthenticatedPortalHuntsRoute
   '/portal/trophy-room': typeof AuthenticatedPortalTrophyRoomRoute
@@ -231,11 +231,11 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/cms': typeof AuthenticatedCmsRoute
   '/portal': typeof AuthenticatedPortalRouteWithChildren
   '/api/checkout': typeof ApiCheckoutRoute
   '/portal/account': typeof AuthenticatedPortalAccountRoute
   '/portal/book': typeof AuthenticatedPortalBookRoute
-  '/portal/cms': typeof AuthenticatedPortalCmsRoute
   '/portal/community': typeof AuthenticatedPortalCommunityRouteWithChildren
   '/portal/hunts': typeof AuthenticatedPortalHuntsRoute
   '/portal/trophy-room': typeof AuthenticatedPortalTrophyRoomRoute
@@ -262,11 +262,11 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/_authenticated/cms': typeof AuthenticatedCmsRoute
   '/_authenticated/portal': typeof AuthenticatedPortalRouteWithChildren
   '/api/checkout': typeof ApiCheckoutRoute
   '/_authenticated/portal/account': typeof AuthenticatedPortalAccountRoute
   '/_authenticated/portal/book': typeof AuthenticatedPortalBookRoute
-  '/_authenticated/portal/cms': typeof AuthenticatedPortalCmsRoute
   '/_authenticated/portal/community': typeof AuthenticatedPortalCommunityRouteWithChildren
   '/_authenticated/portal/hunts': typeof AuthenticatedPortalHuntsRoute
   '/_authenticated/portal/trophy-room': typeof AuthenticatedPortalTrophyRoomRoute
@@ -293,11 +293,11 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sitemap.xml'
     | '/terms'
+    | '/cms'
     | '/portal'
     | '/api/checkout'
     | '/portal/account'
     | '/portal/book'
-    | '/portal/cms'
     | '/portal/community'
     | '/portal/hunts'
     | '/portal/trophy-room'
@@ -322,11 +322,11 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sitemap.xml'
     | '/terms'
+    | '/cms'
     | '/portal'
     | '/api/checkout'
     | '/portal/account'
     | '/portal/book'
-    | '/portal/cms'
     | '/portal/community'
     | '/portal/hunts'
     | '/portal/trophy-room'
@@ -352,11 +352,11 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sitemap.xml'
     | '/terms'
+    | '/_authenticated/cms'
     | '/_authenticated/portal'
     | '/api/checkout'
     | '/_authenticated/portal/account'
     | '/_authenticated/portal/book'
-    | '/_authenticated/portal/cms'
     | '/_authenticated/portal/community'
     | '/_authenticated/portal/hunts'
     | '/_authenticated/portal/trophy-room'
@@ -535,6 +535,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPortalRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/cms': {
+      id: '/_authenticated/cms'
+      path: '/cms'
+      fullPath: '/cms'
+      preLoaderRoute: typeof AuthenticatedCmsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/portal/trophy-room': {
       id: '/_authenticated/portal/trophy-room'
       path: '/trophy-room'
@@ -554,13 +561,6 @@ declare module '@tanstack/react-router' {
       path: '/community'
       fullPath: '/portal/community'
       preLoaderRoute: typeof AuthenticatedPortalCommunityRouteImport
-      parentRoute: typeof AuthenticatedPortalRoute
-    }
-    '/_authenticated/portal/cms': {
-      id: '/_authenticated/portal/cms'
-      path: '/cms'
-      fullPath: '/portal/cms'
-      preLoaderRoute: typeof AuthenticatedPortalCmsRouteImport
       parentRoute: typeof AuthenticatedPortalRoute
     }
     '/_authenticated/portal/book': {
@@ -605,7 +605,6 @@ const AuthenticatedPortalCommunityRouteWithChildren =
 interface AuthenticatedPortalRouteChildren {
   AuthenticatedPortalAccountRoute: typeof AuthenticatedPortalAccountRoute
   AuthenticatedPortalBookRoute: typeof AuthenticatedPortalBookRoute
-  AuthenticatedPortalCmsRoute: typeof AuthenticatedPortalCmsRoute
   AuthenticatedPortalCommunityRoute: typeof AuthenticatedPortalCommunityRouteWithChildren
   AuthenticatedPortalHuntsRoute: typeof AuthenticatedPortalHuntsRoute
   AuthenticatedPortalTrophyRoomRoute: typeof AuthenticatedPortalTrophyRoomRoute
@@ -614,7 +613,6 @@ interface AuthenticatedPortalRouteChildren {
 const AuthenticatedPortalRouteChildren: AuthenticatedPortalRouteChildren = {
   AuthenticatedPortalAccountRoute: AuthenticatedPortalAccountRoute,
   AuthenticatedPortalBookRoute: AuthenticatedPortalBookRoute,
-  AuthenticatedPortalCmsRoute: AuthenticatedPortalCmsRoute,
   AuthenticatedPortalCommunityRoute:
     AuthenticatedPortalCommunityRouteWithChildren,
   AuthenticatedPortalHuntsRoute: AuthenticatedPortalHuntsRoute,
@@ -625,10 +623,12 @@ const AuthenticatedPortalRouteWithChildren =
   AuthenticatedPortalRoute._addFileChildren(AuthenticatedPortalRouteChildren)
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedCmsRoute: typeof AuthenticatedCmsRoute
   AuthenticatedPortalRoute: typeof AuthenticatedPortalRouteWithChildren
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedCmsRoute: AuthenticatedCmsRoute,
   AuthenticatedPortalRoute: AuthenticatedPortalRouteWithChildren,
 }
 

@@ -1,4 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import "@/lib/i18n";
 import {
   Outlet,
   Link,
@@ -14,6 +15,7 @@ import { WildlifePopup } from "@/components/WildlifePopup";
 import { CookieConsent } from "@/components/CookieConsent";
 import { CompassGate } from "@/components/CompassGate";
 import { CustomCursor } from "@/components/CustomCursor";
+import { useTranslation } from "react-i18next";
 
 function NotFoundComponent() {
   return (
@@ -74,8 +76,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: React.ReactNode }) {
+  const { i18n } = useTranslation();
   return (
-    <html lang="en">
+    <html lang={i18n.language || "en"}>
       <head>
         <HeadContent />
       </head>
