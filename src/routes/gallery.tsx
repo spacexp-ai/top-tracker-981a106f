@@ -6,6 +6,7 @@ import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Reveal } from "@/components/Reveal";
 import { Eyebrow } from "@/components/Eyebrow";
+import { useTranslation } from "react-i18next";
 import { photos } from "@/assets/photos";
 import { useSiteContent, resolveImage } from "@/hooks/useSiteContent";
 
@@ -73,6 +74,7 @@ const COUNTRY: Tile[] = [
 
 function Gallery() {
   const [lightbox, setLightbox] = useState<{ src: string; alt: string } | null>(null);
+  const { t } = useTranslation();
   const { data: content } = useSiteContent();
 
   const getContent = (key: string, fallback: string) => {
@@ -84,30 +86,30 @@ function Gallery() {
   const SECTIONS = [
     { 
       id: "quarry", 
-      eyebrow: getContent("gallery.sections.quarry.eyebrow", "The Quarry"), 
-      title: getContent("gallery.sections.quarry.title", "Animals of the chase"), 
-      body: getContent("gallery.sections.quarry.body", "Lion, leopard, elephant, buffalo, kudu — the Tanganyikan five and the supporting cast."), 
+      eyebrow: getContent("gallery.sections.quarry.eyebrow", t("gallery.sections.quarry.eyebrow", "The Quarry")), 
+      title: getContent("gallery.sections.quarry.title", t("gallery.sections.quarry.title", "Animals of the chase")), 
+      body: getContent("gallery.sections.quarry.body", t("gallery.sections.quarry.body", "Lion, leopard, elephant, buffalo, kudu — the Tanganyikan five and the supporting cast.")), 
       tiles: QUARRY 
     },
     { 
       id: "camp", 
-      eyebrow: getContent("gallery.sections.camp.eyebrow", "The Camp"), 
-      title: getContent("gallery.sections.camp.title", "Canvas & lantern"), 
-      body: getContent("gallery.sections.camp.body", "Where the day begins and ends — tents, table, embers."), 
+      eyebrow: getContent("gallery.sections.camp.eyebrow", t("gallery.sections.camp.eyebrow", "The Camp")), 
+      title: getContent("gallery.sections.camp.title", t("gallery.sections.camp.title", "Canvas & lantern")), 
+      body: getContent("gallery.sections.camp.body", t("gallery.sections.camp.body", "Where the day begins and ends — tents, table, embers.")), 
       tiles: CAMP 
     },
     { 
       id: "field", 
-      eyebrow: getContent("gallery.sections.field.eyebrow", "In the Field"), 
-      title: getContent("gallery.sections.field.title", "Hunters & kit"), 
-      body: getContent("gallery.sections.field.body", "Trackers, professional hunters, and the tools they trust."), 
+      eyebrow: getContent("gallery.sections.field.eyebrow", t("gallery.sections.field.eyebrow", "In the Field")), 
+      title: getContent("gallery.sections.field.title", t("gallery.sections.field.title", "Hunters & kit")), 
+      body: getContent("gallery.sections.field.body", t("gallery.sections.field.body", "Trackers, professional hunters, and the tools they trust.")), 
       tiles: FIELD 
     },
     { 
       id: "country", 
-      eyebrow: getContent("gallery.sections.country.eyebrow", "The Country"), 
-      title: getContent("gallery.sections.country.title", "Land & people"), 
-      body: getContent("gallery.sections.country.body", "Acacia country and the Maasai who steward it."), 
+      eyebrow: getContent("gallery.sections.country.eyebrow", t("gallery.sections.country.eyebrow", "The Country")), 
+      title: getContent("gallery.sections.country.title", t("gallery.sections.country.title", "Land & people")), 
+      body: getContent("gallery.sections.country.body", t("gallery.sections.country.body", "Acacia country and the Maasai who steward it.")), 
       tiles: COUNTRY 
     },
   ] as const;
@@ -124,19 +126,19 @@ function Gallery() {
         <div className="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/60 to-ink" />
         <div className="relative mx-auto max-w-5xl px-6 text-center">
           <Reveal>
-            <Eyebrow light>{getContent("gallery.hero.eyebrow", "The Field Gallery")}</Eyebrow>
+            <Eyebrow light>{getContent("gallery.hero.eyebrow", t("gallery.hero.eyebrow", "The Field Gallery"))}</Eyebrow>
           </Reveal>
           <Reveal delay={0.1}>
             <h1 className="mt-6 font-display text-5xl md:text-7xl text-bone">
-              {getContent("gallery.hero.title_normal", "Photographs from ")}
-              <span className="italic font-serif text-accent">{getContent("gallery.hero.title_italic", "the bush")}</span>.
+              {getContent("gallery.hero.title_normal", t("gallery.hero.title_normal", "Photographs from "))}
+              <span className="italic font-serif text-accent">{getContent("gallery.hero.title_italic", t("gallery.hero.title_italic", "the bush"))}</span>.
             </h1>
           </Reveal>
           <Reveal delay={0.2}>
             <p className="mt-6 font-serif text-xl text-bone/75 max-w-2xl mx-auto">
               {getContent(
                 "gallery.hero.body",
-                "A visual ledger — quarry, camp, kit, and country. Taken across our concessions in the Selous, Maasai Steppe, and Iringa highlands."
+                t("gallery.hero.body", "A visual ledger — quarry, camp, kit, and country. Taken across our concessions in the Selous, Maasai Steppe, and Iringa highlands.")
               )}
             </p>
           </Reveal>

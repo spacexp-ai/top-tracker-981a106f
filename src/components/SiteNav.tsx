@@ -83,7 +83,7 @@ export function SiteNav() {
           <img
             src={currentLogo}
             alt="Top Trackers Safari & Hunting Club"
-            className="h-[60px] w-[180px] object-contain drop-shadow-[0_4px_14px_rgba(0,0,0,0.55)] transition-transform duration-500 group-hover:rotate-[6deg]"
+            className="h-[80px] w-[240px] object-contain drop-shadow-[0_4px_14px_rgba(0,0,0,0.55)] transition-transform duration-500 group-hover:rotate-[6deg]"
           />
         </Link>
 

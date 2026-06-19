@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Loader2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -15,6 +16,7 @@ export const Route = createFileRoute("/auth")({
 
 function AuthPage() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [mode, setMode] = useState<"signin" | "signup" | "reset">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -99,24 +101,24 @@ function AuthPage() {
           </Link>
           <div className="bg-[#2d2d2d] border border-[#3d3d3d] p-8 md:p-10 shadow-2xl">
             <h1 className="font-display text-3xl text-[#f5f5f0]">
-              {mode === "reset" ? "Reset Password" : "Welcome, Tracker"}
+              {mode === "reset" ? t("auth_page.reset", "Reset Password") : t("auth_page.welcome", "Welcome, Tracker")}
             </h1>
             <p className="mt-2 text-sm text-[#a8a8a0]">
-              {mode === "signin" ? "Enter the camp." : mode === "signup" ? "Request your seat by the fire." : "We'll send you a link to get back in."}
+              {mode === "signin" ? t("auth_page.signin_text", "Enter the camp.") : mode === "signup" ? t("auth_page.signup_text", "Request your seat by the fire.") : t("auth_page.reset_text", "We'll send you a link to get back in.")}
             </p>
 
             <form onSubmit={submit} className="mt-6 space-y-4">
               {mode === "signup" && (
-                <Field label="Display name" value={name} onChange={setName} placeholder="J. Hemingway" />
+                <Field label={t("auth_page.labels.name", "Display name")} value={name} onChange={setName} placeholder="J. Hemingway" />
               )}
-              <Field label="Email" type="email" value={email} onChange={setEmail} required placeholder="you@email.com" />
+              <Field label={t("auth_page.labels.email", "Email")} type="email" value={email} onChange={setEmail} required placeholder="you@email.com" />
               
               {mode !== "reset" && (
                 <div className="relative">
-                  <Field label="Password" type="password" value={password} onChange={setPassword} required placeholder="••••••••••••" />
+                  <Field label={t("auth_page.labels.password", "Password")} type="password" value={password} onChange={setPassword} required placeholder="••••••••••••" />
                   {mode === "signin" && (
                     <button type="button" onClick={() => setMode("reset")} className="absolute right-0 top-0 text-[10px] uppercase tracking-widest text-[#c9a84c] hover:text-white">
-                      Forgot?
+                      {t("auth_page.labels.forgot", "Forgot?")}
                     </button>
                   )}
                 </div>
@@ -129,7 +131,7 @@ function AuthPage() {
                 disabled={loading}
                 className="w-full inline-flex items-center justify-center gap-2 bg-[#c9a84c] hover:bg-[#d4b95c] text-[#1a1a1a] tracking-[0.3em] text-[11px] uppercase font-semibold py-3.5 transition disabled:opacity-60"
               >
-                {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : mode === "signin" ? "Enter the camp" : mode === "signup" ? "Request access" : "Send reset link"}
+                {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : mode === "signin" ? t("auth_page.buttons.signin", "Enter the camp") : mode === "signup" ? t("auth_page.buttons.signup", "Request access") : t("auth_page.buttons.reset", "Send reset link")}
               </button>
             </form>
 
@@ -141,20 +143,20 @@ function AuthPage() {
               onClick={google}
               className="w-full inline-flex items-center justify-center gap-3 bg-[#1a1a1a] border border-[#3d3d3d] hover:border-[#c9a84c] text-[#f5f5f0] text-xs tracking-[0.2em] uppercase py-3 transition"
             >
-              <GoogleGlyph /> Continue with Google
+              <GoogleGlyph /> {t("auth_page.buttons.google", "Continue with Google")}
             </button>
 
             <div className="mt-6 flex flex-col gap-3 text-[11px] text-[#a8a8a0] items-center">
               {mode !== "signin" ? (
                 <button type="button" onClick={() => setMode("signin")} className="hover:text-[#c9a84c]">
-                  Back to Sign In
+                  {t("auth_page.links.signin", "Back to Sign In")}
                 </button>
               ) : (
                 <div className="w-full flex justify-between">
                   <button type="button" onClick={() => setMode("signup")} className="hover:text-[#c9a84c]">
-                    Request Observer Pass
+                    {t("auth_page.links.observer", "Request Observer Pass")}
                   </button>
-                  <Link to="/membership-apply" className="hover:text-[#c9a84c]">Apply for membership</Link>
+                  <Link to="/membership-apply" className="hover:text-[#c9a84c]">{t("auth_page.links.apply", "Apply for membership")}</Link>
                 </div>
               )}
             </div>

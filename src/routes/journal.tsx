@@ -5,6 +5,7 @@ import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Reveal } from "@/components/Reveal";
 import { Eyebrow } from "@/components/Eyebrow";
+import { useTranslation } from "react-i18next";
 import { photos } from "@/assets/photos";
 const wildlife = photos.vintageLeopard;
 const camp = photos.campDeck;
@@ -59,6 +60,7 @@ const entries = [
 ];
 
 function Journal() {
+  const { t } = useTranslation();
   return (
     <div className="min-h-screen bg-background">
       <SiteNav />
@@ -74,12 +76,12 @@ function Journal() {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-ink/40 to-ink" />
         <div className="relative h-full flex flex-col items-center justify-center text-center px-6 text-bone">
-          <Eyebrow light>Dispatches from the bush</Eyebrow>
+          <Eyebrow light>{t("journal.hero.eyebrow", "Dispatches from the bush")}</Eyebrow>
           <h1 className="mt-6 font-display text-5xl md:text-7xl">
-            The <span className="italic font-serif text-accent">Field Journal</span>
+            {t("journal.hero.title_normal", "The ")}<span className="italic font-serif text-accent">{t("journal.hero.title_italic", "Field Journal")}</span>
           </h1>
           <p className="mt-6 max-w-2xl font-serif text-xl text-bone/75">
-            Tracking notes, conservation reports, and unhurried stories — written in the bush, edited by lantern light.
+            {t("journal.hero.body", "Tracking notes, conservation reports, and unhurried stories — written in the bush, edited by lantern light.")}
           </p>
         </div>
       </section>
@@ -105,18 +107,18 @@ function Journal() {
                 </div>
                 <div className="md:col-span-3">
                   <div className="flex items-center gap-4 text-[10px] tracking-[0.3em] uppercase text-accent">
-                    <span>{e.tag}</span>
+                    <span>{t(`journal.entries.${i + 1}.tag`, e.tag)}</span>
                     <span className="h-px flex-1 bg-border" />
                     <span className="inline-flex items-center gap-1 text-muted-foreground"><Calendar className="h-3 w-3" />{e.date}</span>
                   </div>
                   <h2 className="mt-4 font-display text-2xl md:text-3xl text-forest group-hover:text-ember transition-colors leading-tight">
-                    {e.title}
+                    {t(`journal.entries.${i + 1}.title`, e.title)}
                   </h2>
-                  <p className="mt-4 font-serif text-lg text-foreground/75 leading-relaxed">{e.excerpt}</p>
+                  <p className="mt-4 font-serif text-lg text-foreground/75 leading-relaxed">{t(`journal.entries.${i + 1}.excerpt`, e.excerpt)}</p>
                   <div className="mt-6 flex items-center justify-between">
-                    <span className="text-xs text-muted-foreground tracking-widest uppercase">{e.read} read</span>
+                    <span className="text-xs text-muted-foreground tracking-widest uppercase">{e.read} {t("journal.read", "read")}</span>
                     <span className="inline-flex items-center gap-2 text-forest group-hover:text-ember text-[11px] tracking-[0.3em] uppercase">
-                      Read entry <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                      {t("journal.read_entry", "Read entry")} <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                     </span>
                   </div>
                 </div>
@@ -126,13 +128,13 @@ function Journal() {
 
           <Reveal>
             <div className="mt-16 p-10 border border-accent/40 bg-ink text-bone text-center">
-              <Eyebrow light>Subscribe</Eyebrow>
-              <h3 className="mt-4 font-display text-3xl">The quarterly field journal — by post.</h3>
+              <Eyebrow light>{t("journal.subscribe.eyebrow", "Subscribe")}</Eyebrow>
+              <h3 className="mt-4 font-display text-3xl">{t("journal.subscribe.title", "The quarterly field journal — by post.")}</h3>
               <p className="mt-4 font-serif text-bone/70 max-w-xl mx-auto">
-                Members receive the printed edition four times a year. Add your address to the waiting list.
+                {t("journal.subscribe.body", "Members receive the printed edition four times a year. Add your address to the waiting list.")}
               </p>
               <Link to="/contact" className="inline-flex mt-8 items-center gap-2 px-7 py-3.5 bg-accent text-accent-foreground tracking-[0.3em] text-[11px] uppercase hover:bg-ember hover:text-bone transition">
-                Request the Journal
+                {t("journal.subscribe.cta", "Request the Journal")}
               </Link>
             </div>
           </Reveal>
@@ -144,12 +146,12 @@ function Journal() {
         <div className="mx-auto max-w-7xl px-6">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
             <div>
-              <Eyebrow light>Photo journal</Eyebrow>
+              <Eyebrow light>{t("journal.photo_journal.eyebrow", "Photo journal")}</Eyebrow>
               <h2 className="mt-4 font-display text-3xl md:text-5xl">
-                Frames from the <span className="italic font-serif text-accent">bush.</span>
+                {t("journal.photo_journal.title_normal", "Frames from the ")}<span className="italic font-serif text-accent">{t("journal.photo_journal.title_italic", "bush.")}</span>
               </h2>
             </div>
-            <p className="font-serif italic text-bone/60 max-w-md">A rotating gallery of stills from camp, concession, and chase — shot on film, scanned at the kitchen table.</p>
+            <p className="font-serif italic text-bone/60 max-w-md">{t("journal.photo_journal.body", "A rotating gallery of stills from camp, concession, and chase — shot on film, scanned at the kitchen table.")}</p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-[180px] md:auto-rows-[220px] gap-3">
             {[
