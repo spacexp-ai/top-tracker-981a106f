@@ -1,0 +1,17 @@
+{
+  "name": "Top Trackers Safari & Hunting Club",
+  "short_name": "Top Trackers",
+  "description": "Tanzania's invitation-only safari and hunting club, rooted in patience, craft, and respect.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#111612",
+  "theme_color": "#1e2a22",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "32x32 48x48 64x64 128x128 256x256",
+      "type": "image/x-icon"
+    }
+  ]
+}
