@@ -236,7 +236,7 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    lng: savedLanguage,
+    lng: typeof window !== "undefined" ? savedLanguage : "en",
     fallbackLng: "en",
     interpolation: {
       escapeValue: false

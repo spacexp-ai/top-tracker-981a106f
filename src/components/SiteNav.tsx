@@ -39,7 +39,11 @@ export function SiteNav() {
     setShowLanguageDropdown(false);
   };
 
-  const currentLogo = i18n.language === "hu" ? logoHu : logoEn;
+  const [currentLogo, setCurrentLogo] = useState(logoEn);
+
+  useEffect(() => {
+    setCurrentLogo(i18n.language === "hu" ? logoHu : logoEn);
+  }, [i18n.language]);
 
   return (
     <header
