@@ -350,31 +350,39 @@ function Home() {
           <div className="mt-16 grid md:grid-cols-3 gap-6">
             {[
               { tier: t("home.membership.tiers.tracker", "Tracker"), price: "$2,400", per: "/ year", color: "border-bone/30",
-                perks: t("home.membership.perks.tracker", ["Private member's circle", "Quarterly field journal", "Early access to dated hunts", "Camp invitations"], { returnObjects: true }) as string[] },
+                perks: t("home.membership.perks.tracker", { returnObjects: true }) },
               { tier: t("home.membership.tiers.ph", "Professional Hunter"), price: "$7,800", per: "/ year", color: "border-accent", featured: true,
-                perks: t("home.membership.perks.ph", ["All Tracker benefits", "Two reserved hunt windows", "Personal PH pairing", "Trophy concierge & shipping", "Off-season private camp stays"], { returnObjects: true }) as string[] },
+                perks: t("home.membership.perks.ph", { returnObjects: true }) },
               { tier: t("home.membership.tiers.legacy", "Legacy"), price: "By invitation", per: "", color: "border-ember",
-                perks: t("home.membership.perks.legacy", ["All PH benefits", "Concession-naming rights", "Lifetime camp residency", "Conservation board seat", "Private game flights"], { returnObjects: true }) as string[] },
-            ].map(({ tier, price, per, color, perks, featured }, i) => (
-              <Reveal key={tier} delay={i * 0.1}>
-                <div className={`relative h-full p-8 border ${color} bg-ink/40 backdrop-blur-sm hover:bg-ink/70 transition-all duration-500 ${featured ? "md:-translate-y-4" : ""}`}>
-                  {featured && (
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-accent text-accent-foreground px-4 py-1 text-[10px] tracking-[0.3em] uppercase">
-                      {t("home.membership.featured", "Most chosen")}
+                perks: t("home.membership.perks.legacy", { returnObjects: true }) },
+            ].map(({ tier, price, per, color, perks, featured }, i) => {
+              const defaultPerks = i === 0 
+                ? ["Private member's circle", "Quarterly field journal", "Early access to dated hunts", "Camp invitations"]
+                : i === 1 
+                ? ["All Tracker benefits", "Two reserved hunt windows", "Personal PH pairing", "Trophy concierge & shipping", "Off-season private camp stays"]
+                : ["All PH benefits", "Concession-naming rights", "Lifetime camp residency", "Conservation board seat", "Private game flights"];
+              const finalPerks = Array.isArray(perks) ? perks : defaultPerks;
+              return (
+                <Reveal key={tier} delay={i * 0.1}>
+                  <div className={`relative h-full p-8 border ${color} bg-ink/40 backdrop-blur-sm hover:bg-ink/70 transition-all duration-500 ${featured ? "md:-translate-y-4" : ""}`}>
+                    {featured && (
+                      <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-accent text-accent-foreground px-4 py-1 text-[10px] tracking-[0.3em] uppercase">
+                        {t("home.membership.featured", "Most chosen")}
+                      </div>
+                    )}
+                    {featured && <Crown className="absolute top-6 right-6 h-5 w-5 text-accent" />}
+                    <h3 className="font-display text-2xl tracking-[0.15em] uppercase text-accent">{tier}</h3>
+                    <div className="mt-6 flex items-baseline gap-2">
+                      <span className="font-display text-4xl">{price}</span>
+                      <span className="text-bone/60 text-sm">{per}</span>
                     </div>
-                  )}
-                  {featured && <Crown className="absolute top-6 right-6 h-5 w-5 text-accent" />}
-                  <h3 className="font-display text-2xl tracking-[0.15em] uppercase text-accent">{tier}</h3>
-                  <div className="mt-6 flex items-baseline gap-2">
-                    <span className="font-display text-4xl">{price}</span>
-                    <span className="text-bone/60 text-sm">{per}</span>
+                    <ul className="mt-8 space-y-3 text-sm text-bone/80">
+                      {finalPerks.map((p) => <li key={p} className="flex gap-2"><span className="text-ember">◆</span>{p}</li>)}
+                    </ul>
                   </div>
-                  <ul className="mt-8 space-y-3 text-sm text-bone/80">
-                    {perks.map((p) => <li key={p} className="flex gap-2"><span className="text-ember">◆</span>{p}</li>)}
-                  </ul>
-                </div>
-              </Reveal>
-            ))}
+                </Reveal>
+              );
+            })}
           </div>
 
           <Reveal delay={0.4}>
