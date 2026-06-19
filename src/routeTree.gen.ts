@@ -25,6 +25,9 @@ import { Route as ExperienceRouteImport } from './routes/experience'
 import { Route as EstimatorRouteImport } from './routes/estimator'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ConservationRouteImport } from './routes/conservation'
+import { Route as ConcessionsRouteImport } from './routes/concessions'
+import { Route as CampRouteImport } from './routes/camp'
+import { Route as BeyondTheHuntRouteImport } from './routes/beyond-the-hunt'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
@@ -118,6 +121,21 @@ const ConservationRoute = ConservationRouteImport.update({
   path: '/conservation',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ConcessionsRoute = ConcessionsRouteImport.update({
+  id: '/concessions',
+  path: '/concessions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CampRoute = CampRouteImport.update({
+  id: '/camp',
+  path: '/camp',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BeyondTheHuntRoute = BeyondTheHuntRouteImport.update({
+  id: '/beyond-the-hunt',
+  path: '/beyond-the-hunt',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
@@ -186,6 +204,9 @@ const AuthenticatedPortalCommunityProfileIdRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/beyond-the-hunt': typeof BeyondTheHuntRoute
+  '/camp': typeof CampRoute
+  '/concessions': typeof ConcessionsRoute
   '/conservation': typeof ConservationRoute
   '/contact': typeof ContactRoute
   '/estimator': typeof EstimatorRoute
@@ -215,6 +236,9 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/beyond-the-hunt': typeof BeyondTheHuntRoute
+  '/camp': typeof CampRoute
+  '/concessions': typeof ConcessionsRoute
   '/conservation': typeof ConservationRoute
   '/contact': typeof ContactRoute
   '/estimator': typeof EstimatorRoute
@@ -246,6 +270,9 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/beyond-the-hunt': typeof BeyondTheHuntRoute
+  '/camp': typeof CampRoute
+  '/concessions': typeof ConcessionsRoute
   '/conservation': typeof ConservationRoute
   '/contact': typeof ContactRoute
   '/estimator': typeof EstimatorRoute
@@ -277,6 +304,9 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/beyond-the-hunt'
+    | '/camp'
+    | '/concessions'
     | '/conservation'
     | '/contact'
     | '/estimator'
@@ -306,6 +336,9 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/beyond-the-hunt'
+    | '/camp'
+    | '/concessions'
     | '/conservation'
     | '/contact'
     | '/estimator'
@@ -336,6 +369,9 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/beyond-the-hunt'
+    | '/camp'
+    | '/concessions'
     | '/conservation'
     | '/contact'
     | '/estimator'
@@ -367,6 +403,9 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  BeyondTheHuntRoute: typeof BeyondTheHuntRoute
+  CampRoute: typeof CampRoute
+  ConcessionsRoute: typeof ConcessionsRoute
   ConservationRoute: typeof ConservationRoute
   ContactRoute: typeof ContactRoute
   EstimatorRoute: typeof EstimatorRoute
@@ -498,6 +537,27 @@ declare module '@tanstack/react-router' {
       path: '/conservation'
       fullPath: '/conservation'
       preLoaderRoute: typeof ConservationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/concessions': {
+      id: '/concessions'
+      path: '/concessions'
+      fullPath: '/concessions'
+      preLoaderRoute: typeof ConcessionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/camp': {
+      id: '/camp'
+      path: '/camp'
+      fullPath: '/camp'
+      preLoaderRoute: typeof CampRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/beyond-the-hunt': {
+      id: '/beyond-the-hunt'
+      path: '/beyond-the-hunt'
+      fullPath: '/beyond-the-hunt'
+      preLoaderRoute: typeof BeyondTheHuntRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -639,6 +699,9 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  BeyondTheHuntRoute: BeyondTheHuntRoute,
+  CampRoute: CampRoute,
+  ConcessionsRoute: ConcessionsRoute,
   ConservationRoute: ConservationRoute,
   ContactRoute: ContactRoute,
   EstimatorRoute: EstimatorRoute,
