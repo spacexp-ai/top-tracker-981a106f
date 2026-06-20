@@ -17,7 +17,7 @@ export function ImageReveal({ src, alt = "", className = "", aspectRatio = "aspe
         whileInView={{ clipPath: "inset(0% 0% 0% 0%)" }}
         viewport={{ once: true, margin: "-8%" }}
         transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay }}
-        className="w-full h-full"
+        className="w-full h-full [will-change:clip-path]"
       >
         {/* Inner Image: Animates scale down and counter-y translation for parallax reveal */}
         <motion.img
@@ -27,7 +27,7 @@ export function ImageReveal({ src, alt = "", className = "", aspectRatio = "aspe
           whileInView={{ scale: 1, y: "0%" }}
           viewport={{ once: true, margin: "-8%" }}
           transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1], delay }}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover [will-change:transform]"
         />
       </motion.div>
     </div>

@@ -1,14 +1,23 @@
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
 
 export function CustomCursor() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
   const [cursorText, setCursorText] = useState("");
 
+  // Use high-performance MotionValues to completely bypass React render loop for mouse movement
+  const mouseX = useMotionValue(-100);
+  const mouseY = useMotionValue(-100);
+
+  // Apply spring physics directly to the motion values
+  const springConfig = { stiffness: 800, damping: 45, mass: 0.45 };
+  const xSpring = useSpring(mouseX, springConfig);
+  const ySpring = useSpring(mouseY, springConfig);
+
   useEffect(() => {
     const updateMousePosition = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
+      mouseX.set(e.clientX);
+      mouseY.set(e.clientY);
     };
 
     const handleMouseOver = (e: MouseEvent) => {
@@ -35,7 +44,7 @@ export function CustomCursor() {
       }
     };
 
-    window.addEventListener("mousemove", updateMousePosition);
+    window.addEventListener("mousemove", updateMousePosition, { passive: true });
     window.addEventListener("mouseover", handleMouseOver);
 
     // Apply a global style to hide the default cursor on non-touch devices
@@ -52,7 +61,7 @@ export function CustomCursor() {
       window.removeEventListener("mousemove", updateMousePosition);
       window.removeEventListener("mouseover", handleMouseOver);
     };
-  }, []);
+  }, [mouseX, mouseY]);
 
   // On touch devices, do not render custom cursor
   if (typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches) {
@@ -63,10 +72,14 @@ export function CustomCursor() {
 
   return (
     <motion.div
-      className="pointer-events-none fixed top-0 left-0 z-[100] mix-blend-difference flex items-center justify-center"
+      className="pointer-events-none fixed top-0 left-0 z-[100] mix-blend-difference flex items-center justify-center will-change-transform"
+      style={{
+        x: xSpring,
+        y: ySpring,
+        translateX: "-50%",
+        translateY: "-50%",
+      }}
       animate={{
-        x: mousePosition.x - (hasText ? 32 : 16),
-        y: mousePosition.y - (hasText ? 32 : 16),
         scale: hasText ? 1.2 : (isHovering ? 1.4 : 1),
       }}
       transition={{
