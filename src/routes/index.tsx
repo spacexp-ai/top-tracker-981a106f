@@ -65,7 +65,7 @@ function Home() {
       <section ref={heroRef} className="relative h-[100svh] overflow-hidden bg-ink">
         <motion.div style={{ y }} className="absolute inset-0 bg-ink">
           <video
-            src={getContent("home.hero.video_url", "/media/hero-intro.mp4")}
+            src={getContent("home.hero.video_url", "/media/hero-savanna.mp4")}
             poster={resolveImage(getContent("home.hero.poster_url", "acaciaSunset"))}
             autoPlay
             muted

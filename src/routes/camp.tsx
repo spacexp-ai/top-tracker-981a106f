@@ -94,9 +94,12 @@ function Camp() {
           transition={{ duration: 1.8, ease: "easeOut" }}
           className="absolute inset-0"
         >
-          <img
-            src={photos.campNight}
-            alt="Camp at night"
+          <video
+            src="/media/camp-hero.mp4"
+            autoPlay
+            muted
+            loop
+            playsInline
             className="w-full h-full object-cover opacity-65"
           />
         </motion.div>
