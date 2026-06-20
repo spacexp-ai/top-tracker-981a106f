@@ -72,7 +72,8 @@ function CommunityDirectory() {
                 </div>
                 
                 <Link 
-                  to={`/portal/community/${profile.id}`} 
+                  to="/portal/community/$profileId" 
+                  params={{ profileId: profile.id }}
                   className="px-6 py-4 border-t border-[#3d3d3d] flex items-center justify-between text-[10px] tracking-[0.3em] uppercase text-[#a8a8a0] group-hover:text-[#c9a84c] group-hover:bg-[#2d2d2d] transition"
                 >
                   View Profile <ArrowRight className="h-3 w-3" />

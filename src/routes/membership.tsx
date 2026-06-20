@@ -217,12 +217,12 @@ function Membership() {
                 </div>
 
                 <div className="flex flex-wrap gap-4">
-                  <Link to="/auth?mode=login" className="inline-flex items-center gap-2 px-8 py-4 bg-ember text-bone tracking-[0.3em] text-[11px] uppercase hover:bg-forest transition">
+                  <a href="/auth?mode=login" className="inline-flex items-center gap-2 px-8 py-4 bg-ember text-bone tracking-[0.3em] text-[11px] uppercase hover:bg-forest transition">
                     {t("membership_page.portal.login", "Portal Login")} <ArrowRight className="h-4 w-4" />
-                  </Link>
-                  <Link to="/auth?mode=signup" className="inline-flex items-center gap-2 px-8 py-4 border border-accent text-accent tracking-[0.3em] text-[11px] uppercase hover:bg-accent hover:text-ink transition">
+                  </a>
+                  <a href="/auth?mode=signup" className="inline-flex items-center gap-2 px-8 py-4 border border-accent text-accent tracking-[0.3em] text-[11px] uppercase hover:bg-accent hover:text-ink transition">
                     {t("membership_page.portal.request", "Request Access")}
-                  </Link>
+                  </a>
                 </div>
               </Reveal>
             </div>

@@ -205,7 +205,7 @@ function BeyondTheHunt() {
                     <h3 className="font-display text-2xl md:text-3xl text-bone leading-tight">{act.title.toUpperCase()}</h3>
                     {/* Description — slides up on hover */}
                     <div className="overflow-hidden max-h-0 group-hover:max-h-32 transition-all duration-500 ease-out">
-                      <p className="mt-3 font-serif text-sm text-bone/70 leading-relaxed max-w-sm">{act.description}</p>
+                      <p className="mt-3 font-serif text-sm text-bone/70 leading-relaxed max-w-sm">{act.desc}</p>
                     </div>
                     <Link
                       to="/contact"

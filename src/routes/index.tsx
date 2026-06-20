@@ -9,6 +9,8 @@ import { Reveal } from "@/components/Reveal";
 import { Eyebrow } from "@/components/Eyebrow";
 import { FloatingTracks } from "@/components/FloatingTracks";
 import { InstagramFeed } from "@/components/InstagramFeed";
+import { ScrollHighlight } from "@/components/ScrollHighlight";
+import { ImageReveal } from "@/components/ImageReveal";
 import {
   AnimatedIcon,
   LionIcon,
@@ -156,12 +158,14 @@ function Home() {
             </h2>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="mt-10 font-serif text-2xl leading-relaxed text-foreground/80">
-              {getContent(
+            <ScrollHighlight
+              className="mt-10 font-serif text-2xl leading-relaxed"
+              highlightColor="#1e2a22"
+              text={getContent(
                 "home.intro.body",
                 t("home.intro.body", "Top Trackers is more than a hunting club. We are the meeting ground for a community of passionate hunters, conservationists, and wilderness enthusiasts — whether you are a seasoned safari veteran or preparing for your first African expedition.")
               )}
-            </p>
+            />
           </Reveal>
           <Reveal delay={0.3}>
             <Link to="/our-story" className="inline-flex items-center gap-2 mt-10 text-forest font-serif italic text-lg border-b border-forest/40 hover:border-ember hover:text-ember transition">
@@ -266,15 +270,12 @@ function Home() {
       <section className="relative paper-bg py-32">
         <div className="mx-auto max-w-7xl px-6 grid md:grid-cols-2 gap-16 items-center">
           <Reveal>
-            <div className="relative">
-              <img
+            <div className="relative cursor-none" data-cursor="VIEW">
+              <ImageReveal
                 src={resolveImage(getContent("home.experience.image_url", "hunterValley"))}
                 alt="Hunter scanning savanna at sunrise"
-                loading="lazy"
-                width={1600}
-                height={1100}
-                className="w-full aspect-[4/5] object-cover"
-                style={{ boxShadow: "var(--shadow-vintage)" }}
+                aspectRatio="aspect-[4/5]"
+                className="w-full"
               />
               <div className="absolute -bottom-6 -right-6 bg-accent text-accent-foreground px-6 py-4 font-display tracking-[0.2em] text-sm hidden md:block">
                 EST. 2023
@@ -416,15 +417,12 @@ function Home() {
             </Reveal>
           </div>
           <Reveal delay={0.2} className="md:col-span-3">
-            <div className="relative">
-              <img
+            <div className="relative cursor-none" data-cursor="CAMP">
+              <ImageReveal
                 src={resolveImage(getContent("home.camp.image_url", "campNight"))}
                 alt="Safari tented camp at dusk"
-                loading="lazy"
-                width={1600}
-                height={1100}
-                className="w-full aspect-[16/10] object-cover"
-                style={{ boxShadow: "var(--shadow-vintage)" }}
+                aspectRatio="aspect-[16/10]"
+                className="w-full"
               />
             </div>
           </Reveal>

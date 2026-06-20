@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 export function CustomCursor() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
+  const [cursorText, setCursorText] = useState("");
 
   useEffect(() => {
     const updateMousePosition = (e: MouseEvent) => {
@@ -12,6 +13,15 @@ export function CustomCursor() {
 
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
+      
+      // Look for data-cursor text (e.g. data-cursor="EXPLORE" or data-cursor="VIEW")
+      const cursorTextEl = target.closest("[data-cursor]") as HTMLElement | null;
+      if (cursorTextEl) {
+        setCursorText(cursorTextEl.getAttribute("data-cursor") || "");
+      } else {
+        setCursorText("");
+      }
+
       // If hovering over a clickable element, expand the scope
       if (
         target.tagName.toLowerCase() === "a" ||
@@ -49,36 +59,61 @@ export function CustomCursor() {
     return null;
   }
 
+  const hasText = !!cursorText;
+
   return (
     <motion.div
-      className="pointer-events-none fixed top-0 left-0 z-[100] mix-blend-difference"
+      className="pointer-events-none fixed top-0 left-0 z-[100] mix-blend-difference flex items-center justify-center"
       animate={{
-        x: mousePosition.x - 16,
-        y: mousePosition.y - 16,
-        scale: isHovering ? 1.5 : 1,
+        x: mousePosition.x - (hasText ? 32 : 16),
+        y: mousePosition.y - (hasText ? 32 : 16),
+        scale: hasText ? 1.2 : (isHovering ? 1.4 : 1),
       }}
       transition={{
         type: "spring",
-        stiffness: 700,
-        damping: 40,
-        mass: 0.5,
+        stiffness: 800,
+        damping: 38,
+        mass: 0.45,
       }}
     >
-      <svg
-        width="32"
-        height="32"
-        viewBox="0 0 32 32"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="text-white opacity-80"
-      >
-        <circle cx="16" cy="16" r="14" stroke="currentColor" strokeWidth="1.5" />
-        <circle cx="16" cy="16" r="2" fill="currentColor" />
-        <line x1="16" y1="0" x2="16" y2="8" stroke="currentColor" strokeWidth="1.5" />
-        <line x1="16" y1="24" x2="16" y2="32" stroke="currentColor" strokeWidth="1.5" />
-        <line x1="0" y1="16" x2="8" y2="16" stroke="currentColor" strokeWidth="1.5" />
-        <line x1="24" y1="16" x2="32" y2="16" stroke="currentColor" strokeWidth="1.5" />
-      </svg>
+      <AnimatePresence mode="wait">
+        {hasText ? (
+          <motion.div
+            key="text-badge"
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0, opacity: 0 }}
+            className="w-16 h-16 rounded-full border border-white bg-white/10 text-white flex items-center justify-center backdrop-blur-[2px]"
+          >
+            <span className="text-[9px] font-sans tracking-[0.25em] font-medium text-center pl-[2px] leading-none uppercase">
+              {cursorText}
+            </span>
+          </motion.div>
+        ) : (
+          <motion.div
+            key="default-cursor"
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 0.8 }}
+            exit={{ scale: 0.8, opacity: 0 }}
+          >
+            <svg
+              width="32"
+              height="32"
+              viewBox="0 0 32 32"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              className="text-white"
+            >
+              <circle cx="16" cy="16" r="14" stroke="currentColor" strokeWidth="1.5" />
+              <circle cx="16" cy="16" r="2" fill="currentColor" />
+              <line x1="16" y1="0" x2="16" y2="8" stroke="currentColor" strokeWidth="1.5" />
+              <line x1="16" y1="24" x2="16" y2="32" stroke="currentColor" strokeWidth="1.5" />
+              <line x1="0" y1="16" x2="8" y2="16" stroke="currentColor" strokeWidth="1.5" />
+              <line x1="24" y1="16" x2="32" y2="16" stroke="currentColor" strokeWidth="1.5" />
+            </svg>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }

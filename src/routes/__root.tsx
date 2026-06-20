@@ -18,6 +18,7 @@ import { CompassGate } from "@/components/CompassGate";
 import { CustomCursor } from "@/components/CustomCursor";
 import { InstallBanner } from "@/components/InstallBanner";
 import { useTranslation } from "react-i18next";
+import { SmoothScroll } from "@/components/SmoothScroll";
 
 function NotFoundComponent() {
   return (
@@ -113,7 +114,9 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <LogoSplash />
-      <Outlet />
+      <SmoothScroll>
+        <Outlet />
+      </SmoothScroll>
       <WildlifePopup />
       <CompassGate />
       <CookieConsent />

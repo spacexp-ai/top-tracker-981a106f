@@ -269,12 +269,12 @@ function Estimator() {
                   </div>
                 </div>
 
-                <Link
-                  to={`/contact?concession=${concession}&days=${days}&hunters=${hunters}&picked=${picked.join(",")}&tier=${tier}&charter=${charter}&total=${breakdown.total}`}
+                <a
+                  href={`/contact?concession=${concession}&days=${days}&hunters=${hunters}&picked=${picked.join(",")}&tier=${tier}&charter=${charter}&total=${breakdown.total}`}
                   className="mt-8 inline-flex w-full justify-center items-center gap-2 px-6 py-4 bg-accent text-accent-foreground tracking-[0.3em] text-[11px] uppercase hover:bg-ember hover:text-bone transition"
                 >
                   {t("estimator_embed.reserve_btn", "Reserve this estimate")} <ArrowRight className="h-4 w-4" />
-                </Link>
+                </a>
 
                 {tier === "none" && (
                   <Link to="/membership" className="mt-3 inline-flex w-full justify-center items-center gap-2 px-6 py-3 border border-bone/30 text-bone tracking-[0.3em] text-[10px] uppercase hover:border-accent hover:text-accent transition">

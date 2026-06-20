@@ -177,12 +177,12 @@ export function EstimatorEmbed({ defaultConcession }: { defaultConcession?: stri
               {fmt(breakdown.total)}
             </motion.div>
           </div>
-          <Link
-            to={`/contact?concession=${concession}&days=${days}&hunters=${hunters}&picked=${picked.join(",")}&tier=${tier}&charter=${charter}&total=${breakdown.total}`}
+          <a
+            href={`/contact?concession=${concession}&days=${days}&hunters=${hunters}&picked=${picked.join(",")}&tier=${tier}&charter=${charter}&total=${breakdown.total}`}
             className="mt-6 inline-flex w-full justify-center items-center gap-2 px-5 py-3 bg-accent text-accent-foreground tracking-[0.3em] text-[10px] uppercase hover:bg-ember hover:text-bone transition"
           >
             {t("estimator_embed.reserve_btn", "Reserve this estimate")} <ArrowRight className="h-3 w-3" />
-          </Link>
+          </a>
         </div>
       </div>
     </div>
