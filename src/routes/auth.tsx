@@ -73,8 +73,8 @@ function AuthPage() {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: window.location.origin + "/portal"
-      }
+        redirectTo: window.location.origin + "/portal",
+      },
     });
     if (error) setError(error.message);
   }
@@ -82,7 +82,10 @@ function AuthPage() {
   return (
     <div className="min-h-screen relative overflow-hidden bg-[#1a1a1a] text-[#f5f5f0]">
       {/* topographic backdrop */}
-      <svg className="absolute inset-0 w-full h-full opacity-[0.08]" xmlns="http://www.w3.org/2000/svg">
+      <svg
+        className="absolute inset-0 w-full h-full opacity-[0.08]"
+        xmlns="http://www.w3.org/2000/svg"
+      >
         <defs>
           <pattern id="topo" width="120" height="120" patternUnits="userSpaceOnUse">
             <path d="M0 60 Q30 30 60 60 T120 60" stroke="#c9a84c" strokeWidth="0.8" fill="none" />
@@ -96,28 +99,60 @@ function AuthPage() {
 
       <div className="relative min-h-screen flex items-center justify-center px-4 py-16">
         <div className="w-full max-w-md">
-          <Link to="/" className="block text-center mb-8 text-[10px] tracking-[0.4em] uppercase text-[#c9a84c] hover:text-white">
+          <Link
+            to="/"
+            className="block text-center mb-8 text-[10px] tracking-[0.4em] uppercase text-[#c9a84c] hover:text-white"
+          >
             ◆ Top Trackers
           </Link>
           <div className="bg-[#2d2d2d] border border-[#3d3d3d] p-8 md:p-10 shadow-2xl">
             <h1 className="font-display text-3xl text-[#f5f5f0]">
-              {mode === "reset" ? t("auth_page.reset", "Reset Password") : t("auth_page.welcome", "Welcome, Tracker")}
+              {mode === "reset"
+                ? t("auth_page.reset", "Reset Password")
+                : t("auth_page.welcome", "Welcome, Tracker")}
             </h1>
             <p className="mt-2 text-sm text-[#a8a8a0]">
-              {mode === "signin" ? t("auth_page.signin_text", "Enter the camp.") : mode === "signup" ? t("auth_page.signup_text", "Request your seat by the fire.") : t("auth_page.reset_text", "We'll send you a link to get back in.")}
+              {mode === "signin"
+                ? t("auth_page.signin_text", "Enter the camp.")
+                : mode === "signup"
+                  ? t("auth_page.signup_text", "Request your seat by the fire.")
+                  : t("auth_page.reset_text", "We'll send you a link to get back in.")}
             </p>
 
             <form onSubmit={submit} className="mt-6 space-y-4">
               {mode === "signup" && (
-                <Field label={t("auth_page.labels.name", "Display name")} value={name} onChange={setName} placeholder="J. Hemingway" />
+                <Field
+                  label={t("auth_page.labels.name", "Display name")}
+                  value={name}
+                  onChange={setName}
+                  placeholder="J. Hemingway"
+                />
               )}
-              <Field label={t("auth_page.labels.email", "Email")} type="email" value={email} onChange={setEmail} required placeholder="you@email.com" />
-              
+              <Field
+                label={t("auth_page.labels.email", "Email")}
+                type="email"
+                value={email}
+                onChange={setEmail}
+                required
+                placeholder="you@email.com"
+              />
+
               {mode !== "reset" && (
                 <div className="relative">
-                  <Field label={t("auth_page.labels.password", "Password")} type="password" value={password} onChange={setPassword} required placeholder="••••••••••••" />
+                  <Field
+                    label={t("auth_page.labels.password", "Password")}
+                    type="password"
+                    value={password}
+                    onChange={setPassword}
+                    required
+                    placeholder="••••••••••••"
+                  />
                   {mode === "signin" && (
-                    <button type="button" onClick={() => setMode("reset")} className="absolute right-0 top-0 text-[10px] uppercase tracking-widest text-[#c9a84c] hover:text-white">
+                    <button
+                      type="button"
+                      onClick={() => setMode("reset")}
+                      className="absolute right-0 top-0 text-[10px] uppercase tracking-widest text-[#c9a84c] hover:text-white"
+                    >
                       {t("auth_page.labels.forgot", "Forgot?")}
                     </button>
                   )}
@@ -131,12 +166,21 @@ function AuthPage() {
                 disabled={loading}
                 className="w-full inline-flex items-center justify-center gap-2 bg-[#c9a84c] hover:bg-[#d4b95c] text-[#1a1a1a] tracking-[0.3em] text-[11px] uppercase font-semibold py-3.5 transition disabled:opacity-60"
               >
-                {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : mode === "signin" ? t("auth_page.buttons.signin", "Enter the camp") : mode === "signup" ? t("auth_page.buttons.signup", "Request access") : t("auth_page.buttons.reset", "Send reset link")}
+                {loading ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : mode === "signin" ? (
+                  t("auth_page.buttons.signin", "Enter the camp")
+                ) : mode === "signup" ? (
+                  t("auth_page.buttons.signup", "Request access")
+                ) : (
+                  t("auth_page.buttons.reset", "Send reset link")
+                )}
               </button>
             </form>
 
             <div className="my-6 flex items-center gap-3 text-[10px] tracking-[0.3em] uppercase text-[#a8a8a0]">
-              <span className="h-px flex-1 bg-[#3d3d3d]" /> or <span className="h-px flex-1 bg-[#3d3d3d]" />
+              <span className="h-px flex-1 bg-[#3d3d3d]" /> or{" "}
+              <span className="h-px flex-1 bg-[#3d3d3d]" />
             </div>
 
             <button
@@ -148,15 +192,25 @@ function AuthPage() {
 
             <div className="mt-6 flex flex-col gap-3 text-[11px] text-[#a8a8a0] items-center">
               {mode !== "signin" ? (
-                <button type="button" onClick={() => setMode("signin")} className="hover:text-[#c9a84c]">
+                <button
+                  type="button"
+                  onClick={() => setMode("signin")}
+                  className="hover:text-[#c9a84c]"
+                >
                   {t("auth_page.links.signin", "Back to Sign In")}
                 </button>
               ) : (
                 <div className="w-full flex justify-between">
-                  <button type="button" onClick={() => setMode("signup")} className="hover:text-[#c9a84c]">
+                  <button
+                    type="button"
+                    onClick={() => setMode("signup")}
+                    className="hover:text-[#c9a84c]"
+                  >
                     {t("auth_page.links.observer", "Request Observer Pass")}
                   </button>
-                  <Link to="/membership-apply" className="hover:text-[#c9a84c]">{t("auth_page.links.apply", "Apply for membership")}</Link>
+                  <Link to="/membership-apply" className="hover:text-[#c9a84c]">
+                    {t("auth_page.links.apply", "Apply for membership")}
+                  </Link>
                 </div>
               )}
             </div>
@@ -171,11 +225,25 @@ function AuthPage() {
 }
 
 function Field({
-  label, value, onChange, type = "text", required, placeholder,
-}: { label: string; value: string; onChange: (v: string) => void; type?: string; required?: boolean; placeholder?: string }) {
+  label,
+  value,
+  onChange,
+  type = "text",
+  required,
+  placeholder,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  type?: string;
+  required?: boolean;
+  placeholder?: string;
+}) {
   return (
     <div>
-      <label className="block text-[10px] tracking-[0.3em] uppercase text-[#a8a8a0] mb-2">{label}</label>
+      <label className="block text-[10px] tracking-[0.3em] uppercase text-[#a8a8a0] mb-2">
+        {label}
+      </label>
       <input
         type={type}
         required={required}
@@ -191,6 +259,23 @@ function Field({
 
 function GoogleGlyph() {
   return (
-    <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09Z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.99.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23Z"/><path fill="#FBBC05" d="M5.84 14.1A6.99 6.99 0 0 1 5.46 12c0-.73.13-1.44.36-2.1V7.07H2.18A11 11 0 0 0 1 12c0 1.78.42 3.45 1.18 4.93l3.66-2.84Z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.65l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84C6.71 7.31 9.14 5.38 12 5.38Z"/></svg>
+    <svg width="16" height="16" viewBox="0 0 24 24">
+      <path
+        fill="#4285F4"
+        d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09Z"
+      />
+      <path
+        fill="#34A853"
+        d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.99.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23Z"
+      />
+      <path
+        fill="#FBBC05"
+        d="M5.84 14.1A6.99 6.99 0 0 1 5.46 12c0-.73.13-1.44.36-2.1V7.07H2.18A11 11 0 0 0 1 12c0 1.78.42 3.45 1.18 4.93l3.66-2.84Z"
+      />
+      <path
+        fill="#EA4335"
+        d="M12 5.38c1.62 0 3.06.56 4.21 1.65l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84C6.71 7.31 9.14 5.38 12 5.38Z"
+      />
+    </svg>
   );
 }

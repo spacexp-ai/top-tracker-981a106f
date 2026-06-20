@@ -38,7 +38,10 @@ export function CookieConsent() {
             <Cookie className="h-6 w-6 text-accent shrink-0" />
             <p className="text-sm font-serif text-bone/80 flex-1">
               We use cookies to remember your preferences and improve your visit to camp. Read our{" "}
-              <Link to="/privacy" className="text-accent underline underline-offset-4">privacy policy</Link>.
+              <Link to="/privacy" className="text-accent underline underline-offset-4">
+                privacy policy
+              </Link>
+              .
             </p>
             <div className="flex gap-2 shrink-0">
               <button

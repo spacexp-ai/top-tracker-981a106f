@@ -7,8 +7,8 @@ import { PawPrintIcon } from "./WildlifeIcons";
  */
 export function FloatingTracks({ count = 6 }: { count?: number }) {
   const prints = Array.from({ length: count }, (_, i) => ({
-    top: `${(i * 73) % 90 + 5}%`,
-    left: `${(i * 41) % 80 + 5}%`,
+    top: `${((i * 73) % 90) + 5}%`,
+    left: `${((i * 41) % 80) + 5}%`,
     size: 22 + ((i * 7) % 20),
     delay: i * 0.6,
     rotate: ((i * 37) % 90) - 45,

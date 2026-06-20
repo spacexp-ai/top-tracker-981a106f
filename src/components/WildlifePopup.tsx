@@ -113,9 +113,7 @@ export function WildlifePopup() {
                 <div className="text-[10px] tracking-[0.35em] uppercase text-accent">
                   {d.eyebrow}
                 </div>
-                <h4 className="mt-2 font-display text-lg text-forest leading-snug">
-                  {d.title}
-                </h4>
+                <h4 className="mt-2 font-display text-lg text-forest leading-snug">{d.title}</h4>
                 <p className="mt-2 font-serif text-sm text-foreground/75 leading-relaxed">
                   {d.body}
                 </p>

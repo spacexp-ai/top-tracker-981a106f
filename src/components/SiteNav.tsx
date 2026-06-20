@@ -7,10 +7,10 @@ import logoEn from "@/assets/logo_en.webp";
 import logoHu from "@/assets/logo_hu.webp";
 
 const exploreLinks = [
-  { to: "/experience",    labelKey: "nav.experience",   fallback: "The Experience" },
-  { to: "/concessions",  labelKey: "nav.concessions",  fallback: "Our Concessions" },
-  { to: "/camp",         labelKey: "nav.camp",          fallback: "Camp Life" },
-  { to: "/beyond-the-hunt", labelKey: "nav.beyond",    fallback: "Beyond the Hunt" },
+  { to: "/experience", labelKey: "nav.experience", fallback: "The Experience" },
+  { to: "/concessions", labelKey: "nav.concessions", fallback: "Our Concessions" },
+  { to: "/camp", labelKey: "nav.camp", fallback: "Camp Life" },
+  { to: "/beyond-the-hunt", labelKey: "nav.beyond", fallback: "Beyond the Hunt" },
 ];
 
 export function SiteNav() {

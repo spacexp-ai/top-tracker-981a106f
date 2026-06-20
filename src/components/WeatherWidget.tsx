@@ -77,7 +77,8 @@ export function WeatherWidget({ selectedDate }: { selectedDate?: Date }) {
   if (!data) {
     return (
       <div className="bg-card border border-border p-5 flex items-center gap-3 text-sm text-muted-foreground">
-        <Loader2 className="h-4 w-4 animate-spin" /> {t("weather.reading", "Reading the sky over Ruaha…")}
+        <Loader2 className="h-4 w-4 animate-spin" />{" "}
+        {t("weather.reading", "Reading the sky over Ruaha…")}
       </div>
     );
   }
@@ -95,7 +96,13 @@ export function WeatherWidget({ selectedDate }: { selectedDate?: Date }) {
       <div className="flex items-center justify-between">
         <div className="text-[10px] tracking-[0.4em] uppercase text-accent">Ruaha · Tanzania</div>
         <div className="text-[10px] tracking-[0.3em] uppercase text-bone/50">
-          {selectedDate ? selectedDate.toLocaleDateString(i18n.language === "hu" ? "hu-HU" : "en-GB", { day: "numeric", month: "short", year: "numeric" }) : t("weather.today", "Today")}
+          {selectedDate
+            ? selectedDate.toLocaleDateString(i18n.language === "hu" ? "hu-HU" : "en-GB", {
+                day: "numeric",
+                month: "short",
+                year: "numeric",
+              })
+            : t("weather.today", "Today")}
         </div>
       </div>
 
@@ -119,16 +126,21 @@ export function WeatherWidget({ selectedDate }: { selectedDate?: Date }) {
 
       <div className="mt-4 grid grid-cols-2 gap-3 text-xs">
         <div className="flex items-center gap-2 text-bone/70">
-          <CloudRain className="h-3.5 w-3.5 text-accent" /> {target.precip} mm {t("weather.precip", "precip")}
+          <CloudRain className="h-3.5 w-3.5 text-accent" /> {target.precip} mm{" "}
+          {t("weather.precip", "precip")}
         </div>
         <div className="flex items-center gap-2 text-bone/70">
-          <Wind className="h-3.5 w-3.5 text-accent" /> {target.wind} km/h {t("weather.wind", "wind")}
+          <Wind className="h-3.5 w-3.5 text-accent" /> {target.wind} km/h{" "}
+          {t("weather.wind", "wind")}
         </div>
       </div>
 
       {selectedDate && !inRange && (
         <div className="mt-4 text-[11px] text-bone/50 italic">
-          {t("weather.horizon", "Forecast horizon is ~16 days — showing today's reading. Your hunt dates will be confirmed at booking.")}
+          {t(
+            "weather.horizon",
+            "Forecast horizon is ~16 days — showing today's reading. Your hunt dates will be confirmed at booking.",
+          )}
         </div>
       )}
     </div>

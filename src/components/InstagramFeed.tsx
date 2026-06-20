@@ -62,7 +62,11 @@ export function InstagramFeed() {
               rel="noreferrer"
               className="relative w-[260px] h-[260px] md:w-[300px] md:h-[300px] shrink-0 overflow-hidden bg-bone/5 group/tile"
             >
-              <img src={t.src} alt={t.alt} className="w-full h-full object-cover transition-transform duration-500 group-hover/tile:scale-110" />
+              <img
+                src={t.src}
+                alt={t.alt}
+                className="w-full h-full object-cover transition-transform duration-500 group-hover/tile:scale-110"
+              />
               <div className="absolute inset-0 bg-ink/0 group-hover/tile:bg-ink/60 transition-colors flex items-center justify-center">
                 <Instagram className="h-7 w-7 text-bone opacity-0 group-hover/tile:opacity-100 transition-opacity" />
               </div>

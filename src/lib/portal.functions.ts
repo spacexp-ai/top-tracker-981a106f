@@ -9,17 +9,22 @@ export const getDashboard = createServerFn({ method: "GET" })
     const [{ data: profile }, { data: roles }, { data: bookings }] = await Promise.all([
       supabase.from("profiles").select("*").eq("id", userId).maybeSingle(),
       supabase.from("user_roles").select("role").eq("user_id", userId),
-      supabase.from("bookings").select("*, species(name,emoji), professional_hunters(name)").eq("user_id", userId).order("updated_at", { ascending: false }).limit(10),
+      supabase
+        .from("bookings")
+        .select("*, species(name,emoji), professional_hunters(name)")
+        .eq("user_id", userId)
+        .order("updated_at", { ascending: false })
+        .limit(10),
     ]);
-    return { 
-      profile, 
-      roles: roles ?? [], 
+    return {
+      profile,
+      roles: roles ?? [],
       bookings: bookings ?? [],
       debug: {
         url: process.env.SUPABASE_URL || "not set",
         userId,
-        projectId: process.env.SUPABASE_PROJECT_ID || "not set"
-      }
+        projectId: process.env.SUPABASE_PROJECT_ID || "not set",
+      },
     };
   });
 
@@ -56,7 +61,13 @@ export const saveBooking = createServerFn({ method: "POST" })
     const { supabase, userId } = context;
     const payload = { ...data, user_id: userId };
     if (data.id) {
-      const { data: row, error } = await supabase.from("bookings").update(payload).eq("id", data.id).eq("user_id", userId).select().single();
+      const { data: row, error } = await supabase
+        .from("bookings")
+        .update(payload)
+        .eq("id", data.id)
+        .eq("user_id", userId)
+        .select()
+        .single();
       if (error) throw new Error(error.message);
       return row;
     }
@@ -77,9 +88,9 @@ const MOCK_PROFILES = [
     avatar: "/images/avatar-placeholder.jpg",
     trophies: [
       { id: 1, species: "Cape Buffalo", emoji: "🐃", location: "Tanzania", date: "2025-08-14" },
-      { id: 2, species: "Greater Kudu", emoji: "🦌", location: "South Africa", date: "2024-11-02" }
+      { id: 2, species: "Greater Kudu", emoji: "🦌", location: "South Africa", date: "2024-11-02" },
     ],
-    social: { instagram: "@ast_tracks" }
+    social: { instagram: "@ast_tracks" },
   },
   {
     id: "uuid-2",
@@ -90,9 +101,9 @@ const MOCK_PROFILES = [
     favorite_quarry: "Lion",
     avatar: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
     trophies: [
-      { id: 3, species: "Plains Zebra", emoji: "🦓", location: "Namibia", date: "2026-02-10" }
+      { id: 3, species: "Plains Zebra", emoji: "🦓", location: "Namibia", date: "2026-02-10" },
     ],
-    social: { website: "elenarostova.com" }
+    social: { website: "elenarostova.com" },
   },
   {
     id: "uuid-3",
@@ -103,8 +114,8 @@ const MOCK_PROFILES = [
     favorite_quarry: "Leopard",
     avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704d",
     trophies: [],
-    social: {}
-  }
+    social: {},
+  },
 ];
 
 export const getCommunityDirectory = createServerFn({ method: "GET" })
@@ -117,7 +128,7 @@ export const getCommunityProfile = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .inputValidator((id: string) => z.string().parse(id))
   .handler(async ({ data: id }) => {
-    const profile = MOCK_PROFILES.find(p => p.id === id);
+    const profile = MOCK_PROFILES.find((p) => p.id === id);
     if (!profile) throw new Error("Profile not found");
     return profile;
   });

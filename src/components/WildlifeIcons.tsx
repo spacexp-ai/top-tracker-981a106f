@@ -159,7 +159,12 @@ export function LanternIcon(p: IconProps) {
       <path d="M24 20 L24 48 L40 48 L40 20" />
       <path d="M22 48 L42 48 L42 52 L22 52 Z" />
       {/* flame */}
-      <path d="M32 26 Q28 30 30 36 Q32 32 32 36 Q34 32 34 36 Q36 30 32 26 Z" fill="currentColor" stroke="none" opacity="0.7" />
+      <path
+        d="M32 26 Q28 30 30 36 Q32 32 32 36 Q34 32 34 36 Q36 30 32 26 Z"
+        fill="currentColor"
+        stroke="none"
+        opacity="0.7"
+      />
     </svg>
   );
 }

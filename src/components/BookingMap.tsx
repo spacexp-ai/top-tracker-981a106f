@@ -16,8 +16,12 @@ export function BookingMap() {
     <div className="bg-card border border-border overflow-hidden">
       <div className="flex items-center justify-between p-4 border-b border-border">
         <div>
-          <div className="text-[10px] tracking-[0.4em] uppercase text-accent">{t("footer.base_camp", "Base Camp")}</div>
-          <div className="font-display text-lg text-forest">{t("footer.river", "on the bank of Njombe River")}</div>
+          <div className="text-[10px] tracking-[0.4em] uppercase text-accent">
+            {t("footer.base_camp", "Base Camp")}
+          </div>
+          <div className="font-display text-lg text-forest">
+            {t("footer.river", "on the bank of Njombe River")}
+          </div>
         </div>
         <a
           href={`https://www.openstreetmap.org/?mlat=${lat}&mlon=${lon}#map=11/${lat}/${lon}`}
@@ -35,7 +39,10 @@ export function BookingMap() {
         loading="lazy"
       />
       <div className="flex items-center justify-between gap-3 p-4 text-xs text-muted-foreground">
-        <span className="flex items-center gap-1.5"><Plane className="h-3.5 w-3.5 text-ember" /> {t("map.near_park", "Near Ruaha National Park")}</span>
+        <span className="flex items-center gap-1.5">
+          <Plane className="h-3.5 w-3.5 text-ember" />{" "}
+          {t("map.near_park", "Near Ruaha National Park")}
+        </span>
         <span className="font-serif italic">6°54′21.0″S, 34°59′14.8″E</span>
       </div>
     </div>

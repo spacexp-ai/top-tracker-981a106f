@@ -48,10 +48,10 @@
   /* Parchment / bone neutrals */
   --bone: oklch(0.955 0.018 78);
   --parchment: oklch(0.92 0.035 75);
-  --ink: oklch(0.20 0.025 60);
+  --ink: oklch(0.2 0.025 60);
 
-  --background: oklch(0.955 0.018 78);     /* aged bone */
-  --foreground: oklch(0.20 0.025 60);       /* warm ink */
+  --background: oklch(0.955 0.018 78); /* aged bone */
+  --foreground: oklch(0.2 0.025 60); /* warm ink */
 
   --card: oklch(0.97 0.012 78);
   --card-foreground: var(--foreground);
@@ -67,7 +67,7 @@
   --secondary: oklch(0.85 0.04 85);
   --secondary-foreground: oklch(0.25 0.03 60);
 
-  --muted: oklch(0.90 0.025 80);
+  --muted: oklch(0.9 0.025 80);
   --muted-foreground: oklch(0.42 0.03 65);
 
   /* Accent — aged brass / antique gold */
@@ -76,10 +76,10 @@
 
   /* Ember — campfire orange */
   --ember: oklch(0.62 0.18 45);
-  --brass: oklch(0.70 0.13 78);
+  --brass: oklch(0.7 0.13 78);
   --forest: oklch(0.32 0.05 145);
 
-  --destructive: oklch(0.55 0.20 28);
+  --destructive: oklch(0.55 0.2 28);
   --destructive-foreground: oklch(0.98 0 0);
 
   --border: oklch(0.82 0.03 75);
@@ -91,8 +91,8 @@
   /* Gradients & shadows */
   --gradient-ember: linear-gradient(135deg, oklch(0.62 0.18 45), oklch(0.52 0.15 35));
   --gradient-dusk: linear-gradient(180deg, oklch(0.32 0.05 145) 0%, oklch(0.18 0.03 60) 100%);
-  --gradient-parchment: linear-gradient(180deg, oklch(0.96 0.02 78), oklch(0.90 0.035 75));
-  --shadow-vintage: 0 1px 0 oklch(1 0 0 / 0.4) inset, 0 20px 40px -20px oklch(0.20 0.03 60 / 0.35);
+  --gradient-parchment: linear-gradient(180deg, oklch(0.96 0.02 78), oklch(0.9 0.035 75));
+  --shadow-vintage: 0 1px 0 oklch(1 0 0 / 0.4) inset, 0 20px 40px -20px oklch(0.2 0.03 60 / 0.35);
   --shadow-ember: 0 0 0 1px oklch(0.62 0.18 45 / 0.3), 0 18px 40px -12px oklch(0.62 0.18 45 / 0.45);
 
   --transition-smooth: cubic-bezier(0.22, 1, 0.36, 1);
@@ -101,7 +101,7 @@
 .dark {
   --background: oklch(0.15 0.02 60);
   --foreground: oklch(0.95 0.02 78);
-  --card: oklch(0.20 0.025 60);
+  --card: oklch(0.2 0.025 60);
   --card-foreground: var(--foreground);
   --popover: var(--card);
   --popover-foreground: var(--foreground);
@@ -110,7 +110,7 @@
   --secondary: oklch(0.28 0.03 75);
   --secondary-foreground: var(--foreground);
   --muted: oklch(0.25 0.025 65);
-  --muted-foreground: oklch(0.70 0.03 75);
+  --muted-foreground: oklch(0.7 0.03 75);
   --accent: oklch(0.68 0.12 75);
   --accent-foreground: oklch(0.15 0.02 60);
   --border: oklch(1 0 0 / 0.1);
@@ -119,8 +119,12 @@
 }
 
 @layer base {
-  * { border-color: var(--color-border); }
-  html { scroll-behavior: smooth; }
+  * {
+    border-color: var(--color-border);
+  }
+  html {
+    scroll-behavior: smooth;
+  }
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
@@ -128,22 +132,28 @@
     font-feature-settings: "ss01", "cv11";
     -webkit-font-smoothing: antialiased;
   }
-  h1, h2, h3, .font-display {
+  h1,
+  h2,
+  h3,
+  .font-display {
     font-family: var(--font-display);
     letter-spacing: 0.02em;
   }
-  .font-serif { font-family: var(--font-serif); }
+  .font-serif {
+    font-family: var(--font-serif);
+  }
 
   /* Subtle parchment paper texture overlay */
   .paper-bg {
     background-color: var(--color-background);
     background-image:
       radial-gradient(at 20% 10%, oklch(0.85 0.05 75 / 0.25) 0px, transparent 50%),
-      radial-gradient(at 80% 90%, oklch(0.70 0.08 75 / 0.18) 0px, transparent 50%);
+      radial-gradient(at 80% 90%, oklch(0.7 0.08 75 / 0.18) 0px, transparent 50%);
   }
   .grain::before {
     content: "";
-    position: absolute; inset: 0;
+    position: absolute;
+    inset: 0;
     pointer-events: none;
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/><feColorMatrix values='0 0 0 0 0.2  0 0 0 0 0.15  0 0 0 0 0.1  0 0 0 0.4 0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.35'/></svg>");
     mix-blend-mode: multiply;
@@ -151,21 +161,45 @@
   }
 
   .vintage-divider {
-    display: flex; align-items: center; gap: 1rem; color: var(--color-accent);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--color-accent);
   }
-  .vintage-divider::before, .vintage-divider::after {
-    content: ""; flex: 1; height: 1px;
+  .vintage-divider::before,
+  .vintage-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
     background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
   }
 }
 
 @keyframes pingSlow {
-  0% { transform: scale(1); opacity: 0.6; }
-  80%, 100% { transform: scale(1.8); opacity: 0; }
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  80%,
+  100% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
 }
 @keyframes pulseRing {
-  0%, 100% { transform: scale(1); opacity: 0.5; }
-  50% { transform: scale(1.08); opacity: 0.9; }
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.9;
+  }
 }
-.animate-ping-slow { animation: pingSlow 2.4s cubic-bezier(0,0,0.2,1) infinite; }
-.animate-pulse-ring { animation: pulseRing 2.4s ease-in-out infinite; }
+.animate-ping-slow {
+  animation: pingSlow 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+.animate-pulse-ring {
+  animation: pulseRing 2.4s ease-in-out infinite;
+}

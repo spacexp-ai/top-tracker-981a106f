@@ -40,9 +40,7 @@ export const Route = createFileRoute("/api/checkout")({
           );
         }
 
-        const origin =
-          request.headers.get("origin") ??
-          new URL(request.url).origin;
+        const origin = request.headers.get("origin") ?? new URL(request.url).origin;
 
         const params = new URLSearchParams();
         params.append("mode", "payment");
@@ -50,7 +48,10 @@ export const Route = createFileRoute("/api/checkout")({
         params.append("line_items[0][quantity]", "1");
         params.append("line_items[0][price_data][currency]", "usd");
         params.append("line_items[0][price_data][unit_amount]", String(amount));
-        params.append("line_items[0][price_data][product_data][name]", description || "Top Trackers deposit");
+        params.append(
+          "line_items[0][price_data][product_data][name]",
+          description || "Top Trackers deposit",
+        );
         params.append("success_url", body.successUrl || `${origin}/contact?paid=1`);
         params.append("cancel_url", body.cancelUrl || `${origin}/contact?canceled=1`);
         if (body.email) params.append("customer_email", body.email);
@@ -66,10 +67,7 @@ export const Route = createFileRoute("/api/checkout")({
 
         const data = (await res.json()) as { url?: string; error?: { message?: string } };
         if (!res.ok || !data.url) {
-          return Response.json(
-            { error: data.error?.message || "Stripe error" },
-            { status: 502 },
-          );
+          return Response.json({ error: data.error?.message || "Stripe error" }, { status: 502 });
         }
         return Response.json({ url: data.url });
       },

@@ -13,9 +13,17 @@ export const Route = createFileRoute("/camp")({
   head: () => ({
     meta: [
       { title: "Camp Life — Top Trackers" },
-      { name: "description", content: "Full-service tented safari camp under the acacias. Canvas, brass, lantern light and an open-fire kitchen — the heart of the Top Trackers experience." },
+      {
+        name: "description",
+        content:
+          "Full-service tented safari camp under the acacias. Canvas, brass, lantern light and an open-fire kitchen — the heart of the Top Trackers experience.",
+      },
       { property: "og:title", content: "Camp Life — Top Trackers" },
-      { property: "og:description", content: "Canvas, brass, and lantern light. The Top Trackers camp beneath the acacias of Esilalei." },
+      {
+        property: "og:description",
+        content:
+          "Canvas, brass, and lantern light. The Top Trackers camp beneath the acacias of Esilalei.",
+      },
       { property: "og:image", content: photos.campNight },
     ],
   }),
@@ -74,12 +82,57 @@ function Camp() {
   const { t } = useTranslation();
 
   const amenities = [
-    { Icon: Tent,             title: t("camp_page.amenities.1.title", "Canvas Tented Suites"),  body: t("camp_page.amenities.1.body", "Hand-stitched canvas with brass fittings, proper beds with linen, and en-suite bucket shower."), image: photos.campDeck },
-    { Icon: Flame,            title: t("camp_page.amenities.2.title", "Open-Fire Kitchen"),      body: t("camp_page.amenities.2.body", "Our camp chef cooks over hardwood coals."),                                                           image: photos.breakfast },
-    { Icon: UtensilsCrossed,  title: t("camp_page.amenities.3.title", "The Long Table"),         body: t("camp_page.amenities.3.body", "Every evening the camp gathers at a single long table beneath the stars."),                           image: photos.dinner },
-    { Icon: Star,             title: t("camp_page.amenities.4.title", "Milky Way Nights"),       body: t("camp_page.amenities.4.body", "No light pollution within 200 kilometres. The Southern Cross rises above camp every night."),          image: photos.milkyway },
-    { Icon: Wind,             title: t("camp_page.amenities.5.title", "Camp Deck & Bush Bar"),   body: t("camp_page.amenities.5.body", "A raised teak deck faces the water pan. Sundowner hour is non-negotiable."),                         image: photos.campAerial },
-    { Icon: Users,            title: t("camp_page.amenities.6.title", "Staff & Valet"),          body: t("camp_page.amenities.6.body", "A dedicated camp manager, tracker team, and valet service."),                                         image: photos.guideJeep },
+    {
+      Icon: Tent,
+      title: t("camp_page.amenities.1.title", "Canvas Tented Suites"),
+      body: t(
+        "camp_page.amenities.1.body",
+        "Hand-stitched canvas with brass fittings, proper beds with linen, and en-suite bucket shower.",
+      ),
+      image: photos.campDeck,
+    },
+    {
+      Icon: Flame,
+      title: t("camp_page.amenities.2.title", "Open-Fire Kitchen"),
+      body: t("camp_page.amenities.2.body", "Our camp chef cooks over hardwood coals."),
+      image: photos.breakfast,
+    },
+    {
+      Icon: UtensilsCrossed,
+      title: t("camp_page.amenities.3.title", "The Long Table"),
+      body: t(
+        "camp_page.amenities.3.body",
+        "Every evening the camp gathers at a single long table beneath the stars.",
+      ),
+      image: photos.dinner,
+    },
+    {
+      Icon: Star,
+      title: t("camp_page.amenities.4.title", "Milky Way Nights"),
+      body: t(
+        "camp_page.amenities.4.body",
+        "No light pollution within 200 kilometres. The Southern Cross rises above camp every night.",
+      ),
+      image: photos.milkyway,
+    },
+    {
+      Icon: Wind,
+      title: t("camp_page.amenities.5.title", "Camp Deck & Bush Bar"),
+      body: t(
+        "camp_page.amenities.5.body",
+        "A raised teak deck faces the water pan. Sundowner hour is non-negotiable.",
+      ),
+      image: photos.campAerial,
+    },
+    {
+      Icon: Users,
+      title: t("camp_page.amenities.6.title", "Staff & Valet"),
+      body: t(
+        "camp_page.amenities.6.body",
+        "A dedicated camp manager, tracker team, and valet service.",
+      ),
+      image: photos.guideJeep,
+    },
   ];
 
   return (
@@ -118,8 +171,7 @@ function Camp() {
             transition={{ duration: 0.7, delay: 0.12 }}
             className="mt-6 font-display text-[14vw] md:text-[8vw] leading-[0.92]"
           >
-            CAMP{" "}
-            <span className="font-serif italic text-accent">Life.</span>
+            CAMP <span className="font-serif italic text-accent">Life.</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0 }}
@@ -142,7 +194,11 @@ function Camp() {
       <section className="relative paper-bg py-28 overflow-hidden">
         <div
           className="absolute inset-0 opacity-[0.06]"
-          style={{ backgroundImage: `url(${map})`, backgroundSize: "cover", backgroundPosition: "center" }}
+          style={{
+            backgroundImage: `url(${map})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
         />
         <div className="relative mx-auto max-w-7xl px-6 grid md:grid-cols-2 gap-16 items-center">
           <Reveal>
@@ -153,13 +209,15 @@ function Camp() {
                 <span className="font-serif italic text-ember">Worth returning to.</span>
               </h2>
               <p className="mt-8 font-serif text-xl text-foreground/75 leading-relaxed">
-                Our base camp sits beneath an acacia grove near Esilalei, in the heart of the northern Tanzanian
-                wilderness. Hand-stitched canvas tents, copper basins, and a long dining table — the full-service
-                tented camp that serious hunters remember for decades.
+                Our base camp sits beneath an acacia grove near Esilalei, in the heart of the
+                northern Tanzanian wilderness. Hand-stitched canvas tents, copper basins, and a long
+                dining table — the full-service tented camp that serious hunters remember for
+                decades.
               </p>
               <p className="mt-5 font-serif text-lg text-foreground/65 leading-relaxed">
-                This is not a lodge. It is a camp — built for the hunt, run with precision, and alive with the sounds
-                of the bush from the moment you arrive to the moment you leave.
+                This is not a lodge. It is a camp — built for the hunt, run with precision, and
+                alive with the sounds of the bush from the moment you arrive to the moment you
+                leave.
               </p>
               <div className="mt-10 flex flex-wrap gap-4">
                 <Link
@@ -225,8 +283,12 @@ function Camp() {
                       className="h-8 w-8 text-accent mb-4 group-hover:scale-110 transition-transform duration-300"
                       strokeWidth={1.2}
                     />
-                    <h3 className="font-display text-xl tracking-[0.1em] text-bone">{title.toUpperCase()}</h3>
-                    <p className="mt-3 font-serif text-sm text-bone/65 leading-relaxed max-w-xs">{body}</p>
+                    <h3 className="font-display text-xl tracking-[0.1em] text-bone">
+                      {title.toUpperCase()}
+                    </h3>
+                    <p className="mt-3 font-serif text-sm text-bone/65 leading-relaxed max-w-xs">
+                      {body}
+                    </p>
                   </div>
                 </div>
               </Reveal>
@@ -242,7 +304,9 @@ function Camp() {
             <Eyebrow>From the Camp</Eyebrow>
           </Reveal>
           <Reveal delay={0.08}>
-            <h2 className="mt-4 font-display text-3xl md:text-4xl text-forest">Seen through the lens.</h2>
+            <h2 className="mt-4 font-display text-3xl md:text-4xl text-forest">
+              Seen through the lens.
+            </h2>
           </Reveal>
         </div>
         <div className="flex gap-3 overflow-x-auto pb-4 px-6 md:px-12 snap-x snap-mandatory scrollbar-thin scrollbar-track-transparent scrollbar-thumb-accent/30">
@@ -285,15 +349,14 @@ function Camp() {
             </Reveal>
             <Reveal delay={0.1}>
               <h2 className="mt-6 font-display text-4xl md:text-5xl text-forest leading-tight">
-                Camp is half{" "}
-                <span className="font-serif italic text-ember">the experience.</span>
+                Camp is half <span className="font-serif italic text-ember">the experience.</span>
               </h2>
             </Reveal>
             <Reveal delay={0.2}>
               <p className="mt-7 font-serif text-xl text-foreground/75 leading-relaxed">
-                Partners, photographers, and non-hunting guests are genuinely welcome. The camp is built for company.
-                While hunters are in the field, guests take game drives, walk the trails, visit Maasai villages, or
-                simply read by the water pan.
+                Partners, photographers, and non-hunting guests are genuinely welcome. The camp is
+                built for company. While hunters are in the field, guests take game drives, walk the
+                trails, visit Maasai villages, or simply read by the water pan.
               </p>
             </Reveal>
             <Reveal delay={0.3}>
@@ -328,14 +391,13 @@ function Camp() {
         <div className="mx-auto max-w-4xl px-6 text-center">
           <Reveal>
             <p className="font-display text-4xl md:text-5xl">
-              Ready to see it{" "}
-              <span className="font-serif italic text-accent">for yourself?</span>
+              Ready to see it <span className="font-serif italic text-accent">for yourself?</span>
             </p>
           </Reveal>
           <Reveal delay={0.1}>
             <p className="mt-5 font-serif text-lg text-bone/65">
-              Use our cost estimator to build your expedition, then reach out. We'll put a cup of coffee in your hand
-              and walk you through the details.
+              Use our cost estimator to build your expedition, then reach out. We'll put a cup of
+              coffee in your hand and walk you through the details.
             </p>
           </Reveal>
           <Reveal delay={0.2}>

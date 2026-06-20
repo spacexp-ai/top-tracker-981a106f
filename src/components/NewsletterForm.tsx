@@ -22,7 +22,8 @@ export function NewsletterForm({ compact = false }: { compact?: boolean }) {
     <div className={compact ? "" : "max-w-md"}>
       {!compact && (
         <p className="font-serif text-base text-bone/70 mb-4">
-          Quarterly dispatches from camp — tracking notes, conservation reports, and the printed field journal.
+          Quarterly dispatches from camp — tracking notes, conservation reports, and the printed
+          field journal.
         </p>
       )}
       <AnimatePresence mode="wait">

@@ -19,7 +19,9 @@ export function CompassGate() {
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [open]);
 
   return (
@@ -65,7 +67,11 @@ export function CompassGate() {
               onClick={(e) => e.stopPropagation()}
               className="relative w-full max-w-[420px] aspect-[4/5] flex flex-col items-center justify-center"
             >
-              <img src={woodenGate} alt="Wooden Gate" className="absolute inset-0 w-full h-full object-contain pointer-events-none drop-shadow-[0_25px_50px_rgba(0,0,0,0.9)]" />
+              <img
+                src={woodenGate}
+                alt="Wooden Gate"
+                className="absolute inset-0 w-full h-full object-contain pointer-events-none drop-shadow-[0_25px_50px_rgba(0,0,0,0.9)]"
+              />
 
               {/* Close — small, floating outside the arch */}
               <button
@@ -101,9 +107,25 @@ export function CompassGate() {
                   className="mt-4 w-full flex flex-col items-center gap-1"
                   style={{ fontFamily: "'Cormorant Garamond', serif" }}
                 >
-                  <GateLink to="/membership" title="Join the Club" icon={<ArrowRight className="h-3 w-3" />} onClose={() => setOpen(false)} highlighted />
-                  <GateLink to="/auth" title="Member Login" icon={<Lock className="h-3 w-3" />} onClose={() => setOpen(false)} />
-                  <GateLink to="/contact" title="Book a Safari" icon={<Calendar className="h-3 w-3" />} onClose={() => setOpen(false)} />
+                  <GateLink
+                    to="/membership"
+                    title="Join the Club"
+                    icon={<ArrowRight className="h-3 w-3" />}
+                    onClose={() => setOpen(false)}
+                    highlighted
+                  />
+                  <GateLink
+                    to="/auth"
+                    title="Member Login"
+                    icon={<Lock className="h-3 w-3" />}
+                    onClose={() => setOpen(false)}
+                  />
+                  <GateLink
+                    to="/contact"
+                    title="Book a Safari"
+                    icon={<Calendar className="h-3 w-3" />}
+                    onClose={() => setOpen(false)}
+                  />
                 </div>
               </div>
             </motion.div>
@@ -115,9 +137,17 @@ export function CompassGate() {
 }
 
 function GateLink({
-  to, title, icon, onClose, highlighted,
+  to,
+  title,
+  icon,
+  onClose,
+  highlighted,
 }: {
-  to: string; title: string; icon: React.ReactNode; onClose: () => void; highlighted?: boolean;
+  to: string;
+  title: string;
+  icon: React.ReactNode;
+  onClose: () => void;
+  highlighted?: boolean;
 }) {
   return (
     <Link
@@ -131,7 +161,9 @@ function GateLink({
       <span className="text-base md:text-lg tracking-wide border-b border-[rgba(201,168,76,0.35)] group-hover:border-[rgba(201,168,76,0.85)] pb-0.5 transition-colors">
         {title}
       </span>
-      <span className="text-[#c9a84c] opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition">{icon}</span>
+      <span className="text-[#c9a84c] opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition">
+        {icon}
+      </span>
     </Link>
   );
 }

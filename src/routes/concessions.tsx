@@ -13,9 +13,17 @@ export const Route = createFileRoute("/concessions")({
   head: () => ({
     meta: [
       { title: "Our Concessions — Top Trackers" },
-      { name: "description", content: "Three TAWA-licenced hunting concessions across Tanzania — the Selous, Maasai Steppe, and Iringa Highlands. Ethical, fair-chase expeditions on private land." },
+      {
+        name: "description",
+        content:
+          "Three TAWA-licenced hunting concessions across Tanzania — the Selous, Maasai Steppe, and Iringa Highlands. Ethical, fair-chase expeditions on private land.",
+      },
       { property: "og:title", content: "Our Concessions — Top Trackers" },
-      { property: "og:description", content: "Explore our three private hunting concessions across Tanzania's most storied wilderness." },
+      {
+        property: "og:description",
+        content:
+          "Explore our three private hunting concessions across Tanzania's most storied wilderness.",
+      },
       { property: "og:image", content: photos.elephant },
     ],
   }),
@@ -75,8 +83,14 @@ function Concessions() {
       id: "selous",
       label: t("concessions_page.concessions.1.label", "Block I"),
       title: t("concessions_page.concessions.1.title", "The Selous Classic"),
-      subtitle: t("concessions_page.concessions.1.subtitle", "Selous Game Reserve, Southern Tanzania"),
-      description: t("concessions_page.concessions.1.desc", "Africa's largest game reserve. Riverine forest, hippo pools, and the slow patient art of dangerous-game tracking."),
+      subtitle: t(
+        "concessions_page.concessions.1.subtitle",
+        "Selous Game Reserve, Southern Tanzania",
+      ),
+      description: t(
+        "concessions_page.concessions.1.desc",
+        "Africa's largest game reserve. Riverine forest, hippo pools, and the slow patient art of dangerous-game tracking.",
+      ),
       image: photos.buffalo,
       season: t("concessions_page.concessions.1.season", "Jun – Oct"),
       size: t("concessions_page.concessions.1.size", "~120,000 acres"),
@@ -89,7 +103,10 @@ function Concessions() {
       label: t("concessions_page.concessions.2.label", "Block II"),
       title: t("concessions_page.concessions.2.title", "Maasai Steppe Plains"),
       subtitle: t("concessions_page.concessions.2.subtitle", "Maasai Steppe, Northern Tanzania"),
-      description: t("concessions_page.concessions.2.desc", "Open thornveld stretching to the horizon, cut by seasonal riverbeds and acacia groves."),
+      description: t(
+        "concessions_page.concessions.2.desc",
+        "Open thornveld stretching to the horizon, cut by seasonal riverbeds and acacia groves.",
+      ),
       image: photos.acaciaSunset,
       season: t("concessions_page.concessions.2.season", "May – Sep"),
       size: t("concessions_page.concessions.2.size", "~80,000 acres"),
@@ -102,7 +119,10 @@ function Concessions() {
       label: t("concessions_page.concessions.3.label", "Block III"),
       title: t("concessions_page.concessions.3.title", "Iringa Highlands"),
       subtitle: t("concessions_page.concessions.3.subtitle", "Iringa Region, Southern Highlands"),
-      description: t("concessions_page.concessions.3.desc", "Cool miombo woodland and high ridgelines seldom visited by anyone but the most discerning hunters."),
+      description: t(
+        "concessions_page.concessions.3.desc",
+        "Cool miombo woodland and high ridgelines seldom visited by anyone but the most discerning hunters.",
+      ),
       image: photos.hunterValley,
       season: t("concessions_page.concessions.3.season", "Jul – Nov"),
       size: t("concessions_page.concessions.3.size", "~55,000 acres"),
@@ -137,7 +157,9 @@ function Concessions() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <Eyebrow light>{t("concessions_page.hero.eyebrow", "Tanzania · Three Licensed Blocks")}</Eyebrow>
+            <Eyebrow light>
+              {t("concessions_page.hero.eyebrow", "Tanzania · Three Licensed Blocks")}
+            </Eyebrow>
           </motion.div>
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
@@ -146,7 +168,9 @@ function Concessions() {
             className="mt-6 font-display text-[14vw] md:text-[8vw] leading-[0.92] max-w-5xl"
           >
             {t("concessions_page.hero.title_plain", "OUR ")}
-            <span className="font-serif italic text-accent">{t("concessions_page.hero.title_italic", "Concessions.")}</span>
+            <span className="font-serif italic text-accent">
+              {t("concessions_page.hero.title_italic", "Concessions.")}
+            </span>
           </motion.h1>
           <motion.div
             initial={{ scaleX: 0 }}
@@ -161,7 +185,11 @@ function Concessions() {
       <section className="relative paper-bg py-28 overflow-hidden">
         <div
           className="absolute inset-0 opacity-[0.06]"
-          style={{ backgroundImage: `url(${map})`, backgroundSize: "cover", backgroundPosition: "center" }}
+          style={{
+            backgroundImage: `url(${map})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
         />
         <div className="relative mx-auto max-w-4xl px-6 text-center">
           <Reveal>
@@ -170,17 +198,25 @@ function Concessions() {
           <Reveal delay={0.1}>
             <h2 className="mt-8 font-display text-4xl md:text-5xl text-forest leading-tight">
               {t("concessions_page.intro.title_plain", "Private land. ")}
-              <span className="font-serif italic text-ember">{t("concessions_page.intro.title_italic", "Exclusive access.")}</span>
+              <span className="font-serif italic text-ember">
+                {t("concessions_page.intro.title_italic", "Exclusive access.")}
+              </span>
             </h2>
           </Reveal>
           <Reveal delay={0.2}>
             <p className="mt-8 font-serif text-xl leading-relaxed text-foreground/80">
-              {t("concessions_page.intro.body1", "A hunting concession is a legally designated wilderness block, licenced under Tanzania Wildlife Authority (TAWA) and managed exclusively by Top Trackers.")}
+              {t(
+                "concessions_page.intro.body1",
+                "A hunting concession is a legally designated wilderness block, licenced under Tanzania Wildlife Authority (TAWA) and managed exclusively by Top Trackers.",
+              )}
             </p>
           </Reveal>
           <Reveal delay={0.3}>
             <p className="mt-6 font-serif text-lg leading-relaxed text-foreground/65">
-              {t("concessions_page.intro.body2", "All three blocks are managed with annual game census, active anti-poaching patrols, and strict quota adherence.")}
+              {t(
+                "concessions_page.intro.body2",
+                "All three blocks are managed with annual game census, active anti-poaching patrols, and strict quota adherence.",
+              )}
             </p>
           </Reveal>
         </div>
@@ -228,30 +264,40 @@ function Concessions() {
                   </h2>
                   <div className="flex items-center gap-2 mt-2 mb-5" data-subtitle>
                     <MapPin className="h-3.5 w-3.5 text-ember shrink-0" strokeWidth={1.5} />
-                    <span className="font-serif italic text-sm text-foreground/60">{c.subtitle}</span>
+                    <span className="font-serif italic text-sm text-foreground/60">
+                      {c.subtitle}
+                    </span>
                   </div>
-                  <p className="font-serif text-base text-foreground/75 leading-relaxed">{c.description}</p>
+                  <p className="font-serif text-base text-foreground/75 leading-relaxed">
+                    {c.description}
+                  </p>
 
                   {/* Meta row */}
                   <div className="mt-7 grid grid-cols-2 gap-5 border-t border-accent/10 pt-6">
                     <div>
                       <div className="flex items-center gap-1.5 mb-1">
                         <Calendar className="h-3.5 w-3.5 text-ember" strokeWidth={1.5} />
-                        <span className="text-[10px] tracking-[0.22em] uppercase text-muted-foreground">{t("concessions_page.labels.season", "Season")}</span>
+                        <span className="text-[10px] tracking-[0.22em] uppercase text-muted-foreground">
+                          {t("concessions_page.labels.season", "Season")}
+                        </span>
                       </div>
                       <p className="font-serif text-sm text-foreground">{c.season}</p>
                     </div>
                     <div>
                       <div className="flex items-center gap-1.5 mb-1">
                         <MapPin className="h-3.5 w-3.5 text-ember" strokeWidth={1.5} />
-                        <span className="text-[10px] tracking-[0.22em] uppercase text-muted-foreground">{t("concessions_page.labels.size", "Block Size")}</span>
+                        <span className="text-[10px] tracking-[0.22em] uppercase text-muted-foreground">
+                          {t("concessions_page.labels.size", "Block Size")}
+                        </span>
                       </div>
                       <p className="font-serif text-sm text-foreground">{c.size}</p>
                     </div>
                     <div className="col-span-2">
                       <div className="flex items-center gap-1.5 mb-2">
                         <Crosshair className="h-3.5 w-3.5 text-ember" strokeWidth={1.5} />
-                        <span className="text-[10px] tracking-[0.22em] uppercase text-muted-foreground">{t("concessions_page.labels.quarry", "Quarry")}</span>
+                        <span className="text-[10px] tracking-[0.22em] uppercase text-muted-foreground">
+                          {t("concessions_page.labels.quarry", "Quarry")}
+                        </span>
                       </div>
                       <div className="flex flex-wrap gap-2">
                         {c.quarry.map((q) => (
@@ -271,7 +317,8 @@ function Concessions() {
                     search={{ concession: c.id }}
                     className="mt-8 self-start inline-flex items-center gap-2 px-6 py-3.5 bg-forest text-bone tracking-[0.25em] text-[11px] uppercase hover:bg-ember transition-colors duration-300"
                   >
-                    {t("concessions_page.cta_enquire", "Enquire about this block")} <ArrowRight className="h-3.5 w-3.5" />
+                    {t("concessions_page.cta_enquire", "Enquire about this block")}{" "}
+                    <ArrowRight className="h-3.5 w-3.5" />
                   </Link>
                 </div>
               </article>
@@ -287,7 +334,9 @@ function Concessions() {
             <div className="grid md:grid-cols-3 gap-px bg-accent/10">
               {concessions.map((c) => (
                 <div key={c.id} className="bg-background p-6 text-center">
-                  <p className="text-[10px] tracking-[0.4em] uppercase text-accent mb-2">{c.label}</p>
+                  <p className="text-[10px] tracking-[0.4em] uppercase text-accent mb-2">
+                    {c.label}
+                  </p>
                   <p className="font-display text-xl text-forest">{c.title}</p>
                   <p className="mt-2 font-serif italic text-sm text-foreground/50">{c.coords}</p>
                 </div>
@@ -299,20 +348,30 @@ function Concessions() {
 
       {/* ── CONSERVATION CTA ── */}
       <section className="relative bg-forest text-bone py-24 overflow-hidden">
-        <div className="absolute inset-0 opacity-10" style={{ backgroundImage: `url(${map})`, backgroundSize: "cover" }} />
+        <div
+          className="absolute inset-0 opacity-10"
+          style={{ backgroundImage: `url(${map})`, backgroundSize: "cover" }}
+        />
         <div className="relative mx-auto max-w-4xl px-6 text-center">
           <Reveal>
-            <Eyebrow light>{t("concessions_page.conservation.eyebrow", "Conservation First")}</Eyebrow>
+            <Eyebrow light>
+              {t("concessions_page.conservation.eyebrow", "Conservation First")}
+            </Eyebrow>
           </Reveal>
           <Reveal delay={0.1}>
             <h2 className="mt-6 font-display text-4xl md:text-5xl leading-tight">
               {t("concessions_page.conservation.title_plain", "Every quota hunted. ")}
-              <span className="font-serif italic text-accent">{t("concessions_page.conservation.title_italic", "Every animal counted.")}</span>
+              <span className="font-serif italic text-accent">
+                {t("concessions_page.conservation.title_italic", "Every animal counted.")}
+              </span>
             </h2>
           </Reveal>
           <Reveal delay={0.2}>
             <p className="mt-6 font-serif text-lg text-bone/75 max-w-2xl mx-auto leading-relaxed">
-              {t("concessions_page.conservation.body", "Our concession management programme funds anti-poaching patrols, annual wildlife census, and direct revenue to the communities who live alongside these blocks.")}
+              {t(
+                "concessions_page.conservation.body",
+                "Our concession management programme funds anti-poaching patrols, annual wildlife census, and direct revenue to the communities who live alongside these blocks.",
+              )}
             </p>
           </Reveal>
           <Reveal delay={0.3}>
@@ -321,7 +380,8 @@ function Concessions() {
                 to="/conservation"
                 className="inline-flex items-center gap-2 px-8 py-4 bg-accent text-accent-foreground tracking-[0.3em] text-[11px] uppercase hover:bg-ember hover:text-bone transition"
               >
-                {t("concessions_page.conservation.cta_conservation", "Our conservation work")} <ArrowRight className="h-4 w-4" />
+                {t("concessions_page.conservation.cta_conservation", "Our conservation work")}{" "}
+                <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 to="/contact"

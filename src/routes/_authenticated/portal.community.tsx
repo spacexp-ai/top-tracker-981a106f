@@ -12,7 +12,10 @@ export const Route = createFileRoute("/_authenticated/portal/community")({
 
 function CommunityDirectory() {
   const dirFn = useServerFn(getCommunityDirectory);
-  const { data: profiles, isLoading } = useQuery({ queryKey: ["community"], queryFn: () => dirFn() });
+  const { data: profiles, isLoading } = useQuery({
+    queryKey: ["community"],
+    queryFn: () => dirFn(),
+  });
 
   return (
     <PortalShell title="The Lodge">
@@ -26,9 +29,9 @@ function CommunityDirectory() {
           </div>
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#a8a8a0]" />
-            <input 
-              type="text" 
-              placeholder="Search members..." 
+            <input
+              type="text"
+              placeholder="Search members..."
               className="bg-[#1a1a1a] border border-[#3d3d3d] focus:border-[#c9a84c] focus:outline-none pl-10 pr-4 py-2 w-full md:w-64 text-sm text-[#f5f5f0]"
             />
           </div>
@@ -39,12 +42,15 @@ function CommunityDirectory() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {(profiles ?? []).map((profile) => (
-              <div key={profile.id} className="bg-[#1a1a1a] border border-[#3d3d3d] hover:border-[#c9a84c]/50 transition duration-300 group flex flex-col">
+              <div
+                key={profile.id}
+                className="bg-[#1a1a1a] border border-[#3d3d3d] hover:border-[#c9a84c]/50 transition duration-300 group flex flex-col"
+              >
                 <div className="p-6 flex-grow">
                   <div className="flex items-start gap-4">
-                    <img 
-                      src={profile.avatar} 
-                      alt={profile.name} 
+                    <img
+                      src={profile.avatar}
+                      alt={profile.name}
                       className="w-14 h-14 rounded-full border-2 border-[#3d3d3d] group-hover:border-[#c9a84c] transition object-cover"
                     />
                     <div>
@@ -54,25 +60,29 @@ function CommunityDirectory() {
                       </div>
                     </div>
                   </div>
-                  
+
                   <p className="mt-5 text-xs text-[#a8a8a0] font-serif italic line-clamp-3">
                     "{profile.bio}"
                   </p>
-                  
+
                   <div className="mt-5 flex gap-4 text-xs font-mono text-[#5a5a55]">
                     <div>
-                      <span className="block text-[9px] uppercase tracking-wider mb-1 text-[#a8a8a0]">Trophies</span>
+                      <span className="block text-[9px] uppercase tracking-wider mb-1 text-[#a8a8a0]">
+                        Trophies
+                      </span>
                       {profile.trophies.length} recorded
                     </div>
                     <div>
-                      <span className="block text-[9px] uppercase tracking-wider mb-1 text-[#a8a8a0]">Quarry</span>
+                      <span className="block text-[9px] uppercase tracking-wider mb-1 text-[#a8a8a0]">
+                        Quarry
+                      </span>
                       {profile.favorite_quarry}
                     </div>
                   </div>
                 </div>
-                
-                <Link 
-                  to="/portal/community/$profileId" 
+
+                <Link
+                  to="/portal/community/$profileId"
                   params={{ profileId: profile.id }}
                   className="px-6 py-4 border-t border-[#3d3d3d] flex items-center justify-between text-[10px] tracking-[0.3em] uppercase text-[#a8a8a0] group-hover:text-[#c9a84c] group-hover:bg-[#2d2d2d] transition"
                 >

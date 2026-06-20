@@ -1,16 +1,11 @@
 const CACHE_NAME = "top-trackers-v1";
-const ASSETS_TO_CACHE = [
-  "/",
-  "/manifest.json",
-  "/favicon.ico",
-  "/topo-bg.png"
-];
+const ASSETS_TO_CACHE = ["/", "/manifest.json", "/favicon.ico", "/topo-bg.png"];
 
 self.addEventListener("install", (e) => {
   e.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       return cache.addAll(ASSETS_TO_CACHE);
-    })
+    }),
   );
   self.skipWaiting();
 });
@@ -23,9 +18,9 @@ self.addEventListener("activate", (e) => {
           if (key !== CACHE_NAME) {
             return caches.delete(key);
           }
-        })
+        }),
       );
-    })
+    }),
   );
   self.clients.claim();
 });
@@ -40,19 +35,27 @@ self.addEventListener("fetch", (e) => {
     caches.match(e.request).then((cachedResponse) => {
       if (cachedResponse) {
         // Return cached, but fetch fresh in background to update cache (stale-while-revalidate)
-        fetch(e.request).then((networkResponse) => {
-          if (networkResponse && networkResponse.status === 200) {
-            caches.open(CACHE_NAME).then((cache) => {
-              cache.put(e.request, networkResponse);
-            });
-          }
-        }).catch(() => { /* ignore offline fetch errors */ });
+        fetch(e.request)
+          .then((networkResponse) => {
+            if (networkResponse && networkResponse.status === 200) {
+              caches.open(CACHE_NAME).then((cache) => {
+                cache.put(e.request, networkResponse);
+              });
+            }
+          })
+          .catch(() => {
+            /* ignore offline fetch errors */
+          });
         return cachedResponse;
       }
 
       return fetch(e.request)
         .then((networkResponse) => {
-          if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== "basic") {
+          if (
+            !networkResponse ||
+            networkResponse.status !== 200 ||
+            networkResponse.type !== "basic"
+          ) {
             return networkResponse;
           }
           const responseToCache = networkResponse.clone();
@@ -67,6 +70,6 @@ self.addEventListener("fetch", (e) => {
             return caches.match("/");
           }
         });
-    })
+    }),
   );
 });

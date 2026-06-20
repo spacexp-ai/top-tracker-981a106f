@@ -57,22 +57,19 @@ export function LogoSplash() {
             </button>
 
             {/* Logo */}
-            <img
-              src={logo}
-              alt="Top Trackers"
-              className="h-[70px] w-[210px] object-contain mb-6"
-            />
+            <img src={logo} alt="Top Trackers" className="h-[70px] w-[210px] object-contain mb-6" />
 
             {/* Content */}
             <h2 className="font-display text-2xl md:text-3xl text-bone mb-4">
-              {i18n.language === "hu" ? "Egy privát vadon, megosztva" : "A Private Wilderness, Shared"}
+              {i18n.language === "hu"
+                ? "Egy privát vadon, megosztva"
+                : "A Private Wilderness, Shared"}
             </h2>
-            
+
             <p className="font-serif text-bone/70 text-sm md:text-base mb-8 leading-relaxed">
-              {i18n.language === "hu" 
+              {i18n.language === "hu"
                 ? "A teljes szafari élményért jelentkezzen be a Tagi Portálra, vagy igényeljen egy ingyenes Observer bérletet."
-                : "For the full safari experience, log in to your Member Portal or request a complimentary Observer Pass."
-              }
+                : "For the full safari experience, log in to your Member Portal or request a complimentary Observer Pass."}
             </p>
 
             {/* Actions */}
@@ -82,9 +79,10 @@ export function LogoSplash() {
                 onClick={() => setShow(false)}
                 className="w-full inline-flex items-center justify-center gap-2 bg-accent hover:bg-ember text-ink hover:text-bone tracking-[0.2em] text-xs uppercase font-semibold py-3.5 transition"
               >
-                {i18n.language === "hu" ? "Belépés a Portálra" : "Enter Member Portal"} <ArrowRight className="h-4 w-4" />
+                {i18n.language === "hu" ? "Belépés a Portálra" : "Enter Member Portal"}{" "}
+                <ArrowRight className="h-4 w-4" />
               </Link>
-              
+
               <Link
                 to="/auth"
                 onClick={() => setShow(false)}

@@ -21,11 +21,7 @@ function Word({ word, index, total, progress, highlightColor }: WordProps) {
   const end = (index + 0.8) / total; // slightly overlap transitions
 
   // Transform progress to color transitioning from muted bone to active color
-  const color = useTransform(
-    progress,
-    [start, end],
-    ["rgba(244, 240, 230, 0.2)", highlightColor]
-  );
+  const color = useTransform(progress, [start, end], ["rgba(244, 240, 230, 0.2)", highlightColor]);
 
   return (
     <motion.span
@@ -37,9 +33,13 @@ function Word({ word, index, total, progress, highlightColor }: WordProps) {
   );
 }
 
-export function ScrollHighlight({ text, className, highlightColor = "#c5a880" }: ScrollHighlightProps) {
+export function ScrollHighlight({
+  text,
+  className,
+  highlightColor = "#c5a880",
+}: ScrollHighlightProps) {
   const containerRef = useRef<HTMLParagraphElement>(null);
-  
+
   // Track scroll position of this paragraph relative to viewport
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -63,4 +63,3 @@ export function ScrollHighlight({ text, className, highlightColor = "#c5a880" }:
     </span>
   );
 }
-

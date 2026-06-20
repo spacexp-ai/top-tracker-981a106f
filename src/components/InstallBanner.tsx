@@ -58,7 +58,9 @@ export function InstallBanner() {
             style={{ boxShadow: "0 8px 40px rgba(0,0,0,0.55), 0 0 0 1px rgba(180,140,80,0.15)" }}
           >
             {/* Subtle grain overlay */}
-            <div className="absolute inset-0 opacity-[0.04] pointer-events-none" aria-hidden
+            <div
+              className="absolute inset-0 opacity-[0.04] pointer-events-none"
+              aria-hidden
               style={{ backgroundImage: "url(/topo-bg.png)", backgroundSize: "cover" }}
             />
 
@@ -89,7 +91,8 @@ export function InstallBanner() {
                         Install App
                       </p>
                       <p className="font-serif text-sm text-bone leading-snug">
-                        Install <strong>Top Trackers</strong> for instant access to your expeditions, portal, and field journal.
+                        Install <strong>Top Trackers</strong> for instant access to your
+                        expeditions, portal, and field journal.
                       </p>
                     </div>
                   </div>
@@ -124,7 +127,8 @@ export function InstallBanner() {
                       </p>
                       <p className="font-serif text-sm text-bone leading-relaxed">
                         Tap the <strong className="text-accent">Share</strong> button{" "}
-                        <Share className="inline h-3.5 w-3.5 text-accent" /> at the bottom of Safari, then select{" "}
+                        <Share className="inline h-3.5 w-3.5 text-accent" /> at the bottom of
+                        Safari, then select{" "}
                         <strong className="text-accent">"Add to Home Screen"</strong>.
                       </p>
                     </div>

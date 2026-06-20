@@ -12,9 +12,7 @@ export function useSiteContent() {
   return useQuery({
     queryKey: ["site_content"],
     queryFn: async () => {
-      const { data, error } = await (supabase as any)
-        .from("site_content")
-        .select("key, value");
+      const { data, error } = await (supabase as any).from("site_content").select("key, value");
 
       if (error) {
         console.error("Error fetching site content:", error);

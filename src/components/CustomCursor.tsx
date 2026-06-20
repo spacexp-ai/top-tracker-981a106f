@@ -22,7 +22,7 @@ export function CustomCursor() {
 
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      
+
       // Look for data-cursor text (e.g. data-cursor="EXPLORE" or data-cursor="VIEW")
       const cursorTextEl = target.closest("[data-cursor]") as HTMLElement | null;
       if (cursorTextEl) {
@@ -80,7 +80,7 @@ export function CustomCursor() {
         translateY: "-50%",
       }}
       animate={{
-        scale: hasText ? 1.2 : (isHovering ? 1.4 : 1),
+        scale: hasText ? 1.2 : isHovering ? 1.4 : 1,
       }}
       transition={{
         type: "spring",
